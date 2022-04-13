@@ -1,0 +1,125 @@
+
+
+
+<div  class="container  w-70 m-auto row p-5 ">
+
+  <div class="form-group ps-5 col-md-6 mb-2" *ngFor="let item of  FormularioService.requestFormularioDatos.camposFormulario;index as i">
+
+
+    <div class="" *ngIf="item.tipo_dato_formulario.tipo_dato == 'text' && item.estado == 1 ">
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <input  type="text" name="valor{{i}}" [(ngModel)]="item.dato.valor" class="form-control w-75">
+    </div>
+
+    <div class="" *ngIf="item.tipo_dato_formulario.tipo_dato == 'texto_largo' && item.estado == 1 ">
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <textarea  class="form-control w-75" name="valor{{i}}" [(ngModel)]="item.dato.valor" rows="3"></textarea>
+    </div>
+
+
+
+    <div *ngIf="item.tipo_dato_formulario.tipo_dato == 'number' && item.estado == 1 " >
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <input  type="number" name="valor{{i}}" [(ngModel)]="item.dato.valor"   class="form-control w-75">
+    </div>
+
+
+    <div *ngIf="item.tipo_dato_formulario.tipo_dato == 'mail' && item.estado == 1"  >
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <input type="mail" name="valor{{i}}" [(ngModel)]="item.dato.valor"   class="form-control w-75">
+    </div>
+
+    <div *ngIf="item.tipo_dato_formulario.tipo_dato == 'rut' && item.estado == 1"  >
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <input type="text" maxlength="12" name="valor{{i}}" [(ngModel)]="item.dato.valor"  (keyup)="cleanRut(item.dato.valor)"  class="form-control w-75">
+    </div>
+
+    <div  *ngIf="item.tipo_dato_formulario.tipo_dato == 'tel' && item.estado == 1 "   >
+      <label class="form-label ms-1">{{item.nombre}}</label>
+      <input type="tel" name="valor{{i}}" [(ngModel)]="item.dato.valor"  class="form-control w-75">
+    </div>
+
+
+    <div  *ngIf="item.tipo_dato_formulario.tipo_dato == 'select' && item.estado == 1">
+        <label class="form-label ms-1">{{item.nombre}}</label>
+        <select class="form-select  w-75 col" name="valor{{i}}" [(ngModel)]="item.dato.valor">
+          <option  *ngFor="let element of  item.tipo_dato_formulario._lista_auxiliar.lista_auxiliar" value="{{formatearObjeto(element).nombre}}">{{formatearObjeto(element).nombre}}</option>
+        </select>
+   </div>
+
+
+      <div *ngIf="item.tipo_dato_formulario.tipo_dato == 'checkbox' && item.estado == 1" class="d-flex d-column flex-wrap">
+        <label class="form-label w-100 ms-1">{{item.nombre}}</label>
+        <div  *ngFor="let element of item.tipo_dato_formulario._lista_auxiliar.lista_auxiliar" class="form-check form-check-inline">
+          <input class="form-check-input" checked type="checkbox" name="{{formatearObjeto(element).nombre}}" [(ngModel)]="formatearObjeto(element).estado">
+           <label class="form-check-label" for="inlineCheckbox1">{{formatearObjeto(element).nombre}}</label>
+          </div>
+      </div>
+
+
+
+
+
+    <div *ngIf="item.tipo_dato_formulario.referencia_table == 'enfermedads' && item.estado == 1 "  class="d-flex  flex-column  w-100">
+      <label class="form-label ms-0">{{item.nombre}}
+        <button class="btn align-bottom" (click)="agregarEnfermedad(-1,i)" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+          </svg>
+        </button>
+      </label>
+      <div  class="row ms-0" *ngFor="let _enfermedad of item.tipo_dato_formulario._lista_auxiliar.lista_auxiliar;index as indiceEnfermedad">
+        <select class="form-select w-75  col-6 mb-2" name="valor{{i}}" [(ngModel)]="_enfermedad.nombre" >
+          <option  *ngFor="let enfermedad of enfermedades" value="{{enfermedad.nombre}}">{{enfermedad.nombre}}</option>
+        </select>
+      <button *ngIf="indiceEnfermedad != 0"  class=" btn p-0 col-2 mb-2" (click)="agregarEnfermedad(indiceEnfermedad,i)" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+          <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+        </svg>
+      </button>
+      </div>
+    </div>
+
+
+    <div *ngIf="item.tipo_dato_formulario.referencia_table == 'vademecums' && item.estado == 1 "  class="d-flex  flex-column  w-100">
+      <label class="form-label ms-2">{{item.nombre}}
+        <button class="btn align-bottom" (click)="agregarMedicamento(-1,i)" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+          </svg>
+        </button>
+      </label>
+      <div  class=" ms-0 row" *ngFor="let _medicamento of item.tipo_dato_formulario._lista_auxiliar.lista_auxiliar ;index as indiceMedicamento">
+        <select class="form-select w-75  col-6 mb-2" name="_medicamento{{i}}"  [(ngModel)]="_medicamento.nombre" >
+          <option  *ngFor="let medicamento of medicamentos" value="{{medicamento.nombre}}">{{medicamento.nombre}}</option>
+        </select>
+
+        <!--Eliminar  -->
+      <button *ngIf="indiceMedicamento != 0"  class=" btn p-0 col-2 mb-2" (click)="agregarMedicamento(indiceMedicamento,i)" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+          <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+        </svg>
+      </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<ng-template #relleno>
+
+<div>
+    <button class="btn  rounded-circle">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+  </svg>
+</button>
+</div>
+
+</ng-template>
+

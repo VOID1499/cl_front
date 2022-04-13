@@ -1,0 +1,7 @@
+<span *ngIf="showPacientes == true">
+  <app-pacientes (respuesta)="exeRespuesta($event)" > </app-pacientes>
+</span>
+
+<span *ngIf="showAtenciones == true" >
+  <app-atenciones [kid]="kid" (respuesta)="pacienteSinFicha($event)" > </app-atenciones>
+</span>

@@ -1,0 +1,114 @@
+<div class="container p-1">
+  <div class=" p-2 d-flex justify-content-between align-items-center  ">
+    <button class="btn btn-outline-dark" (click)="crearRol()">Nuevo</button>
+
+    <div class="p-0 row">
+      <!-- <input [(ngModel)]="busqueda" class="form-group col-10" type="text" (keyup)="listar()">
+      <button class="btn btn-outline-secondary col-2" (click)="listar()"><i class="fa fa-search" aria-hidden="false"> </i></button> -->
+    </div>
+  </div>
+
+  <table class=" table p-1 align-middle border">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Editar Rol</th>
+        <th scope="col">Editar Permisos</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of rol.rol">
+      <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.nombre}}</td>
+        <td>{{item.descripcion}}</td>
+        <td><button class="btn btn-sm btn-outline-primary mr-2" (click)="editarRol(item)">Editar Rol</button></td>
+        <td><button class="btn btn-sm btn-outline-primary mr-2" (click)="editarPermiso(item.id)">Editar
+            Permisos</button></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <ngb-pagination [(page)]="srs.pagina" [pageSize]="srs.numfilas" [collectionSize]="rol.total_registros"
+      (pageChange)="listar()">
+      <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+      <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+      <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+      <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+    </ngb-pagination>
+    </tfoot>
+  </table>
+</div>
+
+<ng-template #modalCrear let-modal>
+
+  <div class="modal-header">
+    <div class="col-9">
+      <h2> <i class="fa fa-file" aria-hidden="true"> </i> Crear nuevo Role </h2>
+    </div>
+    <div class="text-left mr-2 mt-1 ">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click') "><span
+          aria-hidden="true">&times;</span></button>
+    </div>
+  </div>
+
+  <div class="modal-body text-center ">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" [(ngModel)]="rolSeleccionado.nombre">
+      </div>
+      <div class="col-md-6">
+        <label for="exampleFormControlInput1" class="form-label">Descripcion</label>
+        <textarea type="email" class="form-control" id="exampleFormControlInput1"
+          [(ngModel)]="rolSeleccionado.descripcion"> </textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer ">
+    <div class="d-flex flex-row ">
+      <button type="button " class="btn btn-secondary" (click)="modal.dismiss('Cross click') ">
+        Cancelar </button>
+      <button type="button " class="btn btn-success ml-2" (click)="modal.dismiss('Cross click'); crear() ">
+        Crear </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalEdicion let-modal>
+
+  <div class="modal-header">
+    <div class="col-9">
+      <h2> <i class="fa fa-file" aria-hidden="true"> </i> Editar Role </h2>
+    </div>
+    <div class="text-left mr-2 mt-1 ">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click') "><span
+          aria-hidden="true">&times;</span></button>
+    </div>
+  </div>
+
+  <div class="modal-body text-center ">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+        <input type="hidden" [(ngModel)]="rolSeleccionado.id">
+        <input type="email" class="form-control" id="exampleFormControlInput1" [(ngModel)]="rolSeleccionado.nombre">
+      </div>
+      <div class="col-md-6">
+        <label for="exampleFormControlInput1" class="form-label">Descripcion</label>
+        <textarea type="email" class="form-control" id="exampleFormControlInput1"
+          [(ngModel)]="rolSeleccionado.descripcion"> </textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer ">
+    <div class="d-flex flex-row ">
+      <button type="button " class="btn btn-secondary" (click)="modal.dismiss('Cross click') ">
+        Cancelar </button>
+      <button type="button " class="btn btn-success ml-2" (click)="modal.dismiss('Cross click'); editar() ">
+        Editar </button>
+    </div>
+  </div>
+</ng-template>

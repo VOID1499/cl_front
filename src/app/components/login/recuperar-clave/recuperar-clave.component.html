@@ -1,0 +1,18 @@
+<div id="Contenedor">
+  <div class="Icon">
+    <!--Icono de usuario-->
+    <span class="glyphicon glyphicon-user"></span>
+  </div>
+  <div class="ContentForm">
+
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-envelope"></i></span>
+      <input type="email" class="form-control" name="correo" placeholder="Correo" id="Correo"
+        aria-describedby="sizing-addon1" [(ngModel)]="email" required>
+    </div>
+    <br>
+    <div class="modal-footer">
+      <button class="btn btn-success" (click)="recuperar()">recuperar clave</button>
+    </div>
+  </div>
+</div>

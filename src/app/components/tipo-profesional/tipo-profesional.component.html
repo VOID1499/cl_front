@@ -1,0 +1,34 @@
+
+<button class="btn btn-primary" (click)="abrirModal()"> Editar </button>
+
+
+
+<ng-template #modalEditarTipoProfesional let-modal>
+
+  <form (ngSubmit)="validarCampos(formEditarTipoProfesional)" #formEditarTipoProfesional="ngForm" >
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Tipo de Profesional</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="form-group">
+
+
+          <input required type="text"  class="form-control"
+        [ngClass]="{'border border-danger': formEditarTipoProfesional.submitted && !tipo_.valid || tipo_.touched && !tipo_.valid }"
+        [(ngModel)]="tipo_profesional.tipo" [name]="'tipo_'" [id]="'tipo_'" #tipo_="ngModel" >
+
+
+      </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+  </div>
+
+</form>
+</ng-template>

@@ -1,0 +1,148 @@
+
+<ng-container *ngIf="atencion.id != 0" >
+  <button class="btn btn-outline-primary" (click)="open(modalReceta,'xl')">Ver</button>
+</ng-container>
+
+<ng-container *ngIf="atencion.id == 0" >
+  <button class="btn btn-outline-dark" (click)="open(modalSeleccionFormulario,'md') ">Registrar atención</button>
+</ng-container>
+
+
+<ng-template #modalReceta let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Info atención</h4>
+    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="validarCampos(formAtencion)" #formAtencion="ngForm" >
+  <div class="modal-body">
+
+
+    <ng-container *ngIf="atencion.fecha != '' ">
+      <div class=" row justify-content-center my-2 ">
+        <div class="col-md-4 d-flex justify-content-center">
+          {{atencion.fecha | fecha}}
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+          {{atencion.fecha | hora }}
+        </div>
+      </div>
+
+    </ng-container>
+
+    <app-form
+    [plantilla_formulario_id]="atencion.plantilla_formulario_id"
+    [almacen_dato_id]="atencion.almacen_dato_id" >
+    </app-form>
+
+    <ng-container >
+      <h5 class="text-center fs-6 my-2 text-start pt-2 border-top">Receta Asociada</h5>
+      <div class="form-group mt-2">
+        <label class="fs-6"></label>
+        <textarea placeholder="Observaciones" class="form-control rounded-0" name="descripcion" [(ngModel)]="receta.body.receta.descripcion"   rows="3">
+        </textarea>
+      </div>
+    </ng-container>
+
+    <div class="d-flex justify-content-star my-3">
+      <button type="button" class="btn btn-sm btn-outline-success" (click)="agregarMedicamento()" >Agregar Medicamento</button>
+    </div>
+
+    <ng-container *ngFor="let item of receta.body.medicamentos;index as i" >
+      <div  class=" row justify-content-center mb-2">
+
+        <div class="col-md-3">
+          <select class="form-select" name="medicamento_id{{i}}" [(ngModel)]="item.vademecums_id">
+            <option *ngFor="let item of medicamentos;index as i" value="{{item.id}}">{{item.nombre}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-select" name="dosis{{i}}" [(ngModel)]="item.dosis" >
+            <option value="100 mg">100 mg</option>
+            <option value="200 mg ">200 mr</option>
+            <option value="300 mg">300 mg</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-select"  name="intervalo{{i}}" [(ngModel)]="item.intervalo"  >
+            <option value="1 hrs">Cada 1 hrs</option>
+            <option value="2 hrs ">Cada 2 hrs</option>
+            <option value="3 hrs">Cada 3 hrs</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <select class="form-select"  name="tiempo{{i}}" [(ngModel)]="item.tiempo"  >
+            <option value="una semana">Una semana</option>
+            <option value="dos semanas">Dos semanas</option>
+            <option value="tres semanas">Tres Semanas</option>
+          </select>
+        </div>
+
+        <ng-container >
+          <div class="col-md-1" ><button type="button" (click)="eliminarMedicamento(i)" class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+              <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+            </svg>
+          </button>
+          </div>
+        </ng-container>
+
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="recetaCompleta == false && formAtencion.submitted" >
+      <div  class="alert alert-danger" role="alert">
+        Rellene los campos de receta!
+      </div>
+
+    </ng-container>
+
+    </div>
+    <div class="modal-footer">
+      <button  type="submit" class="btn btn-outline-dark"  >Guardar</button>
+    </div>
+  </form>
+</ng-template>
+
+
+
+
+<ng-template #modalSeleccionFormulario let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Selección de Formulario</h4>
+      <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="mb-3">
+      <label  class="form-label">Tipo de formulario</label>
+        <select class="form-select" name="tipo_formulario_id" [(ngModel)]="tipo_formulario_id">
+          <option *ngFor="let tipo_formulario of tiposDeFormulario;index as i" value="{{tipo_formulario.id}}" >{{tipo_formulario.tipo}}</option>
+        </select>
+    </div>
+
+
+    <div class="mb-3">
+      <label  class="form-label">Formularios disponibles</label>
+        <select class="form-select" name="plantilla_formulario_id" [(ngModel)]="atencion.plantilla_formulario_id" >
+          <ng-container *ngFor="let plantilla of plantillas;index as i">
+            <option   *ngIf="tipo_formulario_id == plantilla.tipo_formulario_id" value="{{plantilla.id}}" >{{plantilla.nombre}}</option>
+          </ng-container>
+        </select>
+    </div>
+
+
+    <div class="modal-footer">
+      <button class="btn btn-outline-dark"  (click)="open(modalReceta,'xl')" >Abrir formulario</button>
+    </div>
+  </div>
+
+</ng-template>
+

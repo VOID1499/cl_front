@@ -1,0 +1,82 @@
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+      <button  class="btn btn-outline-dark" (click)="abrirModal()">Nueva especialidad medica</button>
+
+      <div class="p-0 ">
+        <input    class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" [(ngModel)]="busqueda">
+        <i  class="mx-2 fa fa-search" aria-hidden="false"> </i>
+       </div>
+ </div>
+
+<table class=" table  table-striped">
+    <thead>
+
+      <tr>
+        <th scope="col">Indice</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Acciones
+      </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of especialidades.especialidad;index as i" >
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.nombre}}</td>
+        <td>
+         <button class="btn btn-md btn-primary" (click)="abrirModal(item.nombre , item.id)" > Editar </button>
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <ngb-pagination
+  [(page)]="especialidadesService.pagina"
+  [pageSize]="especialidadesService.numfilas"
+  [collectionSize]="especialidades.total_registros"
+  (pageChange)="cargarTabla()"
+  >
+    <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>
+
+
+
+
+
+
+    <ng-template #modalGuardar let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{nombreModal}}</h4>
+        <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="validarCampos(formAgregarEspecialidad)" #formAgregarEspecialidad="ngForm" novalidate>
+      <div class="modal-body">
+          <div class="form-group">
+
+              <input required type="text"  class="form-control"
+              [ngClass]="{'border border-danger': formAgregarEspecialidad.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+              [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="nombre" >
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+        </div>
+      </form>
+    </ng-template>
+
+
+
+
+

@@ -1,0 +1,45 @@
+<div class="container  p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+        <button class="btn btn-outline-dark" (click)="abrirFormulario()">Nuevo Formulario</button>
+
+        <div class="p-0 ">
+            <input class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" [(ngModel)]="FormularioService.request.nombre">
+            <i class="mx-2 fa fa-search" aria-hidden="false"> </i>
+        </div>
+    </div>
+
+    <table class=" table  table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha de Creacion</th>
+                <th scope="col">Fecha de Modificacion</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of plantillas;index as i">
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.nombre}}</td>
+                <td>{{item.created_at | fecha}}</td>
+                <td>{{item.updated_at | fecha}}</td>
+                <td>
+                    <button class="btn btn-primary" (click)="editar(item.id)"> Editar </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ngb-pagination [(page)]="FormularioService.request.pagina"
+    [pageSize]="FormularioService.request.numFilas"
+    [collectionSize]="total_registros"
+    (pageChange)="cargarTabla()">
+        <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+    </ngb-pagination>
+
+</div>
+

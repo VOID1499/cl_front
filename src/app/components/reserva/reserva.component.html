@@ -1,0 +1,48 @@
+
+<button class="btn btn-sm mt-3 btn-outline-info"  (click)="open(modalDiasDisponibles,'md')">Ver</button>
+
+<ng-template #modalDiasDisponibles let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Disponibilidad Horaria</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+
+  <div class="card" style="max-width: 540px;">
+
+
+    <div class="d-flex justify-content-center bg-info mt-2">
+      <app-k-select class=""
+        (seleccionado)="seleccionPaciente($event)"
+        [lista]="pacientes"
+        [mensajeInput]=" 'Buscar paciente' ">
+        </app-k-select>
+    </div>
+
+
+
+        <div  class="card-body d-flex flex-column">
+
+          <div [ngClass]="{'bg-secondary bg-opacity-10': item.reserva}" *ngFor="let item of reserva;index as i " class="my-1 d-flex justify-content-evenly">
+
+            <ng-template [ngIf]="item.reserva == true">
+              <a [routerLink]="['/coches', 'ford', 'focus']" class="mt-3 link-dark">{{item.usuario.nombre}} {{item.usuario.apellido_paterno}} </a>
+            </ng-template>
+            <p class="mt-3">{{item.hora}}-{{item.horaFin}} </p>
+
+            <ng-template [ngIf]="item.reserva == false">
+              <button type="button" [disabled]="paciente_id == 0" (click)="crearReserva(item)" class="btn btn-sm my-2 btn-outline-success">Reservar</button>
+            </ng-template>
+
+            <ng-template [ngIf]="item.reserva == true">
+                <button type="button" class="btn btn-sm my-2  btn-outline-danger" (click)="eliminarReserva(item)">Cancelar</button>
+            </ng-template>
+          </div>
+
+        </div>
+      </div>
+
+</ng-template>
+
+
+

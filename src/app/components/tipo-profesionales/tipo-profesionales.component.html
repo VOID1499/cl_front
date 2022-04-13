@@ -1,0 +1,68 @@
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+    <button  class="btn btn-outline-dark" (click)="abrirModal()" >Nuevo tipo de profesional</button>
+  </div>
+
+
+    <table class=" table  table-striped">
+      <thead>
+
+        <tr>
+          <th scope="col">Tipo de Profesional</th>
+          <th scope="col">Acciones
+        </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tipoProfesionales;index as i">
+          <td>
+            {{item.tipo}}
+          </td>
+          <td>
+            <app-tipo-profesional [tipo_profesional]="item" ></app-tipo-profesional>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <ngb-pagination
+  [(page)]="TipoProfesionalesService.pagina"
+  [pageSize]="TipoProfesionalesService.numfilas"
+  [collectionSize]="total_registros"
+  (pageChange)="cargarTabla()"
+  >
+    <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>
+
+
+<ng-template #modalAgregarTipoProfesional let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar Tipo de Profesional</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="validarCampos(formAgregarTipo)" #formAgregarTipo="ngForm" novalidate >
+  <div class="modal-body">
+      <div class="form-group">
+
+        <input required type="text"  class="form-control"
+        [ngClass]="{'border border-danger': formAgregarTipo.submitted && !tipo_.valid || tipo_.touched && !tipo_.valid }"
+        [(ngModel)]="tipo" [name]="'tipo_'" [id]="'tipo_'" #tipo_="ngModel" >
+
+      </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+  </div>
+</form>
+
+</ng-template>

@@ -1,0 +1,144 @@
+
+<div style="width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+       <button  class="btn btn-outline-dark" (click)="abrirModal()" >Nuevo tipo de dato</button>
+
+       <div class="p-0 ">
+         <input    class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" [(ngModel)]="busqueda">
+         <i  class="mx-2 fa fa-search" aria-hidden="false"> </i>
+        </div>
+  </div>
+
+ <table class=" table  table-striped">
+     <thead>
+
+       <tr>
+         <th scope="col">Nombre</th>
+         <th scope="col">Tipo de Dato</th>
+         <th scope="col">Lista Auxiliar</th>
+         <th scope="col">Estado</th>
+         <th scope="col">Acciones</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let item of tiposDatos;index as i" >
+         <th scope="row">{{item.nombre}}</th>
+         <th scope="row">{{item.tipo_dato}}</th>
+         <td>
+        </td>
+         <td *ngIf="item.estado == 1; else estadoDeshabilitado">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" disabled checked>
+          </div>
+        </td>
+         <td>
+          <button type="button" class="btn btn-primary" (click)="abrirModal(i,item.nombre)" > Editar </button>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+
+
+
+   <ngb-pagination
+   [(page)]="TipoDatosService.pagina"
+   [pageSize]="TipoDatosService.numFilas"
+   [collectionSize]="total_registros"
+   (pageChange)="cargarTabla()"
+   >
+     <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+ </ngb-pagination>
+
+ </div>
+
+ <ng-template #estadoDeshabilitado>
+  <td>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
+    </div>
+  </td>
+</ng-template>
+
+
+
+<ng-template #modalGuardar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{nombreModal}}</h4>
+    <button type="button" class="btn"  (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="validarCampos(formAgregarTipoDato)" #formAgregarTipoDato="ngForm" novalidate>
+      <div class="form-group">
+
+          <label for="exampleInputEmail1" class="form-label">Nombre</label>
+          <input required type="text"  class="form-control"
+          [ngClass]="{'border border-danger': formAgregarTipoDato.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+          [(ngModel)]="nombre" [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" >
+
+          <label for="exampleInputEmail1" class="form-label">Tipo</label>
+          <select required [(ngModel)]="tipo_dato"
+          [name]="'tipo_dato_'" [id]="'tipo_dato_'" #tipo_dato_="ngModel" class="form-select"
+          [ngClass]="{'border border-danger': formAgregarTipoDato.submitted && !tipo_dato_.valid || tipo_dato_.touched && !tipo_dato_.valid }" >
+            <option value="checkbox" >Check Box</option>
+            <option value="select" >Select</option>
+            <option value="number" >Numerico</option>
+            <option value="text" >Texto</option>
+            <option value="texto_largo" >Texto Largo</option>
+            <option value="mail" >Correo</option>
+            <option value="tel" >Telefono</option>
+          </select>
+
+
+          <div class="my-2"  *ngIf="tipo_dato == 'select' || tipo_dato == 'checkbox'">
+
+            <label  for="exampleInputEmail1" class="form-label">Lista Auxiliar
+              <span>
+                <button type="button" class="btn ms-2"  (click)="agregarCampoAuxiliar()" >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                  </svg>
+                </button>
+              </span>
+            </label>
+
+            <div class="row mt-2" *ngFor="let item of lista_auxiliar.lista_auxiliar;index as i">
+             <div class="col-md-8" >
+              <input type="text" required  class="form-control"
+              [ngClass]="{'border border-danger': formAgregarTipoDato.submitted && !campoAuxiliar.valid || campoAuxiliar.touched && !campoAuxiliar.valid }"
+              [name]="'campoAuxiliar'+i" [id]="'campoAuxiliar'+i" #campoAuxiliar="ngModel" [(ngModel)]="item.nombre">
+             </div>
+             <div class="col-md-4" >
+               <button type="button" class="btn" *ngIf="i != 0"  (click)="agregarCampoAuxiliar(i)" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                </svg>
+               </button>
+             </div>
+            </div>
+          </div>
+
+          <div *ngIf="tipo_dato == 'text' || tipo_dato == 'number' || tipo_dato == 'tel' || tipo_dato == 'mail'   " >
+
+          </div>
+
+          <label  for="exampleInputEmail1" class="form-label m-auto">Estado</label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="estado" name="estado" [(ngModel)]="estado">
+            <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+          </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn d-block btn-success ">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>

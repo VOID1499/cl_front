@@ -1,0 +1,50 @@
+
+
+<div *ngIf="FeriadoService.showAgregar == true">
+    <form (ngSubmit)="validarCampos(formAgregarFeriado)" #formAgregarFeriado="ngForm" >Nuevo
+        <br>
+        <label for="">Nombre</label><br>
+        <input required type="text"
+        [ngClass]="{'border-danger': formAgregarFeriado.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+        [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="nombre"  ><br>
+
+        <label for="">Dia</label><br>
+        <input required type="text"
+        [ngClass]="{'border-danger': formAgregarFeriado.submitted && !dia_.valid || dia_.touched && !dia_.valid }"
+        [name]="'dia_'" [id]="'dia_'" #dia_="ngModel" [(ngModel)]="dia" ><br>
+
+        <label for="">Mes</label><br>
+        <input type="text" type="text"
+        [ngClass]="{'border-danger': formAgregarFeriado.submitted && !mes_.valid || mes_.touched && !mes_.valid }"
+        [name]="'mes_'" [id]="'mes_'" #mes_="ngModel" [(ngModel)]="mes" ><br>
+
+        <label for="">Estado</label><br>
+        <input type="number" min="0" max="1" name="estado" id="estado" [(ngModel)]="estado"><br>
+
+        <button type="submit" >Guardar Cambios</button>
+
+    </form>
+    </div>
+
+
+<div *ngIf="FeriadoService.showEditar == true">
+  <form (ngSubmit)="validarCampos(formEditarFeriado)" #formEditarFeriado="ngForm" >Editar
+    <br>
+
+    <label for="">Nombre</label><br>
+    <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre"  ><br>
+    <label for="">Dia</label><br>
+    <input type="text" name="dia" id="dia" [(ngModel)]="dia" ><br>
+    <label for="">Mes</label><br>
+    <input type="text" name="mes" id="mes" [(ngModel)]="mes"><br>
+    <label for="">Estado</label><br>
+    <input type="number" min="0" max="1" name="estado" id="estado" [(ngModel)]="estado"><br>
+    <input hidden type="number"  name="id" id="id" [(ngModel)]="id">
+
+
+
+    <button type="submit">Guardar Cambios</button>
+
+</form>
+</div>
+<br>

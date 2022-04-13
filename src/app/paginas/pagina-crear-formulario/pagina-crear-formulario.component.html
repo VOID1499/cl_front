@@ -1,0 +1,7 @@
+<span *ngIf="showTable == true" >
+  <app-formularios (respuesta)="exeRespuesta($event)"></app-formularios>
+</span>
+
+<span *ngIf="showForm == true">
+  <app-formulario (emit)="exeRespuesta($event)" ></app-formulario>
+</span>

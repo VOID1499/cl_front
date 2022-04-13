@@ -1,0 +1,147 @@
+
+
+
+<div style="min-width: 700px;" class="container p-0 mt-5 border ">
+  <div class=" p-2 d-flex  justify-content-between align-items-center  " >
+        <button class="btn btn-outline-dark " (click)="agregar()">Nuevo Paciente</button>
+
+        <div class="p-0 ">
+          <div class="spinner-border border-1 spinner-border-sm text-primary me-2" [hidden]="!recarga" role="status">
+          </div >
+            <input class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" [(ngModel)]="busqueda">
+            <i class="mx-2 fa fa-search" aria-hidden="false"> </i>
+        </div>
+    </div>
+
+    <table class=" table  table-striped  ">
+      <caption class="text-center" >Lista de pacientes</caption>
+        <thead>
+
+            <tr>
+                <th scope="col">Indice</th>
+                <!--<th scope="col">Rut</th> -->
+                <th scope="col">Correo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido Paterno</th>
+                <th scope="col">Apellido Materno</th>
+                <th scope="col">Acciones</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of pacientes.pacientes ;index as i">
+                <th scope="row">{{item.id}}</th>
+          <!--    <td>{{item.rut}}</td> -->
+                <td>{{item.correo}}</td>
+                <td>{{item.nombre}}</td>
+                <td>{{item.apellido_paterno}}</td>
+                <td>{{item.apellido_materno}}</td>
+                <td>
+                    <div class="btn-group btn-group-md" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-outline-primary" (click)="editar(i)">Editar</button>
+                        <button type="button" class="btn btn-outline-primary" (click)="cargarFicha(item.kid)">Ficha</button>
+                        <button type="button" class="btn btn-outline-primary"  (click)="abrirAtenciones(item.kid)">Atenciones</button>
+                    </div>
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+
+
+      <ngb-pagination
+      [(page)]="PacientesService.pagina"
+      [pageSize]="PacientesService.numfilas"
+      [collectionSize]="pacientes.total_registros"
+      (pageChange)="cargarTabla()">
+          <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+          <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+          <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+          <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+      </ngb-pagination>
+
+</div>
+
+
+
+<!-- Modal editar paciente-->
+<ng-template #modalGuardarPaciente let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Editar Paciente</h4>
+        <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+
+    <app-paciente (respuesta)="exeRespuesta($event)"  [id]="id"  [correo]="correo" [nombre]="nombre" [apellido_paterno]="apellido_paterno" [apellido_materno]="apellido_materno">
+    </app-paciente>
+</ng-template>
+
+
+
+<!-- Modal  Ficha  -->
+<ng-template #modalFicha let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ficha Paciente</h4>
+        <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+    </div>
+    <div class="modal-body">
+
+        <app-form
+        [plantilla_formulario_id]="plantilla_formulario_id"
+        [almacen_dato_id]="almacen_dato_id">
+        </app-form>
+
+<!-- Este componente es solo un boton que se usa para guardar/editar fichas-->
+        <app-paciente-ficha  [_enfermedades]="_enfermedades_padre" [_medicamentos]="_medicamentos_padre" [kid]="kid"  [ficha]="ficha" (respuesta)="exeRespuesta($event)"  ></app-paciente-ficha>
+
+    </div>
+</ng-template>
+
+
+<!-- Modal selección furmulario -->
+<ng-template #modalSeleccionFormulario let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Selección de Formulario</h4>
+        <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-warning" role="alert">
+        Sin registro existente. Seleccione un formulario para crear Ficha.
+      </div>
+
+
+      <div class="mb-3">
+        <label  class="form-label">Tipo de formulario</label>
+          <select class="form-select" name="tipo_formulario_id" [(ngModel)]="tipo_formulario_id">
+            <option *ngFor="let tipo_formulario of tiposDeFormulario;index as i" value="{{tipo_formulario.id}}" >{{tipo_formulario.tipo}}</option>
+          </select>
+      </div>
+
+
+      <div class="mb-3">
+        <label  class="form-label">Formularios disponibles</label>
+          <select class="form-select" name="plantilla_formulario_id" [(ngModel)]="plantilla_formulario_id" >
+            <ng-container *ngFor="let plantilla of plantillas;index as i">
+              <option   *ngIf="tipo_formulario_id == plantilla.tipo_formulario_id" value="{{plantilla.id}}" >{{plantilla.nombre}}</option>
+            </ng-container>
+          </select>
+      </div>
+
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-dark" (click)="nuevaFicha()" >Abrir formulario</button>
+      </div>
+    </div>
+
+</ng-template>

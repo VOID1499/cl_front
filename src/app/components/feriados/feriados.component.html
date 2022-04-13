@@ -1,0 +1,129 @@
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+    <button  class="btn btn-outline-dark" (click)="abrirModal()">Agregar feriado</button>
+  </div>
+
+
+    <table class=" table  table-striped">
+      <thead>
+
+        <tr>
+          <th scope="col">Indice</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones
+        </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of feriados.feriado;index as i" >
+          <th scope="row">{{item.id}}</th>
+          <td>{{item.nombre}}</td>
+          <td>  {{year + "-" + item.mes + "-" + item.dia | fecha}}  </td>
+
+          <td *ngIf="item.estado == 1; else estadoDeshabilitado">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" disabled checked>
+            </div>
+          </td>
+          <td>
+           <button class="btn btn-primary" (click)="abrirModal(i,item.nombre)" > Editar </button>
+          </td>
+
+
+        </tr>
+      </tbody>
+    </table>
+
+
+    <ngb-pagination
+  [(page)]="FeriadosService.pagina"
+  [pageSize]="FeriadosService.numfilas"
+  [collectionSize]="feriados.total_registros"
+  (pageChange)="cargarTabla()"
+  >
+    <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>
+
+
+
+
+
+<ng-template #modalGuardar let-modal>
+  <form (ngSubmit)="validarCampos(formFeriados)" #formFeriados="ngForm" >
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{nombreModal}}</h4>
+    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="form-group">
+
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
+          <input required type="text" class="form-control"
+          [ngClass]="{'border-danger': formFeriados.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+          [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="nombre" >
+
+
+        <label for="exampleInputEmail1" class="form-label">Dia</label>
+
+        <select  class="form-select" aria-label="Default select example" name="dia" id="dia" [(ngModel)]="dia" >
+           <option *ngFor="let item of meses[mes].dias;index as i" value="{{i+1}}">{{i+1}}</option>
+         </select>
+
+        <label for="exampleInputEmail1" class="form-label">Mes</label>
+
+         <select class="form-select" aria-label="Default select example"
+          name="mes" id="mes" [(ngModel)]="mes" >
+           <option value="1">Enero</option>
+           <option value="2">Febrero</option>
+           <option value="3">Marzo</option>
+           <option value="4">Abril</option>
+           <option value="5">Mayo</option>
+           <option value="6">Junio</option>
+           <option value="7">Julio</option>
+           <option value="8">Agosto</option>
+           <option value="9">Septiembre</option>
+           <option value="10">Octubre</option>
+           <option value="11">Noviembre</option>
+           <option value="12">Diciembre</option>
+         </select>
+
+
+        <label  for="exampleInputEmail1" class="form-label m-auto">Estado</label>
+          <div class="form-check form-switch">
+            <input   class="form-check-input" type="checkbox" id="estado" name="estado" [(ngModel)]="estado">
+            <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+          </div>
+
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn d-block btn-success " >Guardar</button>
+      </div>
+  </div>
+</form>
+</ng-template>
+
+<ng-template #estadoDeshabilitado>
+  <td>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
+    </div>
+  </td>
+</ng-template>
+
+
+
