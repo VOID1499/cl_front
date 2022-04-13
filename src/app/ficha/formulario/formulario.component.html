@@ -1,0 +1,296 @@
+<div  class="p-0 me-auto d-flex flex-row ">
+
+    <div style="min-width:500px;" class=" m-0 d-flex  justify-content-around">
+
+
+        <div clsass="container  p-0 w-75">
+
+            <h1 *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.id == 0" class="text-center mb-5">Formulario Nuevo</h1>
+            <h1 *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.id != 0" class="text-center mb-5">Editar Formulario</h1>
+
+
+            <!--
+             <input type="number"  name="id" id="id" [(ngModel)]="FormularioService.requestFormularioDatos.plantillaFormulario.id">
+              -->
+              <form (ngSubmit)="validarCampos(formCrearFormulario)" #formCrearFormulario="ngForm" novalidate>
+
+
+            <!-- Tipo de formulario-->
+
+            <ng-container *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id != 0" >
+              <div class="mb-5">
+                <label for="exampleInputEmail1" class="form-label">Tipo de formulario</label>
+                <select  required class="form-select"
+                [ngClass]="{'border border-danger': formCrearFormulario.submitted && !tipo_id_.valid || tipo_id_.touched && !tipo_id_.valid }"
+                [id]="'tipo_id_'" [name]="'tipo_id_'" #tipo_id_="ngModel"  [(ngModel)]="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id">
+                <ng-container  *ngFor="let item of tiposDeFormulario;index as i"  >
+                  <option *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id != item.id"  [value]="item.id" > {{item.tipo}}</option>
+                  <option *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id == item.id" selected  [value]="item.id" > {{item.tipo}}</option>
+                </ng-container>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id == 0" >
+              <div class="mb-5">
+                <label for="exampleInputEmail1" class="form-label">Tipo de formulario</label>
+                <select  required class="form-select"
+                [ngClass]="{'border border-danger': formCrearFormulario.submitted && !tipo_id_.valid || tipo_id_.touched && !tipo_id_.valid }"
+                [id]="'tipo_id_'" [name]="'tipo_id_'" #tipo_id_="ngModel"  [(ngModel)]="tipo_formulario_id">
+                <ng-container  *ngFor="let item of tiposDeFormulario;index as i"  >
+                  <option *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id != item.id"  [value]="item.id" > {{item.tipo}}</option>
+                  <option *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.tipo_formulario_id == item.id" selected  [value]="item.id" > {{item.tipo}}</option>
+                </ng-container>
+                </select>
+              </div>
+            </ng-container>
+
+
+              <div class="mb-5">
+                    <label for="exampleInputEmail1" class="form-label">Nombre Formulario</label>
+                    <input type="text" required placeholder="" class="form-control"
+                    [ngClass]="{'border border-danger': formCrearFormulario.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+                    [id]="'nombre_'" [name]="'nombre_'" #nombre_="ngModel"  [(ngModel)]="FormularioService.requestFormularioDatos.plantillaFormulario.nombre">
+                </div>
+
+                <div class="mb-5">
+                    <label for="exampleFormControlTextarea1" class="form-label">Descripcion</label>
+                    <textarea placeholder="*opcional" class="form-control" rows="3" id="" name="descripcion" [(ngModel)]="FormularioService.requestFormularioDatos.plantillaFormulario.descripcion"></textarea>
+                </div>
+
+
+                <div class="my-5 ">
+                    <h2 class="text-center">Campos</h2>
+                </div>
+
+
+
+                <div *ngFor="let item of FormularioService.requestFormularioDatos.camposFormulario; index as i_campo" class="mb-3">
+
+                    <div class="form-group row">
+
+                        <div *ngIf="i_campo != 0" class="col-sm-1">
+                            <button type="button" class="btn  rounded-circle" (click)="subirPosicion(i_campo)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                            </svg>
+                          </button>
+                        </div>
+
+                        <!-- boton relleno -->
+                        <div *ngIf="i_campo == 0" class="col-sm-1">
+                            <button type="button" hidden class="btn  rounded-circle">
+                          </button>
+                        </div>
+
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Nombre</label>
+                        <div class="col-sm-7">
+                            <input  placeholder="nombre del campo" type="text" class="form-control"
+                             name="nombre{{i_campo}}"  [(ngModel)]="item.nombre">
+                        </div>
+                        <div class="col-sm-2">
+
+
+                            <button type="button" *ngIf="item.id_campo == 0" class="btn btn-circle" (click)="eliminarCampo(i_campo)">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                              </svg>
+                            </button>
+
+                            <div *ngIf="FormularioService.requestFormularioDatos.plantillaFormulario.id != 0" class="form-check form-switch">
+                                <input  class="form-check-input" type="checkbox" name="estado{{i_campo}}" [(ngModel)]="item.estado">
+                                <label class="form-check-label"></label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div *ngIf="i_campo+1 !=  FormularioService.requestFormularioDatos.camposFormulario.length" class="col-sm-1">
+                            <button type="button" class="btn  rounded-circle" (click)="bajarPosicion(i_campo)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                            </svg>
+                          </button>
+                        </div>
+
+                        <div *ngIf="i_campo+1 == FormularioService.requestFormularioDatos.camposFormulario.length " class="col-sm-1">
+                            <button type="button" hidden class="btn  rounded-circle">
+                          </button>
+                        </div>
+
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Tipo de Dato </label>
+
+                        <div class="col-sm-7">
+                            <select  class="form-select" name="tipo{{i_campo}}"  [(ngModel)]="item.tipo_dato_formulario_id" (change)="asignarTipo(i_campo)">
+                            <option *ngFor="let itemTipoDato of tiposDatos; index as i"  value="{{itemTipoDato.id}}">{{itemTipoDato.nombre}}</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <ng-container *ngIf="formCrearFormulario.submitted && !formCrearFormulario.valid" >
+                  <div  class="alert alert-danger" role="alert">
+                    Tipo o nombre no validos!
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf=" formCrearFormulario.submitted && camposFormularioCompletos == false  " >
+                  <div  class="alert alert-danger" role="alert">
+                    Campos de formulario incompletos!
+                  </div>
+                </ng-container>
+
+                <div class="p-0 mt-5 d-flex flex-row justify-content-between">
+                    <button type="button" class="btn btn-block rounded-start btn-primary my-2" (click)="agregarCampo()">Agregar Campo</button>
+                    <button  type="submit" class="btn  btn-block rounded-start btn-success my-2"  >Guardar</button>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div style="background-color: rgb(253, 253, 253);min-width: 700px" class="">
+      <!-- Contenedor espaciador para campos formulario-->
+    </div>
+
+
+
+
+
+
+
+
+    <div style=" right: 0px; background-color: rgb(253, 253, 253);min-width: 650px;max-width: 650px;min-height: 700px;max-height: 700px;"
+    class="position-fixed p-0 mx-auto border d-flex flex-column flex-wrap overflow-scroll ">
+
+        <div class="container mx-auto mt-5 w-75 m-0 p-0 row ">
+
+            <div class="form-group col-md-6 mb-4  " *ngFor="let campo of  FormularioService.requestFormularioDatos.camposFormulario">
+
+
+                <div class="" *ngIf="campo.tipo_dato_formulario.tipo_dato == 'text' && campo.estado == 1 ">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <input type="text" class="form-control w-75">
+                </div>
+
+
+                <div class="" *ngIf="campo.tipo_dato_formulario.tipo_dato   == 'texto_largo' && campo.estado == 1 ">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <textarea class="form-control w-75" id="" rows="3"></textarea>
+                </div>
+
+
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato  == 'number' && campo.estado == 1 ">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <input type="number" class="form-control w-75">
+                </div>
+
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato  == 'mail' && campo.estado == 1">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <input type="mail" class="form-control w-75">
+                </div>
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato  == 'rut' && campo.estado == 1">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <input type="text" maxlength="12" minlength="11" name="rut" [(ngModel)]="rutEntrada" (keyup)="cleanRut()" class="form-control w-75">
+                </div>
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato  == 'tel' && campo.estado == 1 ">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <input type="tel" class="form-control w-75">
+                </div>
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato  == 'select' && campo.estado == 1">
+                    <label class="form-label ms-1">{{campo.nombre}}</label>
+                    <select class="form-select w-75 col">
+                <option  *ngFor="let item of campo.tipo_dato_formulario._lista_auxiliar.lista_auxiliar" value="">{{formatearObjeto(item).nombre}}</option>
+              </select>
+                </div>
+
+
+                <div *ngIf="campo.tipo_dato_formulario.tipo_dato   == 'checkbox' && campo.estado == 1" class="d-flex d-column flex-wrap">
+                    <label class="form-label w-100 ms-1">{{campo.nombre}}</label>
+                    <div *ngFor="let item of campo.tipo_dato_formulario._lista_auxiliar.lista_auxiliar" class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">{{formatearObjeto(item).nombre}}</label>
+                    </div>
+                </div>
+
+
+                <div *ngIf="campo.tipo_dato_formulario.referencia_table  == 'enfermedads' && campo.estado == 1 " class="d-flex  flex-column  w-100">
+                    <label class="form-label ms-0">{{campo.nombre}}
+              <button class="btn align-bottom" (click)="agregarEnfermedad()" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+              </button>
+            </label>
+                    <div class="row ms-0" *ngFor="let item of _enfermedades;index as i">
+                        <select class="form-select w-75  col-6 mb-2">
+                <option  *ngFor="let item of enfermedades" value="">{{item.nombre}}</option>
+              </select>
+                        <button *ngIf="i != 0" class=" btn p-0 col-2 mb-2" (click)="agregarEnfermedad(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+              </svg>
+            </button>
+                    </div>
+                </div>
+
+
+                <div *ngIf="campo.tipo_dato_formulario.referencia_table  == 'vademecums' && campo.estado == 1 " class="d-flex  flex-column  w-100">
+                    <label class="form-label ms-2">{{campo.nombre}}
+              <button class="btn align-bottom" (click)="agregarMedicamento()" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+              </button>
+            </label>
+                    <div class=" ms-0 row" *ngFor="let item of _medicamentos;index as i">
+                        <select class="form-select w-75  col-6 mb-2">
+                <option  *ngFor="let item of medicamentos" value="">{{item.nombre}}</option>
+              </select>
+                        <button *ngIf="i != 0" class=" btn p-0 col-2 mb-2" (click)="agregarMedicamento(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+              </svg>
+            </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+</div>
+
+<ng-template #relleno>
+
+    <div>
+        <button class="btn  rounded-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+        </svg>
+      </button>
+    </div>
+
+</ng-template>

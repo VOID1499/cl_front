@@ -1,0 +1,44 @@
+
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+        <app-tipo-formulario  (emitir)="exeRespuesta($event)" [item]="itemVacio" ></app-tipo-formulario>
+
+    </div>
+
+    <table class=" table  table-striped">
+      <caption>Tipos de Formularios</caption>
+        <thead>
+
+            <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of  tiposFormulario ;index as i">
+                <td>{{item.tipo}}</td>
+                <td>
+                    <div class="btn-group btn-group-md" role="group" aria-label="Basic outlined example">
+                        <app-tipo-formulario (emitir)="exeRespuesta($event)" [item]="item" ></app-tipo-formulario>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <ngb-pagination
+    [(page)]="FormularioService.requestTiposFormulario.pagina"
+    [pageSize]="FormularioService.requestTiposFormulario.numFilas"
+    [collectionSize]="total_registros"
+    (pageChange)="cargarTabla()">
+        <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+    </ngb-pagination>
+
+
+</div>

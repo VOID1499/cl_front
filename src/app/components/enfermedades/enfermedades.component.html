@@ -1,0 +1,84 @@
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+    <button  class="btn btn-outline-dark" (click)="abrirModal()" >Agregar enfermedad</button>
+
+    <div class="p-0  ">
+        <input class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" [(ngModel)]="busqueda">
+        <i class="mx-2 fa fa-search" aria-hidden="false"> </i>
+    </div>
+
+</div>
+
+
+    <table class=" table  table-striped">
+      <thead>
+
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">descripción</th>
+          <th scope="col">Acciones
+        </th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let item of enfermedades;index as i">
+          <td>
+            {{item.nombre}}
+          </td>
+          <td>
+            {{item.descripcion}}
+          </td>
+          <td>
+            <app-enfermedad [enfermedad]="item" ></app-enfermedad>
+          </td>
+       </tr>
+      </tbody>
+    </table>
+
+
+    <ngb-pagination
+  [(page)]="EnfermedadesService.pagina"
+  [pageSize]="EnfermedadesService.numfilas"
+  [collectionSize]="total_registros"
+  (pageChange)="cargarTabla()"
+  >
+    <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>
+
+
+<ng-template #modalAgregarEnfermedad let-modal>
+
+  <form (ngSubmit)="validarCampos(formAgregarEnfermedad)" #formAgregarEnfermedad="ngForm">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar Enfermedad</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="form-group">
+
+        <input required type="text" placeholder="Nombre" class="mb-4 form-control"
+        [ngClass]="{'border-danger': formAgregarEnfermedad.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+         [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="nombre">
+
+        <label for="exampleFormControlTextarea1">Descripción</label>
+        <textarea required class="form-control"  rows="3"
+        [ngClass]="{'border-danger': formAgregarEnfermedad.submitted && !descripcion_.valid || descripcion_.touched && !descripcion_.valid }"
+        [name]="'descripcion_'" [id]="'descripcion_'" #descripcion_="ngModel" [(ngModel)]="descripcion" ></textarea>
+
+      </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+  </div>
+</form>
+</ng-template>

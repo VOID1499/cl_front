@@ -1,0 +1,39 @@
+
+<ng-container *ngIf="item.id != 0" >
+  <button class="btn btn-outline-primary" (click)="open(modalTipoFormulario,'sm')" > Editar </button>
+  <button class="btn btn-outline-danger ms-2" (click)="eliminar()" >Eliminar</button>
+</ng-container>
+
+<ng-container *ngIf="item.id == 0" >
+  <button class="btn btn-outline-dark" (click)="open(modalTipoFormulario,'sm')" >Nuevo tipo de formulario </button>
+</ng-container>
+
+
+
+<ng-template #modalTipoFormulario let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ "" + (item.id == 0 ? "Nuevo tipo de formulario" : "Editando tipo de formulario") }}</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form (ngSubmit)="validarCampos(formTipoFormulario)" #formTipoFormulario="ngForm" >
+  <div class="modal-body">
+      <div class="form-group">
+
+        <label for="staticEmail" class="col-sm-2 col-form-label">Nombre</label>
+        <input required type="text"  class="form-control"
+        [ngClass]="{'border border-danger': formTipoFormulario.submitted && !tipo_.valid || tipo_.touched && !tipo_.valid }"
+        [name]="'tipo_'" [id]="'tipo_'" #tipo_="ngModel" [(ngModel)]="item.tipo" >
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+    </div>
+  </form>
+
+
+</ng-template>

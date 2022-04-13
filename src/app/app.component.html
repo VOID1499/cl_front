@@ -1,0 +1,100 @@
+
+
+
+<div class="container-fluid d-flex p-0" >
+
+  <div class="border border-primary" >
+    <ul ngbNav #nav="ngbNav" style="width: 200px;" class="nav flex-column ">
+
+
+      <ul class="list-group">
+        Pacientes
+        <li  ngbNavItem>
+          <a routerLink="/pacientes" routerLinkActive="active" ngbNavLink>Lista Pacientes</a>
+        </li>
+      </ul>
+
+
+
+      <ul class="list-group">
+        Forularios
+        <li ngbNavItem>
+          <a routerLink="/formularios" routerLinkActive="active" ngbNavLink>Formularios</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/tipos-datos" routerLinkActive="active" ngbNavLink>Tipos de datos</a>
+        </li>
+      </ul>
+
+
+      <ul class="list-group">
+        Base de datos auxiliares
+        <li ngbNavItem>
+          <a routerLink="/tipo-profesionales" routerLinkActive="active" ngbNavLink>Tipo Profesionales</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/especialidad" routerLinkActive="active" ngbNavLink>Especialidades</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/medicamentos" routerLinkActive="active" ngbNavLink>Medicamentos</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/enfermedades" routerLinkActive="active" ngbNavLink>Enfermedades</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/feriados" routerLinkActive="active" ngbNavLink>Feriados</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/tipo-formularios" routerLinkActive="active" ngbNavLink>Tipos de Formulario</a>
+        </li>
+
+      </ul>
+
+
+      <ul class="list-group">
+        Administración de Profesionales
+        <li ngbNavItem>
+          <a routerLink="/profesionales" routerLinkActive="active" ngbNavLink>Lista de Profesionales</a>
+        </li>
+      </ul>
+
+      <ul class="list-group">
+        Servicio
+        <li ngbNavItem>
+          <a routerLink="/servicios" routerLinkActive="active" ngbNavLink>Lista de Servicios</a>
+        </li>
+      </ul>
+
+
+
+      <ul class="list-group">
+        Reservas
+        <li ngbNavItem>
+          <a routerLink="/reservas" class=""  routerLinkActive="active"  ngbNavLink>Reservas </a>
+        </li>
+      </ul>
+
+
+
+      <ul class="list-group">
+        Otros
+        <li ngbNavItem>
+          <a routerLink="/rol" class="" routerLinkActive="active" ngbNavLink>rol</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/permiso" class="" routerLinkActive="active" ngbNavLink>permiso</a>
+        </li>
+        <li ngbNavItem>
+          <a routerLink="/organizacion" class="" routerLinkActive="active" ngbNavLink>organizacion</a>
+        </li>
+      </ul>
+
+
+    </ul>
+  </div>
+
+  <div class="mx-auto p-0  ">
+    <router-outlet></router-outlet>
+  </div>
+
+  </div>

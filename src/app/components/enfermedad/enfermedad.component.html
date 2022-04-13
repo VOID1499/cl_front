@@ -1,0 +1,32 @@
+
+  <button class="btn btn-primary" (click)="abrirModal()"> Editar </button>
+
+  <ng-template #modalEditarEnfermedad let-modal>
+    <form (ngSubmit)="validarCampos(FormEditarEnfermedad)" #FormEditarEnfermedad="ngForm" >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Editar Enfermedad</h4>
+      <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+
+
+            <input required type="text" placeholder="Nombre" class="mb-4 form-control"
+            [ngClass]="{'border-danger': FormEditarEnfermedad.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+             [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="enfermedad.nombre">
+
+            <label for="exampleFormControlTextarea1">Descripción</label>
+            <textarea required class="form-control"  rows="3"
+            [ngClass]="{'border-danger': FormEditarEnfermedad.submitted && !descripcion_.valid || descripcion_.touched && !descripcion_.valid }"
+            [name]="'descripcion_'" [id]="'descripcion_'" #descripcion_="ngModel" [(ngModel)]="enfermedad.descripcion" ></textarea>
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark" >Guardar</button>
+    </div>
+  </form>
+  </ng-template>

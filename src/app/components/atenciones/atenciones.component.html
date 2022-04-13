@@ -1,0 +1,73 @@
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+
+       <app-atencion (respuesta)="exeRespuesta($event)" [atencion]="atencionVacia" ></app-atencion>
+
+       <div class="p-0 ">
+         <input    class="m-0" type="text" name="busqueda" id="busqueda">
+         <i  class="mx-2 fa fa-search" aria-hidden="false"> </i>
+        </div>
+  </div>
+
+ <table class=" table  table-striped">
+     <thead>
+
+       <tr>
+         <th scope="col">ID</th>
+         <th scope="col">Fecha y Hora Ingresada </th>
+         <th scope="col">Fecha de Creación</th>
+         <th scope="col">Ultima Modificación</th>
+         <th scope="col">Acciones
+       </th>
+       </tr>
+     </thead>
+     <tbody>
+
+        <tr  *ngFor="let item of atenciones;index as i" >
+          <th scope="row">{{item.id}}</th>
+          <td>{{item.fecha }}</td>
+          <td>{{item.created_at | fecha}}</td>
+          <td>{{item.updated_at | fecha}}</td>
+          <td>
+           <app-atencion (respuesta)="exeRespuesta($event)" [atencion]="item" ></app-atencion>
+          </td>
+        </tr>
+
+
+     </tbody>
+   </table>
+
+
+   <ng-container *ngIf="cargando == true" >
+    <div  class="spinner-border border-1 spinner-border-sm text-primary "  role="status">
+    </div>
+   </ng-container>
+
+
+   <ng-container *ngIf="cargando == false && atenciones.length == 0" >
+    <p  class="text-center fs-5 font-weight-bold  bg-dark bg-opacity-10 p-4" >
+      No se encontaron atenciones asociadas a este paciente
+     </p>
+   </ng-container>
+
+
+
+
+   <ngb-pagination
+   [(page)]="AtencionesService.pagina"
+   [pageSize]="AtencionesService.numfilas"
+   [collectionSize]="total_registros"
+   (pageChange)="cargarTabla()"
+
+   >
+     <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+     <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+ </ngb-pagination>
+
+ </div>
+
+
+
+

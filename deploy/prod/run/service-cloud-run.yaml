@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: app-app-mkp-seller-center
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '1'
+    spec:
+      containers:
+      - image: gcr.io/{GCP_PROJECT_ID}/{CI_PROJECT_NAME}:{IMAGE_TAG}
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: '1'
+            memory: 1024Mi
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 100

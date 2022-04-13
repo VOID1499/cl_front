@@ -1,0 +1,146 @@
+<button (click)="abrirModal()" class="btn btn-sm btn-primary">
+  Editar
+</button>
+
+
+<ng-template #modalEditarServicio let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Servicio</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+
+        <!-- Paso 1 -->
+
+        <div  [hidden]="(paso == 1) == false" class="form-group">
+
+        <label for="basic-url" class="form-label">Nombre del Servicio</label>
+        <div class="input-group mb-3">
+          <input type="text" name="nombre" [(ngModel)]="servicio.nombre" class="form-control">
+        </div>
+
+        <label for="basic-url" class="form-label">Tiempo estimando en minutos</label>
+        <div class="input-group mb-3">
+          <input type="text" name="tiempo" [(ngModel)]="servicio.tiempo" class="form-control">
+        </div>
+
+        <label for="basic-url" class="form-label">Valor</label>
+        <div class="input-group mb-3">
+          <input type="text" name="tiempo" [(ngModel)]="servicio.precio" class="form-control">
+        </div>
+
+
+        <label for="basic-url" class="form-label">Comision</label>
+        <div class="input-group mb-3">
+          <input type="text" name="tiempo" [(ngModel)]="servicio.comision" class="form-control">
+        </div>
+
+
+        <label for="basic-url" class=" form-label">Profesional a cargo actualmente
+          <span class="text-primary">
+            {{servicio.profesional.nombre +' '+ servicio.profesional.apellido_paterno +' '+ servicio.profesional.apellido_materno}}
+          </span>
+        </label>
+        <app-k-select [lista]="profesionales" (seleccionado)="seleccionProfesional($event)" ></app-k-select>
+
+        <label for="basic-url" class="form-label mt-3">Estado del Servicio</label>
+
+
+        <div class="form-check form-switch">
+          <input  class="form-check-input" type="checkbox" role="switch" [(ngModel)]="servicio.estado" [checked]="servicio.estado">
+          <span  [ngClass]="{'text-success': servicio.estado}" >{{ servicio.estado ? 'Activo' : 'Inactivo' }}</span>
+        </div>
+
+
+      </div>
+
+
+        <!-- Paso 2 -->
+
+        <div  [hidden]="(paso == 2) == false" class="form-group">
+
+          <div class="row w-100 mb-3">
+            <div class="d-flex justify-content-between">
+              <h6 class="w-50 ">Dias y horas de atención</h6>
+              <button class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
+            </div>
+
+          </div>
+
+          <div *ngFor="let item of servicio.horarios;index as i" class="d-flex justify-content-around my-1">
+            <div class=" w-25 ">
+              <select class="form-select " name="dia{{i}}" [(ngModel)]="item.dia_id" aria-label="Default select example">
+                <option [value]="1">Lunes</option>
+                <option [value]="2">Martes</option>
+                <option [value]="3">Miercoles</option>
+                <option [value]="4">Jueves</option>
+                <option [value]="5">Viernes</option>
+                <option [value]="6">Sabado</option>
+                <option [value]="7">Domingo</option>
+              </select>
+            </div>
+
+            <div class="w-25  ">
+              <ngb-timepicker class="mx-auto" name="hora_inicio{{i}}" [(ngModel)]="item.hora_inicio"></ngb-timepicker>
+            </div>
+
+            <div class="w-25  ">
+              <ngb-timepicker name="hora_fin{{i}}"  [(ngModel)]="item.hora_fin"></ngb-timepicker>
+            </div>
+
+            <div class="">
+              <button (click)="agregarEliminarHorario(i)" class="btn btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                  <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div  [hidden]="(paso == 3) == false" class="form-group">
+
+          <div class="d-flex justify-content-between flex-wrap nowrap">
+
+            <div *ngFor="let item of feriados;index as i" class="form-check w-50">
+              <input class="form-check-input" type="checkbox" name="estado{{i}}" [(ngModel)]="item.estado" [value]="item.estado" [checked]="item.estado" id="flexCheckCheckedDisabled" >
+              <label class="form-check-label" for="flexCheckCheckedDisabled">
+                {{item.nombre}}
+              </label>
+            </div>
+
+          </div>
+
+          </div>
+
+
+
+      <div class="d-flex justify-content-between mt-5">
+
+        <button *ngIf="paso != 1" (click)="anteriorPaso()" class="btn btn-primary ">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          Anterior
+        </button>
+
+        <button  [hidden]="(paso == 3) == true"  class="btn btn-primary ms-auto" (click)="siguientePaso()" >Siguiente
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </button>
+
+       </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark mx-auto" (click)="modal.close('Save click')" >Guardar Cambios</button>
+  </div>
+</ng-template>

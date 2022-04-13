@@ -1,0 +1,239 @@
+<div style="width: 1000px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+    <button   class="btn btn-outline-dark" (click)="abrirModal()">Nuevo Profesional</button>
+
+    <input placeholder="rut" class=" form-control mx-2 w-25" type="text" name="rut" [(ngModel)]="rut" >
+    <input placeholder="correo" class=" form-control mx-2 w-25" type="text"  name="correo" [(ngModel)]="correo"   >
+    <input placeholder="nombre" class=" form-control mx-2 w-25" type="text"  name="nombre" [(ngModel)]="nombre"  >
+
+    <div class=" mx-2">
+      <select class="form-select" aria-label="Default select example" name="especialidad_id" [(ngModel)]="especialidad_id" >
+        <option  selected="selected"  value="0">Sin filtro</option>
+        <option *ngFor="let item of especialidades" value="{{item.id}}">{{item.nombre}}</option>
+      </select>
+    </div>
+
+    <div class=" mx-2">
+        <select class="form-select" aria-label="Default select example" name="tipo_profesional_id" [(ngModel)]="tipo_profesional_id">
+          <option   selected="selected" value="0">Sin Filtro</option>
+          <option *ngFor="let item of tipoProfesionales" value="{{item.id}}">{{item.tipo}}</option>
+        </select>
+    </div>
+
+    <button class="btn btn-outline-dark" (click)="cargarTabla()">
+        <i class="mx-2 fa fa-search" aria-hidden="false"></i>
+    </button>
+
+
+
+  </div>
+
+<table class=" table  table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Rut</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido Paterno</th>
+      <th scope="col">Apellido Materno</th>
+
+      <th scope="col">Acciones</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of profesionales;index as i">
+      <td>{{item.rut}}</td>
+      <td>{{item.correo}}</td>
+      <td>{{item.nombre}}</td>
+      <td>{{item.apellido_paterno}}</td>
+      <td>{{item.apellido_materno}}</td>
+
+      <td>
+        <app-profesional [profesional]= "item"  ></app-profesional>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+[(page)]="ProfesionalesService.pagina"
+[pageSize]="ProfesionalesService.numfilas"
+[collectionSize]="total_registros"
+(pageChange)="cargarTabla()"
+>
+  <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+  <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+  <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+  <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>
+
+
+
+<ng-template #modalAgregarProfesional let-modal>
+
+<form (ngSubmit)="validarCampos(formProfesional)" #formProfesional="ngForm" >
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nuevo Profesional</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="d-flex flex-row flex-wrap  justify-content-center">
+
+
+      <div style="width:500px;" class=" p-2">
+        <div class="form-group">
+          <!-- Contenido -->
+
+          <p class="text-center fs-6 mb-3"> Fecha de ingreso : {{profesional.created_at | fecha}}</p>
+
+           <div class="input-group mb-3">
+             <input required placeholder="nombre" type="text" class="form-control"
+             [ngClass]="{'border border-danger': formProfesional.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+             [name]="'nombre_'"  [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="profesional.nombre" >
+
+
+             <input required placeholder="rut" type="text" class="form-control"
+             [ngClass]="{'border border-danger': formProfesional.submitted && !rut_.valid || rut_.touched && !rut_.valid }"
+             [name]="'rut_'" [id]="'rut_'" #rut_="ngModel" [(ngModel)]="profesional.rut" >
+           </div>
+
+           <input required placeholder="apellido paterno" type="text" class="form-control mb-3"
+           [ngClass]="{'border border-danger': formProfesional.submitted && !apellido_paterno_.valid || apellido_paterno_.touched && !apellido_paterno_.valid }"
+           [name]="'apellido_paterno_'" [id]="'apellido_paterno_'" #apellido_paterno_="ngModel" [(ngModel)]="profesional.apellido_paterno">
+
+           <input  required placeholder="apellido materno" type="text" class="form-control mb-3"
+           [ngClass]="{'border border-danger': formProfesional.submitted && !apellido_materno_.valid || apellido_materno_.touched && !apellido_materno_.valid }"
+           [name]="'apellido_materno_'" [id]="'apellido_materno_'" #apellido_materno_="ngModel"  [(ngModel)]="profesional.apellido_materno">
+
+           <div class="input-group mb-3">
+             <span class="input-group-text">Descripción</span>
+             <textarea required placeholder="" class="form-control"
+             [ngClass]="{'border border-danger': formProfesional.submitted && !descripcion_.valid || descripcion_.touched && !descripcion_.valid }"
+             [name]="'descripcion_'" [id]="'descripcion_'" #descripcion_="ngModel" [(ngModel)]="profesional.descripcion" aria-label="With textarea"></textarea>
+           </div>
+
+           <input required placeholder="correo@example.com" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control mb-3"
+           [ngClass]="{'border border-danger': formProfesional.submitted && !correo_.valid || correo_.touched && !correo_.valid }"
+           [name]="'correo_'" [id]="'correo_'" #correo_="ngModel" [(ngModel)]="profesional.correo">
+
+         </div>
+      </div>
+
+      <div style="width:500px;" class=" p-2">
+        <div class="form-group">
+
+          <!-- Contenido -->
+
+          <ul class="list-group mb-3">
+
+            <li class=" my-2 d-flex justify-content-between align-items-center">
+              Profesión
+              <button type="button" class="btn btn-sm btn-primary" (click)="abrirModalTipos()">
+                Agregar
+              </button>
+            </li>
+
+            <li *ngFor="let item of profesional.tipo;index as i" class="border-bottom my-2 d-flex justify-content-between align-items-center">
+             {{item.tipo}}
+              <button  class=" btn p-0" (click)="agregarEliminarTipo(i)" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                  <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                </svg>
+              </button>
+            </li>
+          </ul>
+
+
+          <ul class="list-group mb-3">
+
+            <li class=" my-2 d-flex justify-content-between align-items-center">
+              Especialidades
+              <button type="button" class="btn btn-sm btn-primary" (click)="abrirModalEspecialidades()">
+                Agregar
+              </button>
+            </li>
+
+            <li *ngFor="let item of profesional.especialidad;index as i" class="border-bottom my-2 d-flex justify-content-between align-items-center">
+             {{item.nombre}}
+              <button  class=" btn p-0" (click)="agregarEliminarEspecialidad(i)" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                  <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark " >Guardar</button>
+      </div>
+</form>
+</ng-template>
+
+
+
+
+<ng-template #modalTipos let-modal>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Profesiones</h4>
+  <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+    <div class="form-group">
+
+
+      <select class="form-select" aria-label="Default select example" name="tipo_id" [(ngModel)]="tipo_id">
+        <option  *ngFor="let item of tipoProfesionales;index as i" value="{{item.id}}">{{item.tipo}}</option>
+      </select>
+
+    </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="agregarEliminarTipo()">Agregar</button>
+</div>
+</ng-template>
+
+
+
+
+<ng-template #modalEspecialidades let-modal>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Especialidades</h4>
+  <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+    <div class="form-group">
+
+      <select class="form-select" aria-label="Default select example" name="especialidad_id"  [(ngModel)]="especialidad_id" >
+        <option *ngFor="let item of especialidades;index as i"  value="{{item.id}}" >{{item.nombre}}</option>
+      </select>
+
+    </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="agregarEliminarEspecialidad()">Agregar</button>
+</div>
+
+
+</ng-template>

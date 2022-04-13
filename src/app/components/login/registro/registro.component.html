@@ -1,0 +1,36 @@
+<div class="tab-content">
+  <div id="signup">
+    <h1>Registrarse</h1>
+
+    <div class="top-row">
+      <div class="field-wrap">
+        <label>
+          Nombre<span class="req">*</span>
+        </label>
+        <input type="text" [(ngModel)]="name" />
+      </div>
+
+      <div class="field-wrap">
+        <label>
+          Email <span class="req">*</span>
+        </label>
+        <input type="email" [(ngModel)]="email" />
+      </div>
+
+      <div class="field-wrap">
+        <label>
+          Password<span class="req">*</span>
+        </label>
+        <input type="password" [(ngModel)]="password" />
+      </div>
+
+      <div class="field-wrap">
+        <label>
+          Confirmar Password<span class="req">*</span>
+        </label>
+        <input type="password" [(ngModel)]="password_confirmation" />
+      </div>
+
+      <button type="submit" class="button button-block" (click)="registrar()">Registrarse</button>
+
+    </div>

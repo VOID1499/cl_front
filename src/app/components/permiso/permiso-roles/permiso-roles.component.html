@@ -1,0 +1,9 @@
+<div class="form-check form-switch" *ngFor="let item of permisos.permisos">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" [(ngModel)]="item.permitido">
+  <label class="form-check-label" for="flexSwitchCheckDefault">{{item.nombre}}</label>
+</div>
+
+<div>
+  <button (click)="guardar()">Guardar</button>
+</div>
+

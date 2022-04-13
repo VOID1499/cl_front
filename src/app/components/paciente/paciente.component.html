@@ -1,0 +1,49 @@
+<div class="modal-body">
+
+    <form (ngSubmit)="validarCampos(formEditarPaciente)" #formEditarPaciente="ngForm" novalidate class="px-5" >
+
+        <div class="form-group">
+
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Correo</label>
+                <div class="col-sm-10">
+                    <input required type="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
+                    [ngClass]="{'border border-danger': formEditarPaciente.submitted && !correo_.valid || correo_.touched && !correo_.valid}"
+                  [(ngModel)]="correo"  [name]="'correo_'" [id]="'correo_'" #correo_="ngModel" >
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Nombre</label>
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control"
+                    [ngClass]="{'border border-danger': formEditarPaciente.submitted && !nombre_.valid || nombre_.touched && !nombre_.valid }"
+                     [name]="'nombre_'" [id]="'nombre_'" #nombre_="ngModel" [(ngModel)]="nombre">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Apellido Paterno</label>
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control"
+                    [ngClass]="{'border border-danger': formEditarPaciente.submitted && !apellido_paterno_.valid || apellido_paterno_.touched && !apellido_paterno_.valid }"
+                    [name]="'apellido_paterno_'" [id]="'apellido_paterno_'" #apellido_paterno_="ngModel" [(ngModel)]="apellido_paterno">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Apellido Materno</label>
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control"
+                    [ngClass]="{'border border-danger': formEditarPaciente.submitted && !apellido_materno_.valid || apellido_materno_.touched && !apellido_materno_.valid }"
+                    [name]="'apellido_materno_'" [id]="'apellido_materno_'" #apellido_materno_="ngModel" [(ngModel)]="apellido_materno" >
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+                <button type="submit" class="btn btn-sm btn-success" >Guardar</button>
+                <button class="btn btn-sm btn-danger " (click)="cancelar()">Cancelar</button>
+        </div>
+
+    </form>
