@@ -1,0 +1,57 @@
+
+<div style="min-width: 700px;" class="container p-0">
+  <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
+
+    <app-box [box]="boxVacio" ></app-box>
+
+    <div class="p-0  ">
+        <input class="m-0" type="text" name="busqueda" id="busqueda" (keyup)="cargarTabla()" >
+        <i class="mx-2 fa fa-search" aria-hidden="false"> </i>
+    </div>
+
+</div>
+
+
+    <table class=" table  table-striped">
+      <thead>
+
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Horas en Uso</th>
+          <th scope="col">Acciones
+        </th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let item of listaBoxs;index as i">
+          <td>
+            {{item.nombre}}
+          </td>
+          <td>
+            {{item.tipo}}
+          </td>
+          <td>
+            {{item.horas}}
+          </td>
+          <td>
+            <app-box [box]="item" ></app-box>
+          </td>
+       </tr>
+      </tbody>
+    </table>
+
+
+    <ngb-pagination
+  [(page)]="BoxsService.request.pagina"
+  [pageSize]="BoxsService.request.numFilas"
+  [collectionSize]="total_registros"
+  (pageChange)="cargarTabla()"
+  >
+    <ng-template ngbPaginationFirst><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationLast><i class="fa fa-step-forward " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationPrevious><i class="fa fa-arrow-left " aria-hidden="true "></i></ng-template>
+    <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
+</ngb-pagination>
+
+</div>

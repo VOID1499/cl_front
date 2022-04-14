@@ -82,6 +82,9 @@ import { PaginaTipoFormulariosComponent } from './paginas/pagina-tipo-formulario
 import { TipoFormulariosComponent } from './ficha/tipo-formularios/tipo-formularios.component';
 import { TipoFormularioComponent } from './ficha/tipo-formulario/tipo-formulario.component';
 import { HoraPipe } from './pipes/hora/hora.pipe';
+import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
+import { BoxsComponent } from './components/boxs/boxs.component';
+import { BoxComponent } from './components/box/box.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +157,10 @@ import { HoraPipe } from './pipes/hora/hora.pipe';
     PaginaTipoFormulariosComponent,
     TipoFormulariosComponent,
     TipoFormularioComponent,
-    HoraPipe
+    HoraPipe,
+    PaginaBoxsComponent,
+    BoxsComponent,
+    BoxComponent
 
   ],
   imports: [
