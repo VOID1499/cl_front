@@ -12,6 +12,7 @@ export class BoxComponent implements OnInit {
 
   @Input() box:any;
   @ViewChild("modalBox") modalBox!: NgbModal;
+  @ViewChild("modalServiciosBox") modalServiciosBox!: NgbModal;
   public closeResult = "";
 
   constructor(
@@ -22,6 +23,60 @@ export class BoxComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  guardar(){
+    if(this.box.id != 0){
+      this.editarBox();
+    }else{
+      this.crearBox();
+    }
+
+  }
+
+  crearBox(){
+    this.BoxService.request = this.box;
+    this.BoxService.guardar().subscribe((data:any)=>{
+      if(data.code == 0){
+        console.log(data.message);
+      }
+    }
+    ,(err:any)=>{
+      console.log('Error al crar box '+ JSON.stringify(err.statusText));
+    });
+  }
+
+  editarBox(){
+
+    this.BoxService.request = this.box;
+    this.BoxService.editar().subscribe((data:any)=>{
+      if(data.code == 0){
+        console.log(data.message);
+      }
+    }
+    ,(err:any)=>{
+      console.log('Error al crar box '+ JSON.stringify(err.statusText));
+    });
+
+  }
+
+  serviciosBox(){
+
+    this.BoxService.request = {
+      "id":this.box.id
+    }
+
+    this.BoxService.serviciosBox().subscribe((data:any)=>{
+      if(data.code == 0){
+        console.log(data.message );
+        this.box.servicios = data.body.servicios;
+        this.open(this.modalServiciosBox,'lg');
+      }
+    }
+    ,(err:any)=>{
+      console.log('Error al cargar servicios del box  '+ JSON.stringify(err.statusText));
+    });
+
+  }
 
 
   open(content:any ,size:string) {
