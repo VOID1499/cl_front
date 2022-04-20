@@ -1,7 +1,7 @@
 import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
-
+import { ServiciosService } from 'src/app/servicios/clinica/serviciosClinica/servicios.service';
 
 @Component({
   selector: 'app-box',
@@ -14,13 +14,27 @@ export class BoxComponent implements OnInit {
   @ViewChild("modalBox") modalBox!: NgbModal;
   @ViewChild("modalServiciosBox") modalServiciosBox!: NgbModal;
   public closeResult = "";
+  public diasSemana = [
+    {"dia_id":1},
+    {"dia_id":2},
+    {"dia_id":3},
+    {"dia_id":4},
+    {"dia_id":5},
+    {"dia_id":6},
+    {"dia_id":7},
+  ];
+
+  public servicios:any[] = [];
+  public servicioSeleccionado:any;
 
   constructor(
     private BoxService:BoxService,
     private modalService: NgbModal,
+    private ServiciosService:ServiciosService
   ) { }
 
   ngOnInit(): void {
+    this.listarServicios();
   }
 
 
@@ -47,6 +61,7 @@ export class BoxComponent implements OnInit {
 
   editarBox(){
 
+    console.log(this.box);
     this.BoxService.request = this.box;
     this.BoxService.editar().subscribe((data:any)=>{
       if(data.code == 0){
@@ -54,13 +69,14 @@ export class BoxComponent implements OnInit {
       }
     }
     ,(err:any)=>{
-      console.log('Error al crar box '+ JSON.stringify(err.statusText));
+      console.log('Error al editar box '+ JSON.stringify(err.statusText));
     });
 
   }
 
   serviciosBox(){
 
+    console.log(this.diasSemana)
     this.BoxService.request = {
       "id":this.box.id
     }
@@ -69,7 +85,7 @@ export class BoxComponent implements OnInit {
       if(data.code == 0){
         console.log(data.message );
         this.box.servicios = data.body.servicios;
-        this.open(this.modalServiciosBox,'lg');
+        this.open(this.modalServiciosBox,'xl');
       }
     }
     ,(err:any)=>{
@@ -77,6 +93,84 @@ export class BoxComponent implements OnInit {
     });
 
   }
+
+
+
+  listarServicios(){
+    this.ServiciosService.paginacion = false;
+    this.ServiciosService.obtener().subscribe(
+      (data:any)=>{
+        if (data.code == 0) {
+          this.servicios = data.body.servicios;
+          console.log(this.servicios)
+        } else {
+          console.log('Error al listar servicios' + data.message);
+        }
+      },
+      (err: any) => {
+        console.log('Error al listar servicios' + JSON.stringify(err.statusText));
+      });
+
+  }
+
+  asignarQuitarServicio(i:any = null){
+
+    if(i != null){
+      this.box.servicios.splice(i,1)
+    }else{
+      let servicio = this.servicios[this.servicioSeleccionado];
+
+
+
+      const servicioEncontrado = this.box.servicios.find(function(element:any) {
+        return element.id ==  servicio.id
+      });
+
+      if(servicioEncontrado == undefined){
+        this.box.servicios.push(servicio);
+      }else{
+        console.log('Ya asignado');
+      }
+
+
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   open(content:any ,size:string) {
@@ -97,6 +191,8 @@ export class BoxComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+
 
 
 }
