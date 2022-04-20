@@ -82,6 +82,7 @@ import { PaginaTipoFormulariosComponent } from './paginas/pagina-tipo-formulario
 import { TipoFormulariosComponent } from './ficha/tipo-formularios/tipo-formularios.component';
 import { TipoFormularioComponent } from './ficha/tipo-formulario/tipo-formulario.component';
 import { HoraPipe } from './pipes/hora/hora.pipe';
+import { KIdiomaPipe } from './pipes/kIdioma/k-idioma.pipe';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { HoraPipe } from './pipes/hora/hora.pipe';
     PaginaTipoFormulariosComponent,
     TipoFormulariosComponent,
     TipoFormularioComponent,
-    HoraPipe
+    HoraPipe,
+    KIdiomaPipe
 
   ],
   imports: [

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { KLangService } from 'src/app/servicios/k-lang/k-lang.service';
 import { LoginService } from 'src/app/servicios/login/logeo/login.service';
 import { OrganizacionService } from 'src/app/servicios/organizacion/organizacion.service';
 

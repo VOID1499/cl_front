@@ -12,6 +12,8 @@ export const environment = {
   "urlDia":url+"dia",
   "urlEspecialidades":url+"especialidades",
   "urlEspecialidad":url+"especialidad",
+  
+  "urlDiccionario": url+"urlDiccionario",
 
   "urlTipoProfesionales":url+"tipo/profesionales",
   "urlTipoProfesional":url+"tipo/profesional",
