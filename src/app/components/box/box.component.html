@@ -1,0 +1,213 @@
+
+
+  <button *ngIf="box.id == 0" type="button"  class="btn btn-outline-dark" (click)="open(modalBox,'md')" >Nuevo box</button>
+
+
+
+<div *ngIf="box.id != 0" class="btn-group btn-group-md" role="group" aria-label="Basic outlined example">
+  <button type="button" class="btn btn-outline-primary"  (click)="open(modalBox,'md')" >Editar</button>
+  <button type="button" class="btn btn-outline-primary" (click)="serviciosBox()" >Servicios</button>
+</div>
+
+
+<ng-template #modalBox let-modal>
+  <form  >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Box  </h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+
+
+        <div class="form-group row">
+
+          <div class="col-sm-12">
+            <label class="col-sm-12 col-form-label">Nombre</label>
+              <input required type="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
+            [(ngModel)]="box.nombre"  [name]="'nombre'" [id]="'nombre'" #correo_="ngModel" >
+          </div>
+
+
+          <div class="col-sm-12">
+            <label class="col-sm-2 col-form-label">Descripción</label>
+            <textarea class="form-control" aria-label="With textarea"
+            [id]="'descripcion'" [name]="'descripcion'" [(ngModel)]="box.descripcion" ></textarea>
+          </div>
+
+          <div class="col-sm-12">
+            <label class="col-sm-12 col-form-label">Tipo de Box</label>
+            <select class="form-select" [id]="'tipo'" [name]="'tipo'" [(ngModel)]="box.tipo">
+              <option value="fisico">Fisico</option>
+              <option value="virtual">Virtual</option>
+            </select>
+          </div>
+
+          <ng-container *ngIf="box.tipo == 'virtual'" >
+
+            <div class="col-sm-12">
+              <label class="col-sm-12 col-form-label">Plataforma</label>
+              <select class="form-select" [id]="'tipo'" [name]="'tipo'" [(ngModel)]="box.plataforma">
+                <option value="googlemeet">Google Meet</option>
+                <option value="zoom">Zoom</option>
+                <option value="opcion3">Opcion 3</option>
+                <option value="opcion4">Opcion 4</option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label class="col-sm-12 col-form-label">URL conferencia</label>
+              <input required type="text"  class="form-control"
+            [(ngModel)]="box.url_conferencia"  [name]="'url_conferencia'" [id]="'url_conferencia'" #url_conferencia="ngModel" >
+            </div>
+
+            <div class="col-sm-12">
+              <label class="col-sm-12 col-form-label">Usuario</label>
+              <input required type="text"  class="form-control"
+            [(ngModel)]="box.user"  [name]="'user'" [id]="'user'" #user="ngModel" >
+            </div>
+
+            <div class="col-sm-12">
+              <label class="col-sm-12 col-form-label">Contraseña</label>
+              <input required type="text"  class="form-control"
+              [(ngModel)]="box.password"  [name]="'password'" [id]="'password'" #password="ngModel" >
+            </div>
+
+
+
+          </ng-container>
+
+        </div>
+
+
+
+
+
+
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardar()" >Guardar</button>
+  </div>
+</form>
+</ng-template>
+
+
+
+
+<ng-template #modalServiciosBox let-modal>
+  <form  >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Servicios asignados <span class="text-primary">{{box.nombre}}</span> </h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+
+        <div class="form-group row">
+
+
+
+          <div class="list-group" >
+            <div class=" w-100 " >
+
+              <!--
+                    <div class="bg-dark bg-opacity-10 w-100 mx-auto d-flex justify-content-center flex-nowrap ">
+                      <div style="width: 100px"  class="border rounded text-center container-fluid m-0 p-0">Lunes</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Martes</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Miercoles</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Jueves</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Viernes</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Sabado</div>
+                      <div style="width: 100px"  class=" text-center container-fluid m-0 p-0">Domingo</div>
+                    </div>
+                  -->
+
+
+                  <div class=" w-100 mx-auto d-flex justify-content-star flex-nowrap mb-2 ">
+                    <button class=" ms-4 btn btn-outline-success btn-sm " (click)="open(modalServiciosSelect,'sm')" >Asignar otro</button>
+                  </div>
+
+                        <ng-container *ngFor="let servicio of box.servicios;index as i" >
+                          <div class=" w-100  d-flex justify-content-center flex-nowrap my-2  ">
+
+                            <ng-container   >
+                              <div class=" container-fluid  d-flex   ">
+
+                                  <div  class="border p-3 border-end-0 w-25 ">
+                                    <div class="d-flex w-120 justify-content-between">
+                                      <h5 class="mb-1">{{servicio.nombre}}</h5>
+                                    </div>
+                                    <p class="mb-1">{{servicio.tiempo | minutosHora }}</p>
+                                    <p class="text-truncate">
+                                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore ipsam doloribus sunt veritatis laborum odio ea nulla, maxime impedit reiciendis, soluta distinctio ipsum exercitationem cupiditate obcaecati libero laboriosam nostrum. Eius!
+                                    </p>
+                                    <small class="text-muted "></small>
+                                  </div>
+
+                                  <div class="w-50 border ">
+
+                                  </div>
+
+                                  <div class=" d-flex flex-column ms-2">
+                                    <button class=" btn btn-outline-danger btn-sm" (click)="asignarQuitarServicio(i)" >Quitar</button>
+                                  </div>
+
+
+
+                              </div>
+
+                            </ng-container>
+
+
+
+                          </div>
+                        </ng-container>
+
+
+                  </div>
+
+          </div>
+        </div>
+
+
+  </div>
+
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardar()" >Guardar</button>
+  </div>
+</form>
+</ng-template>
+
+
+
+
+<ng-template #modalServiciosSelect let-modal>
+  <form  >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Servicios</h4>
+    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <select class="form-select" name="servicio" id="servicio" [(ngModel)]="servicioSeleccionado"  aria-label="Default select example">
+      <option value="{{i}}" *ngFor="let servicio of servicios;index as i" >{{servicio.nombre}}</option>
+    </select>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="asignarQuitarServicio()" >Agregar</button>
+  </div>
+</form>
+</ng-template>
+
+

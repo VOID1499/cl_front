@@ -22,6 +22,7 @@ import { PaginaServiciosComponent } from './paginas/pagina-servicios/pagina-serv
 import { PaginaReservasComponent } from './paginas/pagina-reservas/pagina-reservas.component';
 import { PaginaTipoFormulariosComponent } from './paginas/pagina-tipo-formularios/pagina-tipo-formularios.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
+import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
 
 const routes: Routes = [
   //sistema logeo
@@ -58,6 +59,9 @@ const routes: Routes = [
 
    //Servicios
    { path: 'servicios', component: PaginaServiciosComponent},
+
+   { path: 'boxs', component: PaginaBoxsComponent},
+
 
    //Reservas
    { path: 'reservas', component: PaginaReservasComponent},

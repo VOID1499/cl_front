@@ -1,6 +1,8 @@
 import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { EnfermedadService } from 'src/app/servicios/ficha/enfermedades/enfermedad.service';
+
+
 @Component({
   selector: 'app-enfermedad',
   templateUrl: './enfermedad.component.html',
@@ -12,6 +14,7 @@ export class EnfermedadComponent implements OnInit {
   public closeResult = '';
   @ViewChild("modalEditarEnfermedad") modalEditarEnfermedad!: NgbModal;
   @Input() enfermedad:any;
+
   constructor(
     private modalService: NgbModal,
     private EnfermedadService:EnfermedadService
