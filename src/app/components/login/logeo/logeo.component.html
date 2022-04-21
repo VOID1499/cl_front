@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="modal-header">Inicio de Sesion {{ "algo mas" | kIdioma }}</div><br>
+    <div class="modal-header">{{ "inicio de sesion" | kIdioma }}</div><br>
     <div class="row">
 
         <div class="col-3"></div>
@@ -28,7 +28,7 @@
             <div class="modal-footer">
                 <button class="btn btn-sm btn-outline-primary mr-2" (click)="logear()">Iniciar Sesión</button>
 
-                <div class=""><span (click)="recuperar()">Olvidaste tu contraseña?</span></div>
+                <div class=""><span (click)="recuperar()">{{ "olvidaste tu contraseña" | kIdioma }}</span></div>
 
                 <div class=""><span (click)="registro()">Registrarse</span></div>
 

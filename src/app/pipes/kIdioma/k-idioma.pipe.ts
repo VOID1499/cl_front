@@ -11,8 +11,13 @@ export class KIdiomaPipe implements PipeTransform {
   } 
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    return this.dic.st(value) ||  "" ;
+    let traduccion = this.dic.st(value) ||  "" ;
+    
+    if (traduccion == "")  {
+      return value;
+    }
 
+    return traduccion;
   }
 
 }

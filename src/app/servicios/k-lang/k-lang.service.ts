@@ -15,12 +15,12 @@ export class KLangService {
 
   diccionario = [
     {
-      "clave":"algo",
-      "texto":"poco <br> aca me tengo que ir en la <b>VOLA</b>"
+      "clave":"inicio de sesion",
+      "texto":"Inicio de Sesión"
     },
     {
-      "clave":"otra",
-      "texto":"cosa"
+      "clave":"olvidaste tu contraseña",
+      "texto":"Olvidaste tu contraseña?"
     },
     {
       "clave":"algo mas",
@@ -57,7 +57,7 @@ export class KLangService {
 
 
   st(texto:any) {
-    alert("funciona");
+    //alert("funciona");
     return this.diccionario.find( dic => dic.clave == texto )?.texto;
     }
 
