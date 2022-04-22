@@ -113,56 +113,6 @@ export class BoxComponent implements OnInit {
 
   }
 
-  asignarQuitarServicio(i:any = null){
-
-    if(i != null){
-      this.box.servicios.splice(i,1)
-    }else{
-      let servicio = this.servicios[this.servicioSeleccionado];
-
-
-
-      const servicioEncontrado = this.box.servicios.find(function(element:any) {
-        return element.id ==  servicio.id
-      });
-
-      if(servicioEncontrado == undefined){
-        this.box.servicios.push(servicio);
-      }else{
-        console.log('Ya asignado');
-      }
-
-
-    }
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

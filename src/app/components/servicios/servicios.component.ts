@@ -37,6 +37,7 @@ export class ServiciosComponent implements OnInit {
     "id": 0,
     "profesional_id": 0,
     "nombre":"",
+    "descripcion":"",
     "estado": 1,
     "tiempo": 0,
     "precio":0.00,
@@ -48,7 +49,8 @@ export class ServiciosComponent implements OnInit {
       "hora_i":"",
       "hora_f":"",
       "hora_fin":{"hour": 0,"minute": 0,"second": 0},
-      "hora_inicio":{"hour": 0,"minute": 0,"second": 0}
+      "hora_inicio":{"hour": 0,"minute": 0,"second": 0},
+      "box_id":0
       }
     ],
 
@@ -198,9 +200,7 @@ export class ServiciosComponent implements OnInit {
     }
   }
 
-  abrirModal(){
-    this.open(this.modalAgregarServicio,'xl');
-  }
+
 
   siguientePaso(){
     this.paso += 1;
@@ -245,7 +245,7 @@ export class ServiciosComponent implements OnInit {
       if(data.code == 0){
         console.log(data.message);
       }else{
-        console.log('Error al crear servidio' + data.message);
+        console.log('Error al crear servicio' + data.message);
       }
     },
     (err:any)=>{
@@ -261,6 +261,7 @@ agregarEliminarHorario(i?:number){
       {"dia_id":0,
       "hora_i":"",
       "hora_f":"",
+      "box_id":0,
       "hora_inicio":{
         "hour": 0,
         "minute": 0,

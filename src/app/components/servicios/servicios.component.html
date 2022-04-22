@@ -22,7 +22,7 @@
   <div style="width: 900px;" class="container p-0">
     <div class=" p-2  border-bottom d-flex justify-content-between align-items-center " >
 
-    <button  type="button"  class="btn btn-outline-dark" (click)="abrirModal()" >Nuevo</button>
+    <button  type="button"  class="btn btn-outline-dark" (click)="open(modalAgregarServicio,'lg')" >Nuevo</button>
 
     <button type="button" class="btn btn-outline-dark" (click)="cargarTabla()">
         <i class="mx-2 fa fa-search" aria-hidden="false"></i>
@@ -111,6 +111,14 @@
           [name]="'nombre'" [id]="'nombre'" #nombre="ngModel" [(ngModel)]="servicio.nombre" class="form-control">
         </div>
 
+
+
+        <label for="" class="form-label">Descripción</label>
+        <div class="input-group mb-3">
+          <textarea  class="form-control" placeholder="" name="descripcion" [(ngModel)]="servicio.descripcion" style="height: 100px">
+          </textarea>
+        </div>
+
         <label for="" class="form-label">Tiempo estimando en minutos</label>
         <div class="input-group mb-3">
           <input type="text" required
@@ -165,11 +173,11 @@
 
           </div>
 
-          <div  *ngFor="let item of servicio.horarios;index as i" class="d-flex justify-content-around my-1 "
+          <div  *ngFor="let item of servicio.horarios;index as i" class="d-flex justify-content-center my-1 "
           [ngClass]="item.dia_id == 0 ? 'border-start border-danger' : 'border-start border-success'"
 
           >
-            <div class=" w-25 ">
+            <div class=" w-25 mx-1  ">
               <select required  class="form-select"
               [name]="'dia'+i" [id]="'dia'+i" #dia="ngModel" [(ngModel)]="item.dia_id">
                 <option [value]="1">Lunes</option>
@@ -182,22 +190,35 @@
               </select>
             </div>
 
-            <div class="w-25 ">
-              <ngb-timepicker class="mx-auto" name="hora_inicio{{i}}" [(ngModel)]="item.hora_inicio"></ngb-timepicker>
+            <div class=" w-25 mx-1  ">
+              <select   class="form-select" name="box_id"  [(ngModel)]="item.box_id">
+                <option [value]="1">Box1</option>
+                <option [value]="2">Box2</option>
+                <option [value]="3">Box3</option>
+              </select>
             </div>
 
-            <div class="w-25  ">
-              <ngb-timepicker name="hora_fin{{i}}"  [(ngModel)]="item.hora_fin"></ngb-timepicker>
-            </div>
 
-            <div class="">
-              <button type="button" (click)="agregarEliminarHorario(i)" class="btn btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
-                  <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
-                </svg>
-              </button>
-            </div>
+
+              <div class="mx-2 ">
+                <ngb-timepicker class="mx-auto" name="hora_inicio{{i}}" [(ngModel)]="item.hora_inicio"></ngb-timepicker>
+              </div>
+
+              <div class=" ms-2 me-auto ">
+                <ngb-timepicker name="hora_fin{{i}}"  [(ngModel)]="item.hora_fin"></ngb-timepicker>
+              </div>
+
+              <div class="">
+                <button type="button" (click)="agregarEliminarHorario(i)" class="btn btn-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                    <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                  </svg>
+                </button>
+              </div>
+
+
+
           </div>
 
 
