@@ -52,6 +52,7 @@ export const environment = {
    "urlBoxs":url+"boxs",
    "urlBox":url+"box",
    "urlServiciosBox":url+"serviciosBox",
+   "urlBoxsDisponibles":url+"boxsDisponibles",
 
 
   "urlTipoDatos":url+"tipo/datos",

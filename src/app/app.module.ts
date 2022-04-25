@@ -85,6 +85,7 @@ import { HoraPipe } from './pipes/hora/hora.pipe';
 import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
 import { BoxsComponent } from './components/boxs/boxs.component';
 import { BoxComponent } from './components/box/box.component';
+import { SelectBoxsComponent } from './components/select-boxs/select-boxs.component';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ import { BoxComponent } from './components/box/box.component';
     HoraPipe,
     PaginaBoxsComponent,
     BoxsComponent,
-    BoxComponent
+    BoxComponent,
+    SelectBoxsComponent
 
   ],
   imports: [

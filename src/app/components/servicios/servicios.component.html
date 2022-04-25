@@ -190,22 +190,26 @@
               </select>
             </div>
 
-            <div class=" w-25 mx-1  ">
+            <div class="  mx-1  ">
               <select   class="form-select" name="box_id"  [(ngModel)]="item.box_id">
-                <option [value]="1">Box1</option>
-                <option [value]="2">Box2</option>
-                <option [value]="3">Box3</option>
+                <option *ngFor="let box of item.boxs_disponibles" [value]="1">{{box.nombre}}</option>
+
               </select>
             </div>
 
-
-
-              <div class="mx-2 ">
+              <div class="mx-2">
                 <ngb-timepicker class="mx-auto" name="hora_inicio{{i}}" [(ngModel)]="item.hora_inicio"></ngb-timepicker>
               </div>
 
-              <div class=" ms-2 me-auto ">
+              <div class=" ms-2">
                 <ngb-timepicker name="hora_fin{{i}}"  [(ngModel)]="item.hora_fin"></ngb-timepicker>
+              </div>
+
+
+              <div class="mx-2">
+                <button type="button"  (click)="consultarBoxsDisponibles(i)" class="btn  btn-outline-primary" >
+                  Boxs
+                </button>
               </div>
 
               <div class="">

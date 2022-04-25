@@ -6,8 +6,9 @@ import { ServiciosService } from 'src/app/servicios/clinica/serviciosClinica/ser
 import {NgbTimepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 import { FeriadosService } from 'src/app/servicios/clinica/feriados/feriados.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-
+import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 
 @Component({
   selector: 'app-servicios',
@@ -50,7 +51,8 @@ export class ServiciosComponent implements OnInit {
       "hora_f":"",
       "hora_fin":{"hour": 0,"minute": 0,"second": 0},
       "hora_inicio":{"hour": 0,"minute": 0,"second": 0},
-      "box_id":0
+      "box_id":0,
+      "boxs_disponibles":[{"id":0,"nombre":"Nada"}]
       }
     ],
 
@@ -84,6 +86,7 @@ export class ServiciosComponent implements OnInit {
     private config: NgbTimepickerConfig,
     public FeriadosService:FeriadosService,
     private calendar: NgbCalendar,
+    private BoxService:BoxService
   ){
 
     config.seconds = false;
@@ -262,10 +265,11 @@ agregarEliminarHorario(i?:number){
       "hora_i":"",
       "hora_f":"",
       "box_id":0,
+      "boxs_disponibles":[{"id":0,"nombre":"Nada"}],
       "hora_inicio":{
         "hour": 0,
         "minute": 0,
-        "second": 0
+        "second": 0,
       },
       "hora_fin":{
         "hour": 0,
@@ -316,7 +320,38 @@ deshabilitarDias(){
           ? true
           : false;
       };
-}
+    }
+
+
+    consultarBoxsDisponibles(i:any){
+
+     let horario =  this.servicio.horarios[i];
+
+     var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
+     var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
+
+     this.BoxService.request = {
+      "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
+      "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
+      "dia_id":horario.dia_id
+     };
+
+    // console.log(this.BoxService.request)
+
+
+
+     this.BoxService.boxsDisponibles().subscribe((data:any)=>{
+          if (data.code == 0) {
+            horario.boxs_disponibles = data.body.boxs;
+          } else {
+            console.log('Error al consultar disponibles' + data.message);
+          }
+        },
+        (err: any) => {
+          console.log('Error en el login ' + JSON.stringify(err.statusText));
+        });
+    }
+
 
 
       validarCampos(form:any){
