@@ -1,12 +1,12 @@
 <div ngbDropdown class="d-block">
 
-    <button class="btn btn-sm btn-select-busca" ngbDropdownToggle> {{ seleccion.name != "" ? seleccion.name : mensajeInput }}</button>
+    <button type="button" class="btn btn-sm btn-select-busca" ngbDropdownToggle> {{ seleccion.name != "" ? seleccion.name : mensajeInput }}</button>
 
     <div ngbDropdownMenu class="select-busca-dropdown">
         <input class="form-control form-control-sm" type="text" placeholder="{{placeholderBuscar}}" [(ngModel)]="busca" (keyup)="buscar()">
 
         <ng-container *ngFor="let item of lista; let i=index">
-            <button ngbDropdownItem (click)="asignar(item)" *ngIf="item.ver">{{item.name}}</button>
+            <button type="button" ngbDropdownItem (click)="asignar(item)" *ngIf="item.ver">{{item.name}}</button>
         </ng-container>
     </div>
 

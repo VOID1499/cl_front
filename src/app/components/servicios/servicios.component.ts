@@ -52,7 +52,7 @@ export class ServiciosComponent implements OnInit {
       "hora_inicio":{"hour":0,"minute": 0,"second": 0},
       "hora_fin":{"hour":0,"minute": 0,"second": 0},
       "box_id":0,
-      "boxs_disponibles":[{"id":0,"nombre":"Nada"}]
+      "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}]
       }
     ],
 
@@ -259,11 +259,11 @@ agregarEliminarHorario(i?:number){
   console.log(this.servicio.horarios)
   if(i == undefined){
     this.servicio.horarios.push(
-      {"dia_id":0,
+      {"dia_id":1,
       "hora_i":"",
       "hora_f":"",
       "box_id":0,
-      "boxs_disponibles":[{"id":0,"nombre":"Nada"}],
+      "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}],
       "hora_inicio":{
         "hour": 0,
         "minute": 0,

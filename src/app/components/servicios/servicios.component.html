@@ -189,8 +189,8 @@
             </div>
 
             <div class="  mx-1  ">
-              <select   class="form-select" name="box_id" (change)="consultarBoxsDisponibles(i)"   [(ngModel)]="item.box_id">
-                <option *ngFor="let box of item.boxs_disponibles" [value]="1">{{box.nombre}}</option>
+              <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
+                <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
               </select>
             </div>
 
@@ -202,12 +202,6 @@
                 <ngb-timepicker name="hora_fin{{i}}" (change)="consultarBoxsDisponibles(i)" [(ngModel)]="item.hora_fin"></ngb-timepicker>
               </div>
 
-
-              <div class="mx-2">
-                <button type="button"  (click)="consultarBoxsDisponibles(i)" class="btn  btn-outline-primary" >
-                  Boxs
-                </button>
-              </div>
 
               <div class="">
                 <button type="button" (click)="agregarEliminarHorario(i)" class="btn btn-sm">
