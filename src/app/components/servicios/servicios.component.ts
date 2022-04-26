@@ -45,12 +45,12 @@ export class ServiciosComponent implements OnInit {
     "comision":0.00,
 
     "horarios":[
-      {"dia_id":0,
+      {"dia_id":1,
       "estado":1,
       "hora_i":"",
       "hora_f":"",
-      "hora_fin":{"hour": 0,"minute": 0,"second": 0},
-      "hora_inicio":{"hour": 0,"minute": 0,"second": 0},
+      "hora_inicio":{"hour":0,"minute": 0,"second": 0},
+      "hora_fin":{"hour":0,"minute": 0,"second": 0},
       "box_id":0,
       "boxs_disponibles":[{"id":0,"nombre":"Nada"}]
       }
@@ -207,12 +207,10 @@ export class ServiciosComponent implements OnInit {
 
   siguientePaso(){
     this.paso += 1;
-    console.log(this.paso);
   }
 
   anteriorPaso(){
     this.paso -= 1;
-    console.log(this.paso);
   }
 
   open(content:any,size:any) {
@@ -325,32 +323,40 @@ deshabilitarDias(){
 
     consultarBoxsDisponibles(i:any){
 
+
+
+
      let horario =  this.servicio.horarios[i];
 
-     var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
-     var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
+     if(horario.hora_inicio.hour != 0 && horario.hora_fin.hour != 0 && horario.dia_id != 0){
+      var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
+      var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
 
-     this.BoxService.request = {
-      "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
-      "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
-      "dia_id":horario.dia_id
-     };
+      this.BoxService.request = {
+       "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
+       "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
+       "dia_id":horario.dia_id
+      };
 
-    // console.log(this.BoxService.request)
+      this.BoxService.boxsDisponibles().subscribe((data:any)=>{
+           if (data.code == 0) {
+             horario.boxs_disponibles = data.body.boxs;
+           } else {
+             console.log('Error al consultar disponibles' + data.message);
+           }
+         },
+         (err: any) => {
+           console.log('Error en el login ' + JSON.stringify(err.statusText));
+         });
+
+     }else{
+
+      console.log('Seleccione el rango horario');
+     }
 
 
-
-     this.BoxService.boxsDisponibles().subscribe((data:any)=>{
-          if (data.code == 0) {
-            horario.boxs_disponibles = data.body.boxs;
-          } else {
-            console.log('Error al consultar disponibles' + data.message);
-          }
-        },
-        (err: any) => {
-          console.log('Error en el login ' + JSON.stringify(err.statusText));
-        });
     }
+
 
 
 
