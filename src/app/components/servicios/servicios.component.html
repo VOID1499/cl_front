@@ -81,6 +81,20 @@
   <ng-template ngbPaginationNext><i class="fa fa-arrow-right " aria-hidden="true "></i></ng-template>
 </ngb-pagination>
 
+
+
+<div class="mb-3">
+  <ngb-timepicker [formControl]="ctrl"  required></ngb-timepicker>
+  <div *ngIf="ctrl.valid" class="small form-text text-success">Great choice</div>
+  <div *ngIf="ctrl.errors" class="small form-text text-danger">
+    <div *ngIf="ctrl.errors['required']">Select some time during lunchtime</div>
+    <div *ngIf="ctrl.errors['tooLate']">Oh no, it's way too late</div>
+    <div *ngIf="ctrl.errors['tooEarly']">It's a bit too early</div>
+  </div>
+</div>
+
+
+
 </div>
 
 
@@ -195,11 +209,11 @@
             </div>
 
               <div class="mx-2">
-                <ngb-timepicker class="mx-auto"  name="hora_inicio{{i}}" (change)="consultarBoxsDisponibles(i)"  [(ngModel)]="item.hora_inicio"></ngb-timepicker>
+                <app-horario  [time]="item.hora_inicio"  [time_min]="item.hora_inicio"   ></app-horario>
               </div>
 
               <div class=" ms-2">
-                <ngb-timepicker name="hora_fin{{i}}" (change)="consultarBoxsDisponibles(i)" [(ngModel)]="item.hora_fin"></ngb-timepicker>
+                <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" ></app-horario>
               </div>
 
 

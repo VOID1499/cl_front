@@ -9,6 +9,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-servicios',
@@ -357,6 +358,24 @@ deshabilitarDias(){
 
     }
 
+
+
+  ctrl = new FormControl((control:FormControl) => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
+    if (value.hour < 12) {
+      return {tooEarly: true};
+    }
+    if (value.hour > 13) {
+      return {tooLate: true};
+    }
+
+    return null;
+  });
 
 
 
