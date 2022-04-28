@@ -324,9 +324,6 @@ deshabilitarDias(){
 
     consultarBoxsDisponibles(i:any){
 
-
-
-
      let horario =  this.servicio.horarios[i];
 
      if(horario.hora_inicio.hour != 0 && horario.hora_fin.hour != 0 && horario.dia_id != 0){

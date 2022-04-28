@@ -2,6 +2,8 @@ import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ProfesionalesService } from 'src/app/servicios/clinica/profesionales/profesionales.service';
 import { ServicioService } from 'src/app/servicios/clinica/serviciosClinica/servicio.service';
+import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
+import * as moment from 'moment';
 
 @Component({
 selector: 'app-servicio',
@@ -27,7 +29,8 @@ export class ServicioComponent implements OnInit {
   constructor(
     private modalService:NgbModal,
     public ProfesionalesService:ProfesionalesService,
-    public ServicioService:ServicioService
+    public ServicioService:ServicioService,
+    private BoxService:BoxService
   ) {
 
    }
@@ -191,6 +194,38 @@ asignarFeriadosNoTrabajados(){
   }
 
 
+     consultarBoxsDisponibles(i:any){
+
+     let horario =  this.servicio.horarios[i];
+
+     if(horario.hora_inicio.hour != 0 && horario.hora_fin.hour != 0 && horario.dia_id != 0){
+      var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
+      var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
+
+      this.BoxService.request = {
+       "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
+       "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
+       "dia_id":horario.dia_id
+      };
+
+      this.BoxService.boxsDisponibles().subscribe((data:any)=>{
+           if (data.code == 0) {
+             horario.boxs_disponibles = data.body.boxs;
+           } else {
+             console.log('Error al consultar disponibles' + data.message);
+           }
+         },
+         (err: any) => {
+           console.log('Error en el login ' + JSON.stringify(err.statusText));
+         });
+
+     }else{
+
+      console.log('Seleccione el rango horario');
+     }
+
+
+    }
 
 
 

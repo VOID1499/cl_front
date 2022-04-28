@@ -209,11 +209,11 @@
             </div>
 
               <div class="mx-2">
-                <app-horario  [time]="item.hora_inicio"  [time_min]="item.hora_inicio"   ></app-horario>
+                <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin" (change)="consultarBoxsDisponibles(i)"   ></app-horario>
               </div>
 
               <div class=" ms-2">
-                <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" ></app-horario>
+                <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
               </div>
 
 
