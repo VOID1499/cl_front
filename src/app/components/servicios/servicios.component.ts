@@ -9,7 +9,6 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
-import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-servicios',
@@ -20,7 +19,7 @@ export class ServiciosComponent implements OnInit {
 
   @ViewChild('modalAgregarServicio') modalAgregarServicio!:NgbModal;
 
-  public time = {hour: 0, minute: 0};
+  public duracionServicio = {hour: 0, minute: 0};
   public profesionalSeleccionadoNombre ="";
   public paso:number = 1;
   public data:any;
@@ -241,6 +240,7 @@ export class ServiciosComponent implements OnInit {
   crearServicio(){
 
     this.formatearHoras();
+    this.horaMinutos();
     this.asignarFeriadosNoTrabajados();
     this.ServicioService.request = this.servicio;
     this.ServicioService.guardar().subscribe((data:any)=>{
@@ -321,6 +321,10 @@ deshabilitarDias(){
       };
     }
 
+    horaMinutos(){
+     this.servicio.tiempo = (this.duracionServicio.hour * 60) + this.duracionServicio.minute;
+    }
+
 
     consultarBoxsDisponibles(i:any){
 
@@ -354,26 +358,6 @@ deshabilitarDias(){
 
 
     }
-
-
-
-  ctrl = new FormControl((control:FormControl) => {
-    const value = control.value;
-
-    if (!value) {
-      return null;
-    }
-
-    if (value.hour < 12) {
-      return {tooEarly: true};
-    }
-    if (value.hour > 13) {
-      return {tooLate: true};
-    }
-
-    return null;
-  });
-
 
 
       validarCampos(form:any){

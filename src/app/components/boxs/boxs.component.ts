@@ -37,6 +37,7 @@ export class BoxsComponent implements OnInit {
 
   cargarTabla(){
 
+    this.BoxsService.request.paginacion = true;
     this.BoxsService.obtener().subscribe(
       (data: any) => {
         if (data.code == 0) {

@@ -1,110 +1,24 @@
+<button type="button" class="btn btn-info" (click)="open(modalHorarioBox,'xl')">Consultar Horarios</button>
 
 
-  <button *ngIf="box.id == 0" type="button"  class="btn btn-outline-dark" (click)="open(modalBox,'md')" >Nuevo box</button>
+<ng-template #modalHorarioBox let-modal>
 
-
-
-<div *ngIf="box.id != 0" class="btn-group btn-group-md" role="group" aria-label="Basic outlined example">
-  <button type="button" class="btn btn-outline-primary"  (click)="open(modalBox,'md')" >Editar</button>
-  <button type="button" class="btn btn-outline-primary" (click)="horarioBox()" >Horario</button>
-</div>
-
-
-<ng-template #modalBox let-modal>
-  <form  >
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Box  </h4>
+    <h4 class="modal-title" id="modal-basic-title">Horario box <span class="text-primary"></span> </h4>
+
+    <div class="border w-25 ms-5 me-auto my-2">
+      <select class="form-select" name="box_id" (change)="horarioBox()" [(ngModel)]="box_id" >
+        <option *ngFor="let item of boxs" value="{{item.id}}">{{item.nombre}}</option>
+      </select>
+    </div>
+
     <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-      <div class="form-group">
-
-
-        <div class="form-group row">
-
-          <div class="col-sm-12">
-            <label class="col-sm-12 col-form-label">Nombre</label>
-              <input required type="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
-            [(ngModel)]="box.nombre"  [name]="'nombre'" [id]="'nombre'" #correo_="ngModel" >
-          </div>
-
-
-          <div class="col-sm-12">
-            <label class="col-sm-2 col-form-label">Descripción</label>
-            <textarea class="form-control" aria-label="With textarea"
-            [id]="'descripcion'" [name]="'descripcion'" [(ngModel)]="box.descripcion" ></textarea>
-          </div>
-
-          <div class="col-sm-12">
-            <label class="col-sm-12 col-form-label">Tipo de Box</label>
-            <select class="form-select" [id]="'tipo'" [name]="'tipo'" [(ngModel)]="box.tipo">
-              <option value="fisico">Fisico</option>
-              <option value="virtual">Virtual</option>
-            </select>
-          </div>
-
-          <ng-container *ngIf="box.tipo == 'virtual'" >
-
-            <div class="col-sm-12">
-              <label class="col-sm-12 col-form-label">Plataforma</label>
-              <select class="form-select" [id]="'tipo'" [name]="'tipo'" [(ngModel)]="box.plataforma">
-                <option value="googlemeet">Google Meet</option>
-                <option value="zoom">Zoom</option>
-                <option value="opcion3">Opcion 3</option>
-                <option value="opcion4">Opcion 4</option>
-              </select>
-            </div>
-
-            <div class="col-sm-12">
-              <label class="col-sm-12 col-form-label">URL conferencia</label>
-              <input required type="text"  class="form-control"
-            [(ngModel)]="box.url_conferencia"  [name]="'url_conferencia'" [id]="'url_conferencia'" #url_conferencia="ngModel" >
-            </div>
-
-            <div class="col-sm-12">
-              <label class="col-sm-12 col-form-label">Usuario</label>
-              <input required type="text"  class="form-control"
-            [(ngModel)]="box.user"  [name]="'user'" [id]="'user'" #user="ngModel" >
-            </div>
-
-            <div class="col-sm-12">
-              <label class="col-sm-12 col-form-label">Contraseña</label>
-              <input required type="text"  class="form-control"
-              [(ngModel)]="box.password"  [name]="'password'" [id]="'password'" #password="ngModel" >
-            </div>
 
 
 
-          </ng-container>
-
-        </div>
-
-
-
-
-
-
-      </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="guardar()" >Guardar</button>
-  </div>
-</form>
-</ng-template>
-
-
-
-
-<ng-template  #modalHorarioBox let-modal>
-
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Horario box <span class="text-primary">{{box.nombre}}</span> </h4>
-    <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
   <div class="modal-body">
 
 
@@ -197,15 +111,6 @@
 
   </div>
 
-
 </ng-template>
 
 
-
-
-
-<ng-template #relleno >
-  <div class="border w-100 text-center"    >
-    Relleno
-  </div>
-</ng-template>

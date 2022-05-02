@@ -23,9 +23,15 @@
           <input type="text" name="nombre" [(ngModel)]="servicio.nombre" class="form-control">
         </div>
 
-        <label for="basic-url" class="form-label">Tiempo estimando en minutos</label>
+        <label for="" class="form-label">Descripción</label>
         <div class="input-group mb-3">
-          <input type="text" name="tiempo" [(ngModel)]="servicio.tiempo" class="form-control">
+          <textarea  class="form-control" placeholder="" name="descripcion" [(ngModel)]="servicio.descripcion" style="height: 100px">
+          </textarea>
+        </div>
+
+        <label for="basic-url" class="form-label">Tiempo estimando</label>
+        <div class="input-group mb-3">
+          <ngb-timepicker name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
         </div>
 
         <label for="basic-url" class="form-label">Valor</label>
@@ -64,17 +70,42 @@
 
     <div class="row w-100 mb-3">
       <div class="d-flex justify-content-between">
-        <h6 class="w-50 ">Dias y horas de atención</h6>
+        <app-boxs-horarios></app-boxs-horarios>
         <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
       </div>
 
     </div>
 
-    <div  *ngFor="let item of servicio.horarios;index as i" class="d-flex justify-content-center my-1 "
+
+
+
+    <div   class="row my-2 ">
+
+      <div class="col-2 text-center ">
+        Dia
+      </div>
+      <div class=" col-3 text-center ">
+        Box
+      </div>
+      <div class="col-2  pt-1 text-center" >
+        Hora Inicio
+      </div>
+      <div class="col-1 text-center py-1">
+      </div>
+      <div class="col-2  pt-1 text-center" >
+        Hora Termino
+      </div>
+      <div class="col-2">
+      </div>
+
+    </div>
+
+
+    <div  *ngFor="let item of servicio.horarios;index as i" class="row my-1 "
     [ngClass]="item.dia_id == 0 ? 'border-start border-danger' : 'border-start border-success'"
 
     >
-      <div class=" w-25 mx-1  ">
+    <div class="col-2  ">
         <select required  class="form-select"
         [name]="'dia'+i" [id]="'dia'+i" #dia="ngModel" (change)="consultarBoxsDisponibles(i)" [(ngModel)]="item.dia_id">
           <option [value]="1">Lunes</option>
@@ -87,7 +118,8 @@
         </select>
       </div>
 
-      <div class="  mx-1  ">
+
+      <div class=" col-3  ">
         <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
           <option  [value]="item.box_id">{{item.nombre}}</option>
 
@@ -95,16 +127,21 @@
         </select>
       </div>
 
-        <div class="mx-2">
+
+      <div class="col-2  pt-1 border" >
           <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin" (change)="consultarBoxsDisponibles(i)"   ></app-horario>
         </div>
 
-        <div class=" ms-2">
+        <div class="col-1 text-center py-1">
+          -
+        </div>
+
+        <div class="col-2  pt-1 border" >
           <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
         </div>
 
 
-        <div class="">
+        <div class="col-2">
           <button type="button" (click)="agregarEliminarHorario(i)" class="btn btn-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>

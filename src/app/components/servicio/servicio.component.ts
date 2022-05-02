@@ -12,6 +12,7 @@ selector: 'app-servicio',
 })
 export class ServicioComponent implements OnInit {
 
+  public duracionServicio = {hour: 0, minute: 0};
   public paso:number = 1;
   public closeResult = "";
   public profesionales = [ {
@@ -78,6 +79,7 @@ export class ServicioComponent implements OnInit {
       element.estado = false;
     });
     this.removeDuplicates();
+    this.minutosHora();
     this.open(this.modalEditarServicio,'xl');
   }
 
@@ -142,6 +144,7 @@ export class ServicioComponent implements OnInit {
     }
 
     this.formatearHoras();
+    this.horaMinutos();
     this.asignarFeriadosNoTrabajados();
     this.ServicioService.request = this.servicio;
 
@@ -192,6 +195,19 @@ asignarFeriadosNoTrabajados(){
       }
      // return console.log(arr);
   }
+
+
+      minutosHora(){
+        let dato = this.servicio.tiempo;
+        let hora = Math.trunc(dato/60);
+        let minutos = dato % 60;
+        this.duracionServicio.hour = hora;
+        this.duracionServicio.minute = minutos;
+      }
+
+      horaMinutos(){
+        this.servicio.tiempo = (this.duracionServicio.hour * 60) + this.duracionServicio.minute;
+       }
 
 
      consultarBoxsDisponibles(i:any){

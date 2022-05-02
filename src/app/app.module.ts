@@ -87,6 +87,7 @@ import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component
 import { BoxsComponent } from './components/boxs/boxs.component';
 import { BoxComponent } from './components/box/box.component';
 import { HorarioComponent } from './komponentes/horario/horario.component';
+import { BoxsHorariosComponent } from './components/boxs-horarios/boxs-horarios.component';
 
 
 @NgModule({
@@ -165,6 +166,7 @@ import { HorarioComponent } from './komponentes/horario/horario.component';
     BoxsComponent,
     BoxComponent,
     HorarioComponent,
+    BoxsHorariosComponent,
 
 
   ],
