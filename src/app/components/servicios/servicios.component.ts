@@ -257,8 +257,11 @@ export class ServiciosComponent implements OnInit {
   }
 
 agregarEliminarHorario(i?:number){
-  console.log(this.servicio.horarios)
+
   if(i == undefined){
+    //agregar
+
+
     this.servicio.horarios.push(
       {"dia_id":1,
       "hora_i":"",
@@ -278,7 +281,11 @@ agregarEliminarHorario(i?:number){
       "estado":1
       }
     );
+
+
   }else{
+
+    //eiminar
     this.servicio.horarios.splice(i,1);
   }
 }
@@ -364,6 +371,32 @@ deshabilitarDias(){
 
        this.crearServicio();
 
+      }
+
+
+      verificarHorario(){
+      let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+      let results = [];
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 1));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 2));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 3));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 4));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 5));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 6));
+      results.push(this.servicio.horarios.filter(item => item.dia_id == 7));
+
+          results.forEach(result => {
+            result.forEach((element,index) => {
+                  if(index == 0){
+                  }else{
+                  if(element.hora_inicio.hour < result[index-1].hora_fin.hour || element.hora_inicio.minute <  result[index-1].hora_fin.minute){
+                  console.log("horarios del dia " + diasSemana[element.dia_id-1] + " mal asignados")
+                  }else{
+
+                  }
+                  }
+              });
+          });
       }
 
 

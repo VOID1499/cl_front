@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 })
 export class HorarioComponent implements OnInit {
 
+
   @Input() time = {hour: 0, minute: 0,second:0};
   @Input() time_min = {hour: 0, minute: 0,second:0};
   @Input() time_max = {hour: 0, minute: 0,second:0};
@@ -52,6 +53,7 @@ export class HorarioComponent implements OnInit {
     if(this.time.hour == 24 && this.time.minute > 0){
       this.time.minute = 0;
     }
+
   }
 
 }

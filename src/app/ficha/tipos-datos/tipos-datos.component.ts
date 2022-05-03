@@ -62,14 +62,13 @@ export class TiposDatosComponent implements OnInit {
           this.tiposDatos = data.body.tipo_dato;
           this.data = data;
           this.total_registros = data.body.total_registros;
-          console.log(this.tiposDatos);
+          //console.log(this.tiposDatos);
 
           this.tiposDatos.forEach((element:any) => {
-            if(element.lista_auxiliar != null || element.lista_auxiliar != "")
-           element["lista_aux"] =  JSON.parse(element.lista_auxiliar);
+            if( element.lista_auxiliar != '' ){
+              element["lista_aux"] =  JSON.parse(element.lista_auxiliar);
+            }
           });
-
-
 
         } else {
           console.log('Error al intetar recuperar clave ' + data.message);
@@ -86,14 +85,15 @@ export class TiposDatosComponent implements OnInit {
     let lista =   {"lista_auxiliar":[{"nombre":"campo auxiliar","estado":false}]};
     lista.lista_auxiliar.splice(0,1);
 
-    for (let i = 0; i < this.lista_auxiliar.lista_auxiliar.length; i++) {
-      const element = this.lista_auxiliar.lista_auxiliar[i];
 
-      lista.lista_auxiliar.push({"nombre":element.nombre,"estado":false});
+    if(this.tipo_dato == 'select' || this.tipo_dato == 'checkbox' ){
+      for (let i = 0; i < this.lista_auxiliar.lista_auxiliar.length; i++) {
+        const element = this.lista_auxiliar.lista_auxiliar[i];
+        lista.lista_auxiliar.push({"nombre":element.nombre,"estado":false});
+      }
     }
 
     this.TipoDatoService.lista_auxiliar = JSON.stringify(lista);
-
     this.TipoDatoService.tipo_dato = this.tipo_dato;
     this.TipoDatoService.nombre = this.nombre;
     this.TipoDatoService.estado = this.estado;
@@ -158,14 +158,13 @@ editar(){
 
   }
 
-  abrirModal(i:number = 0,nombre:string = '' ){
-    console.log(i);
-    if (nombre != '') {
-
+  abrirModal(i:number = 0,id:number = 0 ){
+    if (id != 0) {
+      console.log("esta editando");
       this.nombreModal = 'Editar Tipo Dato';
       let tipoDato = this.tiposDatos[i];
 
-      if(tipoDato.lista_auxiliar != '' || tipoDato.lista_auxilia != null  ){
+      if(tipoDato.lista_auxiliar != ''){
         let lista = JSON.parse(tipoDato.lista_auxiliar);
         this.lista_auxiliar.lista_auxiliar.splice(0,1);
 

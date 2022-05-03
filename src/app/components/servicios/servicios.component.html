@@ -170,18 +170,16 @@
             <div class="d-flex justify-content-between">
               <app-boxs-horarios></app-boxs-horarios>
               <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
+              <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="verificarHorario()">Verificar horario</button>
             </div>
 
           </div>
 
 
-          <div   class="row my-2 ">
+          <div   class="row my-2 mt-1 ">
 
             <div class="col-2 text-center ">
               Dia
-            </div>
-            <div class=" col-3 text-center ">
-              Box
             </div>
             <div class="col-2  pt-1 text-center" >
               Hora Inicio
@@ -190,6 +188,9 @@
             </div>
             <div class="col-2  pt-1 text-center" >
               Hora Termino
+            </div>
+            <div class=" col-3 text-center ">
+              Box
             </div>
             <div class="col-2">
             </div>
@@ -213,22 +214,21 @@
               </select>
             </div>
 
-            <div class=" col-3  ">
-              <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
-                <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
-              </select>
-            </div>
 
               <div class="col-2  pt-1 border  " >
-                <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin" (change)="consultarBoxsDisponibles(i)"   ></app-horario>
+                <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin"  (change)="consultarBoxsDisponibles(i)"   ></app-horario>
               </div>
-
               <div class="col-1 text-center py-1">
                 -
               </div>
-
               <div class="col-2  pt-1 border">
-                <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
+                <app-horario  [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
+              </div>
+
+              <div class=" col-3  ">
+                <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
+                  <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
+                </select>
               </div>
 
 

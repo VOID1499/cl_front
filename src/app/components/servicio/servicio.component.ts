@@ -210,6 +210,8 @@ asignarFeriadosNoTrabajados(){
        }
 
 
+
+
      consultarBoxsDisponibles(i:any){
 
      let horario =  this.servicio.horarios[i];
@@ -242,6 +244,32 @@ asignarFeriadosNoTrabajados(){
 
 
     }
+
+
+    verificarHorario(){
+      let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+      let results = [];
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 1));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 2));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 3));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 4));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 5));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 6));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 7));
+
+          results.forEach(result => {
+            result.forEach((element:any,index:any) => {
+                  if(index == 0){
+                  }else{
+                  if(element.hora_inicio.hour < result[index-1].hora_fin.hour || element.hora_inicio.minute <  result[index-1].hora_fin.minute){
+                  console.log("horarios del dia " + diasSemana[element.dia_id-1] + " mal asignados")
+                  }else{
+
+                  }
+                  }
+              });
+          });
+      }
 
 
 
