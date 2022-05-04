@@ -91,10 +91,8 @@
 <ng-template  #modalAgregarServicio let-modal>
 
 
-  <form (ngSubmit)="validarCampos(formAgregarServicio)" #formAgregarServicio>
-
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Agregar Servicio <span>Paso : {{paso}}</span></h4>
+    <h4 class="modal-title" id="modal-basic-title">Agregar Servicio <span>Paso : {{paso}} {{horarioValido}}</span></h4>
     <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -107,18 +105,14 @@
 
       <div  [hidden]="(paso == 1) == false" class="form-group">
 
-
-
         <label for="" class="form-label">Nombre del Servicio</label>
         <div class="input-group mb-3">
-          <input minlength="2" required type="text"
-          [ngClass]="{'border-danger': formAgregarServicio.submitted && !nombre.valid || nombre.touched && !nombre.valid }"
-          [name]="'nombre'" [id]="'nombre'" #nombre="ngModel" [(ngModel)]="servicio.nombre" class="form-control">
+          <input minlength="2" required type="text" [name]="'nombre'" [id]="'nombre'" #nombre="ngModel" [(ngModel)]="servicio.nombre" class="form-control">
         </div>
 
         <label for="" class="form-label">Descripción</label>
         <div class="input-group mb-3">
-          <textarea  class="form-control" placeholder="" name="descripcion" [(ngModel)]="servicio.descripcion" style="height: 100px">
+          <textarea  class="form-control" placeholder="" [name]="'descripcion'" [(ngModel)]="servicio.descripcion" style="height: 100px">
           </textarea>
         </div>
 
@@ -130,17 +124,13 @@
 
         <label for="" class="form-label">Valor</label>
         <div class="input-group mb-3">
-          <input required type="text"
-          [ngClass]="{'border border-danger': formAgregarServicio.submitted && !precio.valid || precio.touched && !precio.valid }"
-          [name]="'precio'" [id]="'precio'" #precio="ngModel" [(ngModel)]="servicio.precio" class="form-control">
+          <input required type="number" min="0" [name]="'precio'" [(ngModel)]="servicio.precio" class="form-control">
         </div>
 
 
         <label for="" class="form-label">Comision</label>
         <div class="input-group mb-3">
-          <input required type="text"
-          [ngClass]="{'border border-danger': formAgregarServicio.submitted && !comision.valid || comision.touched && !comision.valid }"
-          [name]="'comision'" [id]="'comision'" #comision="ngModel" [(ngModel)]="servicio.comision" class="form-control">
+          <input required type="number" min="0" [name]="'comision'" [id]="'comision'" [(ngModel)]="servicio.comision" class="form-control">
         </div>
 
 
@@ -170,7 +160,6 @@
             <div class="d-flex justify-content-between">
               <app-boxs-horarios></app-boxs-horarios>
               <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
-              <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="verificarHorario()">Verificar horario</button>
             </div>
 
           </div>
@@ -290,14 +279,14 @@
   </div>
 
 
-  <ng-container  *ngIf="formAgregarServicio.submitted && !formAgregarServicio.valid" >
+  <ng-container  *ngIf="alert.estado == true">
     <div class="alert alert-danger text-center" role="alert">
-      Rellene los campos obligatorios para ir al siguiente paso!
+      {{alert.mensaje}}
     </div>
   </ng-container>
 
   <div class="modal-footer ">
-    <button type="submit" class="btn btn-outline-dark mx-auto"  >Guardar</button>
+    <button  type="button" class="btn btn-outline-dark mx-auto" (click)="validarCampos()"  >Guardar</button>
   </div>
-</form>
+
 </ng-template>

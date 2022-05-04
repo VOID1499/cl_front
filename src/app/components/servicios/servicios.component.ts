@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 
+
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
@@ -32,7 +33,11 @@ export class ServiciosComponent implements OnInit {
     'ver' !: false,
   }];
 
-
+  public horarioValido = true;
+  public alert = {
+    "estado":false,
+    "mensaje":""
+  }
   public closeResult = "";
   public servicio =  {
     "id": 0,
@@ -206,7 +211,9 @@ export class ServiciosComponent implements OnInit {
 
 
   siguientePaso(){
-    this.paso += 1;
+
+      this.paso += 1;
+
   }
 
   anteriorPaso(){
@@ -309,11 +316,9 @@ asignarFeriadosNoTrabajados(){
 
 
 deshabilitarDias(){
-
         this.json.disabledDates = this.feriados.map((element:any)=>{
           return { year: 2022, month: element.mes , day: element.dia }
         });
-
       //to disable specific date and specific weekdays
       this.isDisabled = (
         date: NgbDateStruct
@@ -367,9 +372,31 @@ deshabilitarDias(){
     }
 
 
-      validarCampos(form:any){
+      validarCampos(){
+        this.verificarHorario();
 
-       this.crearServicio();
+        if( this.servicio.nombre == '' || this.servicio.descripcion == '' || (this.duracionServicio.hour == 0 && this.duracionServicio.minute == 0) || this.servicio.precio == 0  || this.servicio.precio == null || this.servicio.profesional_id == 0 ){
+          this.alert.estado = true;
+          this.alert.mensaje = "Paso 1 incompleto";
+        }else{
+          this.alert.estado = false;
+          this.alert.mensaje = "";
+        }
+
+        if(this.horarioValido){
+        }else{
+          this.alert.estado = true;
+          this.alert.mensaje += " Paso 2 incompleto";
+        }
+
+        if(this.alert.estado == false){
+          this.crearServicio();
+        }
+
+
+
+
+
 
       }
 
@@ -386,18 +413,44 @@ deshabilitarDias(){
       results.push(this.servicio.horarios.filter(item => item.dia_id == 7));
 
           results.forEach(result => {
-            result.forEach((element,index) => {
-                  if(index == 0){
+            for (let i = 0; i < result.length; i++) {
+              const element = result[i];
+              if(i == 0){
+                if(result[0].box_id == 0){
+                  this.horarioValido = false;
+                }else{
+                  this.horarioValido = true;
+                }
+              }else{
+                  if(element.hora_inicio.hour < result[i-1].hora_fin.hour || element.hora_inicio.minute <  result[i-1].hora_fin.minute || element.box_id == 0){
+                    this.horarioValido = false;
+                    break;
                   }else{
-                  if(element.hora_inicio.hour < result[index-1].hora_fin.hour || element.hora_inicio.minute <  result[index-1].hora_fin.minute){
-                  console.log("horarios del dia " + diasSemana[element.dia_id-1] + " mal asignados")
-                  }else{
-
-                  }
-                  }
-              });
+                    this.horarioValido = true;
+                    }
+              }
+            }
           });
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
