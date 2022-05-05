@@ -44,6 +44,7 @@ export class ProfesionalesComponent implements OnInit {
   public data:any;
   public total_registros:any;
 
+  public disparador:any;
 
   public profesional = {
     "id": 0,
@@ -96,6 +97,7 @@ export class ProfesionalesComponent implements OnInit {
 
     console.log(this.especialidad_id)
     console.log(this.tipo_profesional_id)
+    this.ProfesionalesService.rut = this.rut;
     this.ProfesionalesService.correo = this.correo,
     this.ProfesionalesService.nombre = this.nombre,
     this.ProfesionalesService.apellido_materno = this.apellido,
@@ -248,6 +250,16 @@ export class ProfesionalesComponent implements OnInit {
     }else{
       console.log('Formulario erroneo');
     }
+  }
+
+
+  buscar() {
+    clearInterval(this.disparador);
+    this.disparador = setInterval(() => {
+      this.cargarTabla();
+      clearInterval(this.disparador);
+    },500);
+
   }
 
 

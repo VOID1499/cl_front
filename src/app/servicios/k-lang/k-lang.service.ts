@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { reduceEachTrailingCommentRange } from 'typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class KLangService {
   diccionario = [
     {
       "clave":"inicio de sesion",
-      "texto":"Inicio de Sesión"
+      "texto":"Inicio de Sesión paras weones tontos"
     },
     {
       "clave":"olvidaste tu contraseña",
@@ -31,15 +32,17 @@ export class KLangService {
 
   obtener() {
 
+
     let seguro = environment.headerSimple;
     const ladata:any =  this.http.post(environment.urlDiccionario, JSON.stringify(this.datos), { headers: new HttpHeaders(seguro)} );
     return ladata;
 
   }
 
-  obtenerDiccionario(){
 
+  obtenerDiccionario(idioma:any){
 
+    this.datos.lang = idioma;
     this.obtener().subscribe(
       (data: any) => {
         if (data.code == 0) {

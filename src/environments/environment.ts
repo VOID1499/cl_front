@@ -13,7 +13,7 @@ export const environment = {
   "urlEspecialidades":url+"especialidades",
   "urlEspecialidad":url+"especialidad",
   
-  "urlDiccionario": url+"urlDiccionario",
+  "urlDiccionario": url+"diccionario",
 
   "urlTipoProfesionales":url+"tipo/profesionales",
   "urlTipoProfesional":url+"tipo/profesional",

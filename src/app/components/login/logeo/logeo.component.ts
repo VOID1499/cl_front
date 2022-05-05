@@ -58,9 +58,10 @@ export class LogeoComponent implements OnInit {
 
   @Output() propagar = new EventEmitter<string>();
 
-  constructor(private router: Router, private sls: LoginService, private sos: OrganizacionService) {}
+  constructor(private router: Router, private sls: LoginService, private sos: OrganizacionService, public dic:KLangService) {}
 
   ngOnInit(): void {
+    this.dic.obtenerDiccionario("es");
     this.obtenerOrganizacion();
   }
 
