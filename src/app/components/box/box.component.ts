@@ -12,18 +12,9 @@ export class BoxComponent implements OnInit {
 
   @Input() box:any;
   @ViewChild("modalBox") modalBox!: NgbModal;
-  @ViewChild("modalServiciosBox") modalServiciosBox!: NgbModal;
+  @ViewChild("modalHorarioBox") modalHorarioBox!: NgbModal;
   public closeResult = "";
-  public diasSemana = [
-    {"dia_id":1},
-    {"dia_id":2},
-    {"dia_id":3},
-    {"dia_id":4},
-    {"dia_id":5},
-    {"dia_id":6},
-    {"dia_id":7},
-  ];
-
+  public horario:any[] = [];
   public servicios:any[] = [];
   public servicioSeleccionado:any;
 
@@ -74,26 +65,6 @@ export class BoxComponent implements OnInit {
 
   }
 
-  serviciosBox(){
-
-    console.log(this.diasSemana)
-    this.BoxService.request = {
-      "id":this.box.id
-    }
-
-    this.BoxService.serviciosBox().subscribe((data:any)=>{
-      if(data.code == 0){
-        console.log(data.message );
-        this.box.servicios = data.body.servicios;
-        this.open(this.modalServiciosBox,'xl');
-      }
-    }
-    ,(err:any)=>{
-      console.log('Error al cargar servicios del box  '+ JSON.stringify(err.statusText));
-    });
-
-  }
-
 
 
   listarServicios(){
@@ -102,7 +73,6 @@ export class BoxComponent implements OnInit {
       (data:any)=>{
         if (data.code == 0) {
           this.servicios = data.body.servicios;
-          console.log(this.servicios)
         } else {
           console.log('Error al listar servicios' + data.message);
         }
@@ -113,61 +83,25 @@ export class BoxComponent implements OnInit {
 
   }
 
-  asignarQuitarServicio(i:any = null){
+  horarioBox(){
 
-    if(i != null){
-      this.box.servicios.splice(i,1)
-    }else{
-      let servicio = this.servicios[this.servicioSeleccionado];
-
-
-
-      const servicioEncontrado = this.box.servicios.find(function(element:any) {
-        return element.id ==  servicio.id
-      });
-
-      if(servicioEncontrado == undefined){
-        this.box.servicios.push(servicio);
-      }else{
-        console.log('Ya asignado');
-      }
-
-
+    this.BoxService.request = {
+      "box_id":this.box.id
     }
 
+    this.BoxService.horarioBox().subscribe((data:any)=>{
+      if (data.code == 0) {
+        this.horario = data.body.horario;
+        this.open(this.modalHorarioBox,'xl')
+      } else {
+        console.log('Error al consultar disponibles' + data.message);
+      }
+    },
+    (err: any) => {
+      console.log('Error en el login ' + JSON.stringify(err.statusText));
+    });
+
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

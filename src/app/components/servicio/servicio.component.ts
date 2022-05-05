@@ -2,6 +2,8 @@ import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ProfesionalesService } from 'src/app/servicios/clinica/profesionales/profesionales.service';
 import { ServicioService } from 'src/app/servicios/clinica/serviciosClinica/servicio.service';
+import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
+import * as moment from 'moment';
 
 @Component({
 selector: 'app-servicio',
@@ -10,6 +12,7 @@ selector: 'app-servicio',
 })
 export class ServicioComponent implements OnInit {
 
+  public duracionServicio = {hour: 0, minute: 0};
   public paso:number = 1;
   public closeResult = "";
   public profesionales = [ {
@@ -17,6 +20,13 @@ export class ServicioComponent implements OnInit {
     'name' : "",
     'ver' !: false,
   }];
+
+
+  public horarioValido = true;
+  public alert = {
+    "estado":false,
+    "mensaje":""
+  }
 
   @ViewChild('modalEditarServicio') modalEditarServicio!:NgbModal;
 
@@ -27,7 +37,8 @@ export class ServicioComponent implements OnInit {
   constructor(
     private modalService:NgbModal,
     public ProfesionalesService:ProfesionalesService,
-    public ServicioService:ServicioService
+    public ServicioService:ServicioService,
+    private BoxService:BoxService
   ) {
 
    }
@@ -75,6 +86,7 @@ export class ServicioComponent implements OnInit {
       element.estado = false;
     });
     this.removeDuplicates();
+    this.minutosHora();
     this.open(this.modalEditarServicio,'xl');
   }
 
@@ -139,6 +151,7 @@ export class ServicioComponent implements OnInit {
     }
 
     this.formatearHoras();
+    this.horaMinutos();
     this.asignarFeriadosNoTrabajados();
     this.ServicioService.request = this.servicio;
 
@@ -191,7 +204,111 @@ asignarFeriadosNoTrabajados(){
   }
 
 
+      minutosHora(){
+        let dato = this.servicio.tiempo;
+        let hora = Math.trunc(dato/60);
+        let minutos = dato % 60;
+        this.duracionServicio.hour = hora;
+        this.duracionServicio.minute = minutos;
+      }
 
+      horaMinutos(){
+        this.servicio.tiempo = (this.duracionServicio.hour * 60) + this.duracionServicio.minute;
+       }
+
+
+
+
+     consultarBoxsDisponibles(i:any){
+
+     let horario =  this.servicio.horarios[i];
+
+     if(horario.hora_inicio.hour != 0 && horario.hora_fin.hour != 0 && horario.dia_id != 0){
+      var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
+      var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
+
+      this.BoxService.request = {
+       "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
+       "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
+       "dia_id":horario.dia_id
+      };
+
+      this.BoxService.boxsDisponibles().subscribe((data:any)=>{
+           if (data.code == 0) {
+             horario.boxs_disponibles = data.body.boxs;
+           } else {
+             console.log('Error al consultar disponibles' + data.message);
+           }
+         },
+         (err: any) => {
+           console.log('Error en el login ' + JSON.stringify(err.statusText));
+         });
+
+     }else{
+
+      console.log('Seleccione el rango horario');
+     }
+
+
+    }
+
+
+    validarCampos(){
+      this.verificarHorario();
+
+      if( this.servicio.nombre == '' || this.servicio.descripcion == '' || (this.duracionServicio.hour == 0 && this.duracionServicio.minute == 0) || this.servicio.precio == 0  || this.servicio.precio == null || this.servicio.profesional_id == 0 ){
+        this.alert.estado = true;
+        this.alert.mensaje = "Paso 1 incompleto";
+      }else{
+        this.alert.estado = false;
+        this.alert.mensaje = "";
+      }
+
+      if(this.horarioValido){
+      }else{
+        this.alert.estado = true;
+        this.alert.mensaje += " Paso 2 incompleto , horario mal asignado";
+      }
+
+      if(this.alert.estado == false){
+        this.editarServicio();
+      }
+    }
+
+
+
+
+    verificarHorario(){
+      let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+      let results = [];
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 1));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 2));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 3));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 4));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 5));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 6));
+      results.push(this.servicio.horarios.filter((item:any) => item.dia_id == 7));
+
+          results.forEach(result => {
+            for (let i = 0; i < result.length; i++) {
+              const element = result[i];
+              if(i == 0){
+                if(result[0].box_id == 0){
+                  this.horarioValido = false;
+                }else{
+                  this.horarioValido = true;
+                }
+              }else{
+                  if(element.hora_inicio.hour < result[i-1].hora_fin.hour || element.hora_inicio.minute <  result[i-1].hora_fin.minute || element.box_id == 0){
+                    this.horarioValido = false;
+                    break;
+                  }else{
+                    this.horarioValido = true;
+                    }
+              }
+            }
+          });
+      }
 
 
 }

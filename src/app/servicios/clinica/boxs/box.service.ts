@@ -34,6 +34,15 @@ export class BoxService {
 
   }
 
+  horarioBox(){
+
+    let Auth =  localStorage.getItem('TK');
+    let KAuth =  localStorage.getItem('KT');
+    let seguro =  {'Content-Type': 'application/json', 'Authorization': Auth!, 'K_Authorization': KAuth! };
+
+    const ladata:any =  this.http.post(environment.urlHorarioBox, this.request, { headers: new HttpHeaders(seguro) } );
+    return ladata;
+  }
 
   serviciosBox(){
 
@@ -43,8 +52,17 @@ export class BoxService {
 
     const ladata:any =  this.http.post(environment.urlServiciosBox, this.request, { headers: new HttpHeaders(seguro) } );
     return ladata;
-
   }
+
+  boxsDisponibles(){
+    let Auth =  localStorage.getItem('TK');
+    let KAuth =  localStorage.getItem('KT');
+    let seguro =  {'Content-Type': 'application/json', 'Authorization': Auth!, 'K_Authorization': KAuth! };
+
+    const ladata:any =  this.http.post(environment.urlBoxsDisponibles, this.request, { headers: new HttpHeaders(seguro) } );
+    return ladata;
+  }
+
 
 
 }

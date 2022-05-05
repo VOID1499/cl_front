@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -86,6 +87,9 @@ import { KIdiomaPipe } from './pipes/kIdioma/k-idioma.pipe';
 import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
 import { BoxsComponent } from './components/boxs/boxs.component';
 import { BoxComponent } from './components/box/box.component';
+import { HorarioComponent } from './komponentes/horario/horario.component';
+import { BoxsHorariosComponent } from './components/boxs-horarios/boxs-horarios.component';
+
 
 @NgModule({
   declarations: [
@@ -162,13 +166,17 @@ import { BoxComponent } from './components/box/box.component';
     KIdiomaPipe,
     PaginaBoxsComponent,
     BoxsComponent,
-    BoxComponent
+    BoxComponent,
+    HorarioComponent,
+    BoxsHorariosComponent,
+
 
   ],
   imports: [
 
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     NgbModule,
     HttpClientModule,

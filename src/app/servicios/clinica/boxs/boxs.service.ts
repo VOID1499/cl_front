@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class BoxsService {
 
       public request = {
+        "paginacion":true,
         "pagina":1,
         "numFilas":10,
         "ordenCol":"id",
@@ -25,4 +26,6 @@ export class BoxsService {
     return ladata;
 
   }
+
+
 }
