@@ -386,18 +386,12 @@ deshabilitarDias(){
         if(this.horarioValido){
         }else{
           this.alert.estado = true;
-          this.alert.mensaje += " Paso 2 incompleto";
+          this.alert.mensaje += " Paso 2 incompleto , horario mal asignado";
         }
 
         if(this.alert.estado == false){
           this.crearServicio();
         }
-
-
-
-
-
-
       }
 
 

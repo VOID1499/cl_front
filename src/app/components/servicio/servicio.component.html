@@ -5,14 +5,12 @@
 
 <ng-template #modalEditarServicio let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Editar Servicio</h4>
+    <h4 class="modal-title" id="modal-basic-title">Editar Servicio {{horarioValido}}</h4>
     <button type="button" class="close btn " aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-
-
 
         <!-- Paso 1 -->
 
@@ -72,7 +70,6 @@
       <div class="d-flex justify-content-between">
         <app-boxs-horarios></app-boxs-horarios>
         <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
-        <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="verificarHorario()">Verificar horario</button>
       </div>
 
     </div>
@@ -194,7 +191,16 @@
        </div>
 
   </div>
+
+
+  <ng-container  *ngIf="alert.estado == true">
+    <div class="alert alert-danger text-center" role="alert">
+      {{alert.mensaje}}
+    </div>
+  </ng-container>
+
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark mx-auto" (click)="modal.close('Save click')" >Guardar Cambios</button>
+    <button type="button" class="btn btn-outline-dark mx-auto" (click)="validarCampos()" >Guardar Cambios</button>
   </div>
 </ng-template>
