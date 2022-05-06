@@ -22,26 +22,6 @@ export class LogeoComponent implements OnInit {
             "nombre_contacto": "NN",
             "created_at": "2021-11-10T21:57:31.000000Z",
             "updated_at": "2021-12-10T14:45:50.000000Z"
-        },
-        {
-            "id": 2,
-            "nombre": "koma",
-            "correo": "eolivares@koma.cl",
-            "telefono": "0123456789",
-            "direccion": "direccion",
-            "nombre_contacto": "contacto",
-            "created_at": "2021-11-10T21:57:31.000000Z",
-            "updated_at": "2021-11-10T21:57:31.000000Z"
-        },
-        {
-            "id": 3,
-            "nombre": "perversa",
-            "correo": "jcabrera@koma.cl",
-            "telefono": "0123456789",
-            "direccion": "direccion",
-            "nombre_contacto": "contacto",
-            "created_at": "2021-11-10T21:57:31.000000Z",
-            "updated_at": "2021-11-10T21:57:31.000000Z"
         }
     ],
     "pagina_actual": 1,
@@ -58,15 +38,21 @@ export class LogeoComponent implements OnInit {
 
   @Output() propagar = new EventEmitter<string>();
 
-  constructor(private router: Router, private sls: LoginService, private sos: OrganizacionService, public dic:KLangService) {}
+  constructor(
+    private router: Router,
+    private sls: LoginService,
+    private sos: OrganizacionService,
+    public dic:KLangService) {
+      this.obtenerOrganizacion();
+     // this.dic.obtenerDiccionario("es");
+    }
 
   ngOnInit(): void {
-    this.dic.obtenerDiccionario("es");
-    this.obtenerOrganizacion();
+
   }
 
 
-  
+
 
   public logear() {
     console.log(this.organizacion_id);
@@ -100,12 +86,10 @@ export class LogeoComponent implements OnInit {
 
   public obtenerOrganizacion(){
 
-
     this.sos.Listar().subscribe(
       (data: any) => {
         if (data.code == 0) {
           if (data.body != null) {
-
             this.organizacion = data;
           }
         } else {

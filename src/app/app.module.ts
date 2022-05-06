@@ -89,6 +89,8 @@ import { BoxsComponent } from './components/boxs/boxs.component';
 import { BoxComponent } from './components/box/box.component';
 import { HorarioComponent } from './komponentes/horario/horario.component';
 import { BoxsHorariosComponent } from './components/boxs-horarios/boxs-horarios.component';
+import { FormKLangComponent } from './komponentes/form-klang/form-klang.component';
+import { KRefreshComponent } from './komponentes/k-refresh/k-refresh.component';
 
 
 @NgModule({
@@ -169,6 +171,8 @@ import { BoxsHorariosComponent } from './components/boxs-horarios/boxs-horarios.
     BoxComponent,
     HorarioComponent,
     BoxsHorariosComponent,
+    FormKLangComponent,
+    KRefreshComponent,
 
 
   ],

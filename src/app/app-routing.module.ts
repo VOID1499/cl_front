@@ -23,8 +23,15 @@ import { PaginaReservasComponent } from './paginas/pagina-reservas/pagina-reserv
 import { PaginaTipoFormulariosComponent } from './paginas/pagina-tipo-formularios/pagina-tipo-formularios.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
+import { KRefreshComponent } from './komponentes/k-refresh/k-refresh.component';
 
 const routes: Routes = [
+
+
+  //refresh
+  { path: 'refresh/:next', component: KRefreshComponent},
+
+
   //sistema logeo
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: PaginaLoginComponent, data: { title: 'Login'}},

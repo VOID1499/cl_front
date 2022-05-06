@@ -2,37 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { reduceEachTrailingCommentRange } from 'typescript';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KLangService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient , private router:Router) {
 
-  datos = {
-    "lang": "es"
   }
 
-  diccionario = [
-    {
-      "clave":"inicio de sesion",
-      "texto":"Inicio de Sesión paras weones tontos"
-    },
-    {
-      "clave":"olvidaste tu contraseña",
-      "texto":"Olvidaste tu contraseña?"
-    },
-    {
-      "clave":"algo mas",
-      "texto":"que es otra cosa"
-    }
+  public diccionario:any = [];
 
-]
+  datos = {
+    "lang": ""
+  }
+
 
   obtener() {
-
-
     let seguro = environment.headerSimple;
     const ladata:any =  this.http.post(environment.urlDiccionario, JSON.stringify(this.datos), { headers: new HttpHeaders(seguro)} );
     return ladata;
@@ -40,28 +28,16 @@ export class KLangService {
   }
 
 
-  obtenerDiccionario(idioma:any){
-
-    this.datos.lang = idioma;
-    this.obtener().subscribe(
-      (data: any) => {
-        if (data.code == 0) {
-          //response exitoso
-           localStorage.setItem("diccionario", data.data)  ;
-        } else {
-          console.log('Error al cargar diccionario' + data.message);
-        }
-      },
-      (err: any) => {
-        console.log('Error al listar fichas' + JSON.stringify(err.statusText));
-      }
-    );
-  }
-
-
   st(texto:any) {
     //alert("funciona");
-    return this.diccionario.find( dic => dic.clave == texto )?.texto;
+
+    if(localStorage.getItem('diccionario')){
+
+      return this.diccionario.find( (dic:any) => dic.clave == texto )?.texto;
+    }else{
+      this.obtener();
+    }
+
     }
 
 

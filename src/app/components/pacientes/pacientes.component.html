@@ -3,7 +3,7 @@
 
 <div style="min-width: 700px;" class="container p-0 mt-5 border ">
   <div class=" p-2 d-flex  justify-content-between align-items-center  " >
-        <button class="btn btn-outline-dark " (click)="agregar()">Nuevo Paciente</button>
+        <button class="btn btn-outline-dark " (click)="agregar()">{{'nuevo paciente' | kIdioma}}</button>
 
         <div class="p-0 ">
           <div class="spinner-border border-1 spinner-border-sm text-primary me-2" [hidden]="!recarga" role="status">
