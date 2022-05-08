@@ -10,39 +10,43 @@ import {Router} from '@angular/router';
 export class FormKLangComponent implements OnInit {
 
   public lang:string = localStorage.getItem('lang')!;
-  public diccionario:any = [];
+  //public diccionario:any = [];
 
 
   constructor(
-    public diccionarioService:KLangService ,
+    private diccionarioService:KLangService ,
     private router: Router,
     ){
       this.diccionarioService.datos.lang = this.lang;
+      if(this.diccionarioService.diccionario.length == 0){
+        this.cambiarIdioma();
 
+        }  
     }
 
   ngOnInit(): void {
+    if(localStorage.getItem('diccionario') == null){
+        this.cambiarIdioma();
+    }
 
-
+   
   }
 
  cambiarIdioma(){
     localStorage.setItem('lang',this.lang);
     this.obtenerDiccionario();
-
   }
-
-
 
 
   obtenerDiccionario(){
 
+   this.diccionarioService.datos.lang = this.lang;
    this.diccionarioService.obtener().subscribe(
       (data: any) => {
         if (data.code == 0) {
           //response exitoso
           localStorage.setItem("diccionario", JSON.stringify(data.body.diccionario));
-          this.diccionario = data.body.diccionario;
+          this.diccionarioService.diccionario = data.body.diccionario;
           this.router.navigate(['refresh',this.router.url]);
         } else {
           console.log('Error al cargar diccionario' + data.message);
@@ -54,4 +58,6 @@ export class FormKLangComponent implements OnInit {
     );
   }
 
+
+  
 }

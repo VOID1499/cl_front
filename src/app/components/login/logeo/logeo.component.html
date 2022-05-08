@@ -1,42 +1,44 @@
 
-
-  <div class="container">
-
-    <div class="modal-header">{{ "inicio de sesion" | kIdioma }}</div><br>
-    <div class="row">
-
-        <div class="col-3"></div>
-
-        <div class="ContentForm col-6">
-
-          <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-envelope"></i></span>
-            <input type="email" class="form-control" name="correo" placeholder="Correo" id="Correo" aria-describedby="sizing-addon1" [(ngModel)]="email" required>
+ 
+     
+     <div class="container">
+         
+         <div class="modal-header">{{ "inicio de sesion" | kIdioma }}</div><br>
+         <div class="row">
+             
+             <div class="col-3"></div>
+             
+             <div class="ContentForm col-6">
+                 
+                 <div class="input-group input-group-lg">
+                     <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-envelope"></i></span>
+                     <input type="email" class="form-control" name="correo" placeholder="Correo" id="Correo" aria-describedby="sizing-addon1" [(ngModel)]="email" required>
           </div>
           <br>
           <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
-            <input type="password" name="contra" class="form-control" placeholder="******" aria-describedby="sizing-addon1" [(ngModel)]="password" required>
-          </div>
-          <br>
-          <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
-            <select class="form-control" name="organizacion" id="organizacion" [(ngModel)]="organizacion_id">
-              <option value="0" > Selecciona una Clinica </option>
-              <option *ngFor="let item of organizacion.body.organizacion" value="{{item.id}}">{{item.nombre}}</option>
-            </select>
+              <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+              <input type="password" name="contra" class="form-control" placeholder="******" aria-describedby="sizing-addon1" [(ngModel)]="password" required>
             </div>
             <br>
-
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+                <select class="form-control" name="organizacion" id="organizacion" [(ngModel)]="organizacion_id">
+                    <option value="0" > Selecciona una Clinica </option>
+                    <option *ngFor="let item of organizacion.body.organizacion" value="{{item.id}}">{{item.nombre}}</option>
+                </select>
+            </div>
+            <br>
+            
             <div class="modal-footer">
-              <button class="btn btn-sm btn-outline-primary mr-2" (click)="logear()">Iniciar Sesión</button>
+                <button class="btn btn-sm btn-outline-primary mr-2" (click)="logear()">Iniciar Sesión</button>
+                
+                <div class=""><span (click)="recuperar()">{{ "olvidaste tu contraseña" | kIdioma }}</span></div>
 
-              <div class=""><span (click)="recuperar()">{{ "olvidaste tu contraseña" | kIdioma }}</span></div>
-
-              <div class=""><span (click)="registro()">Registrarse</span></div>
-
+                <div class=""><span (click)="registro()">Registrarse</span></div>
+                
             </div>
-            </div>
-          </div>
         </div>
+    </div>
+</div>
+
 

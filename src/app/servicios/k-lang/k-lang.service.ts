@@ -28,19 +28,6 @@ export class KLangService {
   }
 
 
-  st(texto:any) {
-    //alert("funciona");
-
-    if(localStorage.getItem('diccionario')){
-
-      return this.diccionario.find( (dic:any) => dic.clave == texto )?.texto;
-    }else{
-      this.obtener();
-    }
-
-    }
-
-
 
 }
 
