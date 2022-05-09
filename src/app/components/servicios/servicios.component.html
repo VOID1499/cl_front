@@ -1,3 +1,4 @@
+<!--
 
   <div class="form-group">
     <div class="input-group">
@@ -16,7 +17,7 @@
     </div>
   </div>
 
-  <pre>Model: {{ model | json }}</pre>
+-->
 
 
   <div style="width: 900px;" class="container p-0">
@@ -61,7 +62,7 @@
       {{item.profesional.apellido_materno}}
       </td>
       <td>
-        <app-servicio [servicio]="item" [feriados]="feriados"  ></app-servicio>
+        <app-servicio (emitter)="exeRespuesta($event)" [servicio]="item" [feriados]="feriados"  ></app-servicio>
       </td>
 
 

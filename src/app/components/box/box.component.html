@@ -121,23 +121,29 @@
     <div class="container-fluid  w-100 d-flex align-items-stretch justify-content-center">
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 1"   >
+        <ng-container *ngFor="let item of horario;index as i">
+
+
+          <div  class="border border-primary w-100 text-center " *ngIf="item.dia_id == 1"   >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}
           </div>
+
         </ng-container>
+
+
       </div>
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
+        <ng-container *ngFor="let item of horario;index as i">
           <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 2  "   >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}
           </div>
         </ng-container>
+
       </div>
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">

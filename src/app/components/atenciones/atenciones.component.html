@@ -14,11 +14,10 @@
 
        <tr>
          <th scope="col">ID</th>
-         <th scope="col">Fecha y Hora Ingresada </th>
-         <th scope="col">Fecha de Creación</th>
-         <th scope="col">Ultima Modificación</th>
-         <th scope="col">Acciones
-       </th>
+         <th scope="col">{{'fecha y hora ingresada' | kIdioma}}</th>
+         <th scope="col">{{'fecha de creacion' | kIdioma}}</th>
+         <th scope="col">{{'fecha de modificacion' | kIdioma}}</th>
+         <th scope="col">{{'opciones' | kIdioma}}
        </tr>
      </thead>
      <tbody>
@@ -46,7 +45,7 @@
 
    <ng-container *ngIf="cargando == false && atenciones.length == 0" >
     <p  class="text-center fs-5 font-weight-bold  bg-dark bg-opacity-10 p-4" >
-      No se encontaron atenciones asociadas a este paciente
+      {{'no se encontraron atenciones' | kIdioma}}
      </p>
    </ng-container>
 

@@ -48,6 +48,7 @@ export class PacientesComponent implements OnInit {
   public showTable = true;
   public closeResult = "";
   public recarga:boolean = false;
+  public modalTitulo:string = "";
 
   public _enfermedades_padre = [{
     "id":"0",
@@ -72,6 +73,7 @@ export class PacientesComponent implements OnInit {
    public AtencionesService:AtencionesService,
 
   ) {
+
 
     this.PacientesService.numfilas = this.numfilas;
     this.cargarPlantillas();
@@ -111,6 +113,7 @@ export class PacientesComponent implements OnInit {
 
   editar(i:number){
 
+    this.modalTitulo = "editar paciente";
     let paciente = this.pacientes.pacientes[i];
     this.id = paciente.id;
     this.rut = paciente.rut;
@@ -123,6 +126,8 @@ export class PacientesComponent implements OnInit {
   }
 
   agregar(){
+
+    this.modalTitulo = "agregar paciente";
     this.id = 0;
     this.rut = "";
     this.correo = "";

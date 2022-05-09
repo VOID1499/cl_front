@@ -9,6 +9,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -246,6 +247,7 @@ export class ServiciosComponent implements OnInit {
 
   crearServicio(){
 
+
     this.formatearHoras();
     this.horaMinutos();
     this.asignarFeriadosNoTrabajados();
@@ -253,6 +255,12 @@ export class ServiciosComponent implements OnInit {
     this.ServicioService.guardar().subscribe((data:any)=>{
       if(data.code == 0){
         console.log(data.message);
+        Swal.fire(
+          'Good job!',
+          'Servicio creado!',
+          'success'
+        )
+        this.cargarTabla();
       }else{
         console.log('Error al crear servicio' + data.message);
       }
@@ -430,7 +438,14 @@ deshabilitarDias(){
 
 
 
-
+exeRespuesta(message:String){
+  Swal.fire(
+    'Good job!',
+    `${message}`,
+    'success'
+  )
+  this.cargarTabla();
+}
 
 
 

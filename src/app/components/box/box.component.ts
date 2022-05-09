@@ -92,6 +92,7 @@ export class BoxComponent implements OnInit {
     this.BoxService.horarioBox().subscribe((data:any)=>{
       if (data.code == 0) {
         this.horario = data.body.horario;
+        console.log(this.horario)
         this.open(this.modalHorarioBox,'xl')
       } else {
         console.log('Error al consultar disponibles' + data.message);

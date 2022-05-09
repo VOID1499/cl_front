@@ -1,5 +1,5 @@
 
-
+<app-form-klang></app-form-klang>
 
 <div style="min-width: 700px;" class="container p-0 mt-5 border ">
   <div class=" p-2 d-flex  justify-content-between align-items-center  " >
@@ -14,17 +14,17 @@
     </div>
 
     <table class=" table  table-striped  ">
-      <caption class="text-center" >Lista de pacientes</caption>
+      <caption class="text-center" >{{'lista de pacientes' | kIdioma}}</caption>
         <thead>
 
             <tr>
-                <th scope="col">Indice</th>
+                <th scope="col">{{'indice' | kIdioma}}</th>
                 <!--<th scope="col">Rut</th> -->
-                <th scope="col">Correo</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido Paterno</th>
-                <th scope="col">Apellido Materno</th>
-                <th scope="col">Acciones</th>
+                <th scope="col">{{'correo' | kIdioma}}</th>
+                <th scope="col">{{'nombre' | kIdioma}}</th>
+                <th scope="col">{{'apellido paterno' | kIdioma}}</th>
+                <th scope="col">{{'apellido materno' | kIdioma}}</th>
+                <th scope="col">{{'opciones' | kIdioma}}</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
 
@@ -43,9 +43,9 @@
                 <td>{{item.apellido_materno}}</td>
                 <td>
                     <div class="btn-group btn-group-md" role="group" aria-label="Basic outlined example">
-                        <button type="button" class="btn btn-outline-primary" (click)="editar(i)">Editar</button>
-                        <button type="button" class="btn btn-outline-primary" (click)="cargarFicha(item.kid)">Ficha</button>
-                        <button type="button" class="btn btn-outline-primary"  (click)="abrirAtenciones(item.kid)">Atenciones</button>
+                        <button type="button" class="btn btn-outline-primary" (click)="editar(i)">{{'editar' | kIdioma}}</button>
+                        <button type="button" class="btn btn-outline-primary" (click)="cargarFicha(item.kid)">{{'ficha' | kIdioma}}</button>
+                        <button type="button" class="btn btn-outline-primary"  (click)="abrirAtenciones(item.kid)">{{'atenciones' | kIdioma}}</button>
                     </div>
                 </td>
 
@@ -73,7 +73,7 @@
 <!-- Modal editar paciente-->
 <ng-template #modalGuardarPaciente let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Editar Paciente</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{modalTitulo | kIdioma }}</h4>
         <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -88,7 +88,7 @@
 <!-- Modal  Ficha  -->
 <ng-template #modalFicha let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Ficha Paciente</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'ficha' | kIdioma }}</h4>
         <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
   <span aria-hidden="true">&times;</span>
 </button>
@@ -100,7 +100,7 @@
         [almacen_dato_id]="almacen_dato_id">
         </app-form>
 
-<!-- Este componente es solo un boton que se usa para guardar/editar fichas-->
+<!--  guardar/editar fichas-->
         <app-paciente-ficha  [_enfermedades]="_enfermedades_padre" [_medicamentos]="_medicamentos_padre" [kid]="kid"  [ficha]="ficha" (respuesta)="exeRespuesta($event)"  ></app-paciente-ficha>
 
     </div>
@@ -110,19 +110,19 @@
 <!-- Modal selección furmulario -->
 <ng-template #modalSeleccionFormulario let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Selección de Formulario</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'seleccion de formulario' | kIdioma}}</h4>
         <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
       <div class="alert alert-warning" role="alert">
-        Sin registro existente. Seleccione un formulario para crear Ficha.
+        {{'sin ficha' | kIdioma}}
       </div>
 
 
       <div class="mb-3">
-        <label  class="form-label">Tipo de formulario</label>
+        <label  class="form-label">{{'tipo de formulario' | kIdioma}}</label>
           <select class="form-select" name="tipo_formulario_id" [(ngModel)]="tipo_formulario_id">
             <option *ngFor="let tipo_formulario of tiposDeFormulario;index as i" value="{{tipo_formulario.id}}" >{{tipo_formulario.tipo}}</option>
           </select>
@@ -130,7 +130,7 @@
 
 
       <div class="mb-3">
-        <label  class="form-label">Formularios disponibles</label>
+        <label  class="form-label">{{'formularios disponibles' | kIdioma}}</label>
           <select class="form-select" name="plantilla_formulario_id" [(ngModel)]="plantilla_formulario_id" >
             <ng-container *ngFor="let plantilla of plantillas;index as i">
               <option   *ngIf="tipo_formulario_id == plantilla.tipo_formulario_id" value="{{plantilla.id}}" >{{plantilla.nombre}}</option>
@@ -140,7 +140,7 @@
 
 
       <div class="modal-footer">
-        <button class="btn btn-outline-dark" (click)="nuevaFicha()" >Abrir formulario</button>
+        <button class="btn btn-outline-dark" (click)="nuevaFicha()" >{{'abrir formulario' | kIdioma}}</button>
       </div>
     </div>
 

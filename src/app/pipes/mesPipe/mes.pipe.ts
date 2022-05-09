@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class MesPipe implements PipeTransform {
 
   transform(fecha:any){
-    moment.locale('es');
+    moment.locale(localStorage.getItem('lang')!);
     return   moment(fecha).format('MMMM YYYY');
   }
 

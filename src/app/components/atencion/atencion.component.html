@@ -1,16 +1,16 @@
 
 <ng-container *ngIf="atencion.id != 0" >
-  <button class="btn btn-outline-primary" (click)="open(modalReceta,'xl')">Ver</button>
+  <button class="btn btn-outline-primary" (click)="open(modalReceta,'xl')">{{'ver' | kIdioma}}</button>
 </ng-container>
 
 <ng-container *ngIf="atencion.id == 0" >
-  <button class="btn btn-outline-dark" (click)="open(modalSeleccionFormulario,'md') ">Registrar atención</button>
+  <button class="btn btn-outline-dark" (click)="open(modalSeleccionFormulario,'md') ">{{'registrar atencion' | kIdioma}}</button>
 </ng-container>
 
 
 <ng-template #modalReceta let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Info atención</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{'informacion de atencion' | kIdioma}}</h4>
     <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -37,16 +37,31 @@
     </app-form>
 
     <ng-container >
-      <h5 class="text-center fs-6 my-2 text-start pt-2 border-top">Receta Asociada</h5>
+      <h5 class="text-center fs-6 my-2 text-start pt-2 border-top">{{'receta' | kIdioma}}</h5>
       <div class="form-group mt-2">
         <label class="fs-6"></label>
-        <textarea placeholder="Observaciones" class="form-control rounded-0" name="descripcion" [(ngModel)]="receta.body.receta.descripcion"   rows="3">
+        <textarea placeholder="{{'observaciones' | kIdioma}}" class="form-control rounded-0" name="descripcion" [(ngModel)]="receta.body.receta.descripcion"   rows="3">
         </textarea>
       </div>
     </ng-container>
 
     <div class="d-flex justify-content-star my-3">
-      <button type="button" class="btn btn-sm btn-outline-success" (click)="agregarMedicamento()" >Agregar Medicamento</button>
+      <button type="button" class="btn btn-sm btn-outline-success" (click)="agregarMedicamento()" >{{'agregar medicamento' | kIdioma}}</button>
+    </div>
+
+    <div  class=" row justify-content-center mb-2">
+        <div class="col-md-3">
+          {{'medicamento' | kIdioma}}
+        </div>
+        <div class="col-md-3">
+          {{'cantidad' | kIdioma}}
+        </div>
+        <div class="col-md-3">
+          {{'intervalo' | kIdioma}}
+        </div>
+        <div class="col-md-2">
+          {{'tiempo' | kIdioma}}
+        </div>
     </div>
 
     <ng-container *ngFor="let item of receta.body.medicamentos;index as i" >
@@ -97,14 +112,14 @@
 
     <ng-container *ngIf="recetaCompleta == false && formAtencion.submitted" >
       <div  class="alert alert-danger" role="alert">
-        Rellene los campos de receta!
+        {{'rellene campo de receta' | kIdioma}}!
       </div>
 
     </ng-container>
 
     </div>
     <div class="modal-footer">
-      <button  type="submit" class="btn btn-outline-dark"  >Guardar</button>
+      <button  type="submit" class="btn btn-outline-dark"  >{{'guardar' | kIdioma}}</button>
     </div>
   </form>
 </ng-template>
@@ -114,7 +129,7 @@
 
 <ng-template #modalSeleccionFormulario let-modal>
   <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Selección de Formulario</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{'seleccion de formulario' | kIdioma}}</h4>
       <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -122,7 +137,7 @@
   <div class="modal-body">
 
     <div class="mb-3">
-      <label  class="form-label">Tipo de formulario</label>
+      <label  class="form-label">{{'tipo de formulario' | kIdioma}}</label>
         <select class="form-select" name="tipo_formulario_id" [(ngModel)]="tipo_formulario_id">
           <option *ngFor="let tipo_formulario of tiposDeFormulario;index as i" value="{{tipo_formulario.id}}" >{{tipo_formulario.tipo}}</option>
         </select>
@@ -130,7 +145,7 @@
 
 
     <div class="mb-3">
-      <label  class="form-label">Formularios disponibles</label>
+      <label  class="form-label">{{'formularios disponibles' | kIdioma}}</label>
         <select class="form-select" name="plantilla_formulario_id" [(ngModel)]="atencion.plantilla_formulario_id" >
           <ng-container *ngFor="let plantilla of plantillas;index as i">
             <option   *ngIf="tipo_formulario_id == plantilla.tipo_formulario_id" value="{{plantilla.id}}" >{{plantilla.nombre}}</option>
@@ -140,7 +155,7 @@
 
 
     <div class="modal-footer">
-      <button class="btn btn-outline-dark"  (click)="open(modalReceta,'xl')" >Abrir formulario</button>
+      <button class="btn btn-outline-dark"  (click)="open(modalReceta,'xl')" >{{'abrir formulario' | kIdioma}}</button>
     </div>
   </div>
 

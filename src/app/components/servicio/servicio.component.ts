@@ -1,9 +1,11 @@
-import { Component, OnInit,Input, ViewChild } from '@angular/core';
+import { Component, OnInit,Input, ViewChild, Output,EventEmitter } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ProfesionalesService } from 'src/app/servicios/clinica/profesionales/profesionales.service';
 import { ServicioService } from 'src/app/servicios/clinica/serviciosClinica/servicio.service';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
+
 
 @Component({
 selector: 'app-servicio',
@@ -29,7 +31,7 @@ export class ServicioComponent implements OnInit {
   }
 
   @ViewChild('modalEditarServicio') modalEditarServicio!:NgbModal;
-
+  @Output() emitter = new EventEmitter<string>();
   @Input() servicio:any;
   @Input() feriados:any = [];
 
@@ -143,6 +145,7 @@ export class ServicioComponent implements OnInit {
 
   editarServicio(){
 
+    this.modalService.dismissAll();
     if(this.servicio.estado == true){
       this.servicio.estado = 1;
     }
@@ -158,12 +161,22 @@ export class ServicioComponent implements OnInit {
     this.ServicioService.editar().subscribe((data:any)=>{
       if (data.code == 0) {
         console.log(data.message);
+        this.emitter.emit(data.message);
+
       } else {
-        console.log('Error al editar servicio' + data.message);
+         Swal.fire(
+          'Good job!',
+          `Ha ocurrido un error`,
+          'error'
+        )
       }
     },
     (err: any) => {
-      console.log('Error al editar' + JSON.stringify(err.statusText));
+      Swal.fire(
+        'Good job!',
+        `${JSON.stringify(err.statusText)}`,
+        'error'
+      )
     });
 
   }

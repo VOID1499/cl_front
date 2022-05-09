@@ -7,13 +7,15 @@ import * as moment from 'moment';
 export class MinutosHoraPipe implements PipeTransform {
 
   transform(minutos:any){
-    moment.locale('es');
+    moment.locale(localStorage.getItem('lang')!);
     let dato = minutos;
 
     let hora = Math.trunc(dato/60);
     minutos = dato % 60;
 
-      return `${hora} Horas ${minutos}  Minutos `
+    var time = `${hora}:${minutos}:00`;
+    var formatted = moment(time, "HH:mm:ss").format('hh:mm:ss');
+    return  formatted ;
 
 
 
