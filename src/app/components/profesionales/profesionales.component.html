@@ -8,14 +8,14 @@
 
         <div class=" mx-2">
             <select class="form-select" aria-label="Default select example" name="especialidad_id" [(ngModel)]="especialidad_id" (change)="buscar()">
-        <option  selected="selected"  value="0">Sin filtro</option>
+        <option  selected="selected"  value="0">Especialidades</option>
         <option *ngFor="let itemEspecialidad of especialidades" value="{{itemEspecialidad.id}}">{{itemEspecialidad.nombre}}</option>
       </select>
         </div>
 
         <div class=" mx-2">
             <select class="form-select" aria-label="Default select example" name="tipo_profesional_id" [(ngModel)]="tipo_profesional_id" (change)="buscar()">
-          <option   selected="selected" value="0">Sin Filtro</option>
+          <option   selected="selected" value="0">Tipos</option>
           <option *ngFor="let itemProfesional of tipoProfesionales" value="{{itemProfesional.id}}">{{itemProfesional.tipo}}</option>
         </select>
         </div>

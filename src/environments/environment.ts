@@ -12,7 +12,7 @@ export const environment = {
   "urlDia":url+"dia",
   "urlEspecialidades":url+"especialidades",
   "urlEspecialidad":url+"especialidad",
-  
+
   "urlDiccionario": url+"diccionario",
 
   "urlTipoProfesionales":url+"tipo/profesionales",
@@ -25,6 +25,8 @@ export const environment = {
   "urlProfesionales":url+"profesionales",
   "urlProfesionalesPorEspecialidad":url+"profesionalesPorEspecialidad",
   "urlProfesional":url+"profesional",
+  "urlAgendaProfesional":url+"agendaProfesional",
+
 
   "urlAtenciones":url+"atenciones",
   "urlAtencion":url+"atencion",

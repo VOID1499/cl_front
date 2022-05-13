@@ -5,6 +5,7 @@ import { EspecialidadesService } from 'src/app/servicios/clinica/especialidades/
 import { TipoProfesionalesService } from 'src/app/servicios/clinica/tipoProfesionales/tipo-profesionales.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profesionales',
@@ -19,7 +20,7 @@ export class ProfesionalesComponent implements OnInit {
 
   public closeResult = "";
   public pagina:number = 1;
-  public numfilas:number = 10;
+  public numfilas:number = 15;
   public ordenCol? = "id";
   public ordenTipo? = "ASC";
 
@@ -95,8 +96,8 @@ export class ProfesionalesComponent implements OnInit {
 
     //this.ProfesionalesService.rut = this.rut,
 
-    console.log(this.especialidad_id)
-    console.log(this.tipo_profesional_id)
+    //console.log(this.especialidad_id)
+   // console.log(this.tipo_profesional_id)
     this.ProfesionalesService.rut = this.rut;
     this.ProfesionalesService.correo = this.correo,
     this.ProfesionalesService.nombre = this.nombre,
@@ -210,7 +211,12 @@ export class ProfesionalesComponent implements OnInit {
     this.ProfesionalService.request = this.profesional;
     this.ProfesionalService.guardar().subscribe((data:any)=>{
       if(data.code == 0){
-        console.log(data.message);
+        Swal.fire(
+          'Profesional!',
+          'Creado',
+          'success'
+        )
+        this.cargarTabla();
       }else{
         console.log("Error al agregar profesional" + data.message);
       }

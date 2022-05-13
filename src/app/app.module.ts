@@ -92,6 +92,10 @@ import { BoxsHorariosComponent } from './components/boxs-horarios/boxs-horarios.
 import { FormKLangComponent } from './komponentes/form-klang/form-klang.component';
 import { KRefreshComponent } from './komponentes/k-refresh/k-refresh.component';
 
+import { RestarHorarioPipe } from './pipes/restarHorario/restar-horario.pipe';
+import { PaginaAgendaComponent } from './paginas/pagina-agenda/pagina-agenda.component';
+import { AgendaComponent } from './components/agenda/agenda.component';
+
 
 @NgModule({
   declarations: [
@@ -173,6 +177,9 @@ import { KRefreshComponent } from './komponentes/k-refresh/k-refresh.component';
     BoxsHorariosComponent,
     FormKLangComponent,
     KRefreshComponent,
+    RestarHorarioPipe,
+    PaginaAgendaComponent,
+    AgendaComponent,
 
 
   ],

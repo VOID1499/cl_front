@@ -4,7 +4,7 @@ import { ProfesionalService } from 'src/app/servicios/clinica/profesionales/prof
 import { EspecialidadesService } from 'src/app/servicios/clinica/especialidades/especialidades.service';
 import { TipoProfesionalesService } from 'src/app/servicios/clinica/tipoProfesionales/tipo-profesionales.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -153,13 +153,16 @@ export class ProfesionalComponent implements OnInit {
 
 
 
-
   editarProfesional(){
     console.log(this.profesional)
     this.ProfesionalService.request = this.profesional;
     this.ProfesionalService.editar().subscribe((data:any)=>{
       if(data.code == 0){
-        console.log(data.message);
+        Swal.fire(
+          'Profesional!',
+          'Actualizado',
+          'success'
+        )
       }else{
         console.log("Error al agregar profesional" + data.message);
       }

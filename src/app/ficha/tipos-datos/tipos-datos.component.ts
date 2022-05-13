@@ -2,6 +2,8 @@ import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import { TipoDatoService } from 'src/app/servicios/ficha/tipoDatos/tipo-dato.service';
 import { TipoDatosService } from 'src/app/servicios/ficha/tipoDatos/tipo-datos.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+import { KLangService } from 'src/app/servicios/k-lang/k-lang.service';
 
 @Component({
   selector: 'app-tipos-datos',
@@ -17,7 +19,6 @@ export class TiposDatosComponent implements OnInit {
   public numfilas:number = 10;
   public ordenCol? = "id";
   public ordenTipo? = "DESC";
-
   public busqueda = '';
   public id:number = 0;
   public nombre = '';
@@ -39,6 +40,7 @@ export class TiposDatosComponent implements OnInit {
     private modalService: NgbModal,
     public TipoDatoService:TipoDatoService,
     public TipoDatosService:TipoDatosService,
+    public DiccionarioService:KLangService
 
   ) {
     this.TipoDatosService.numFilas = this.numfilas;
@@ -143,8 +145,14 @@ editar(){
 
     this.TipoDatoService.editar().subscribe(
       (data: any) => {
+
         if (data.code == 0) {
-          console.log(data.message);
+          let item = this.DiccionarioService.diccionario.find((obj:any) => {return obj.clave == 'tipo de dato actulizado'})
+          Swal.fire(
+            'Tipo de dato!',
+            ''+item.texto,
+            'success'
+          )
           this.cargarTabla();
         } else {
           console.log('Error al intetar recuperar clave ' + data.message);

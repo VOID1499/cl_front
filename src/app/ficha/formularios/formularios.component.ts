@@ -38,7 +38,7 @@ export class FormulariosComponent implements OnInit {
     public VademecumsService:VademecumsService,
 
   ){
-    this.FormularioService.request.numFilas = 5;
+    this.FormularioService.request.numFilas = 15;
     this.cargarTabla();
   }
 

@@ -1,5 +1,7 @@
 
 
+
+
   <button *ngIf="box.id == 0" type="button"  class="btn btn-outline-dark" (click)="open(modalBox,'md')" >Nuevo box</button>
 
 
@@ -118,17 +120,24 @@
       <div style="width:150px;" class=" text-center">Domingo</div>
     </div>
 
-    <div class="container-fluid  w-100 d-flex align-items-stretch justify-content-center">
+    <div  class="container-fluid  w-100 d-flex align-items-stretch justify-content-center">
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario;index as i">
+        <ng-container *ngFor="let item of horario.lunes;index as i">
 
+          <ng-container *ngIf="i != 0 &&  horario.lunes[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.lunes[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
 
-          <div  class="border border-primary w-100 text-center " *ngIf="item.dia_id == 1"   >
+          <div  class="border border-primary w-100 text-center"   >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}
           </div>
+
 
         </ng-container>
 
@@ -136,8 +145,16 @@
       </div>
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario;index as i">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 2  "   >
+        <ng-container *ngFor="let item of horario.martes;index as i">
+
+          <ng-container *ngIf="i != 0 &&  horario.martes[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.martes[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
+
+          <div class="border border-primary w-100 text-center"   >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}
@@ -147,38 +164,16 @@
       </div>
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario;index as i">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 3"   >
-            {{item.hora_inicio}} -
-            {{item.hora_fin}}
-            {{item.nombre}}
-          </div>
-        </ng-container>
-      </div>
+        <ng-container *ngFor="let item of horario.miercoles;index as i">
 
-      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 4"   >
-            {{item.hora_inicio}} -
-            {{item.hora_fin}}
-            {{item.nombre}}
-          </div>
-        </ng-container>
-      </div>
+          <ng-container *ngIf="i != 0 &&  horario.miercoles[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.miercoles[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
 
-      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 5"   >
-            {{item.hora_inicio}} -
-            {{item.hora_fin}}
-            {{item.nombre}}
-          </div>
-        </ng-container>
-      </div>
-
-      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 6"   >
+          <div class="border border-primary w-100 text-center"    >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}
@@ -187,8 +182,70 @@
       </div>
 
       <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
-        <ng-container *ngFor="let item of horario">
-          <div class="border border-primary w-100 text-center" *ngIf="item.dia_id == 7"   >
+        <ng-container *ngFor="let item of horario.jueves;index as i">
+
+          <ng-container *ngIf="i != 0 &&  horario.jueves[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.jueves[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
+
+          <div class="border border-primary w-100 text-center"    >
+            {{item.hora_inicio}} -
+            {{item.hora_fin}}
+            {{item.nombre}}
+          </div>
+        </ng-container>
+      </div>
+
+      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
+        <ng-container *ngFor="let item of horario.viernes;index as i">
+
+          <ng-container *ngIf="i != 0 &&  horario.viernes[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.viernes[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
+
+          <div class="border border-primary w-100 text-center"    >
+            {{item.hora_inicio}} -
+            {{item.hora_fin}}
+            {{item.nombre}}
+          </div>
+        </ng-container>
+      </div>
+
+      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
+        <ng-container *ngFor="let item of horario.sabado;index as i">
+
+          <ng-container *ngIf="i != 0 &&  horario.sabado[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.sabado[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
+
+          <div class="border border-primary w-100 text-center"    >
+            {{item.hora_inicio}} -
+            {{item.hora_fin}}
+            {{item.nombre}}
+          </div>
+        </ng-container>
+      </div>
+
+      <div style="width:150px;min-height: 150px;" class="border  bg-dark bg-opacity-10 d-flex  flex-column">
+        <ng-container *ngFor="let item of horario.domingo;index as i">
+
+          <ng-container *ngIf="i != 0 &&  horario.domingo[i-1].hora_fin != item.hora_inicio" >
+            <div  class=" w-100 text-center bg-success bg-opacity-10"   >
+              {{ horario.domingo[i-1].hora_fin}} - {{ item.hora_inicio }}
+              Disponible
+            </div>
+          </ng-container>
+
+          <div class="border border-primary w-100 text-center"    >
             {{item.hora_inicio}} -
             {{item.hora_fin}}
             {{item.nombre}}

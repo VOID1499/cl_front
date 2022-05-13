@@ -21,7 +21,7 @@ export class FormKLangComponent implements OnInit {
       if(this.diccionarioService.diccionario.length == 0){
         this.cambiarIdioma();
 
-        }  
+        }
     }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class FormKLangComponent implements OnInit {
         this.cambiarIdioma();
     }
 
-   
+
   }
 
  cambiarIdioma(){
@@ -59,5 +59,5 @@ export class FormKLangComponent implements OnInit {
   }
 
 
-  
+
 }

@@ -271,6 +271,10 @@ export class PacientesComponent implements OnInit {
   }
 
 
+  cambioTipoFormulario(){
+    this.plantilla_formulario_id = 0;
+  }
+
 
   }
 

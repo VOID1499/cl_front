@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output,OnChanges, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -32,6 +32,12 @@ seleccion = {
 
   ngOnInit(): void {
     this.recorrer();
+  }
+
+  ngOnChanges(){
+  this.seleccion.value = 0;
+  this.seleccion.name = this.mensajeInput;
+  this.seleccion.ver = false;
   }
 
   buscar() {

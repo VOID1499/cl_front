@@ -9,14 +9,15 @@ export class KIdiomaPipe implements PipeTransform {
 
   constructor (public dic: KLangService ,private diccionarioService:KLangService ) {
 
-  } 
+  }
 
   transform(value: unknown ) {
-    var result = this.diccionarioService.diccionario.find((obj:any) => {
+
+    let result = this.diccionarioService.diccionario.find((obj:any) => {
         return obj.clave == value
       })
-      
-      return result.texto;
+
+     return result.texto;
   }
 
 }

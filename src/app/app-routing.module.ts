@@ -24,6 +24,7 @@ import { PaginaTipoFormulariosComponent } from './paginas/pagina-tipo-formulario
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { PaginaBoxsComponent } from './paginas/pagina-boxs/pagina-boxs.component';
 import { KRefreshComponent } from './komponentes/k-refresh/k-refresh.component';
+import { PaginaAgendaComponent } from './paginas/pagina-agenda/pagina-agenda.component';
 
 const routes: Routes = [
 
@@ -48,7 +49,8 @@ const routes: Routes = [
 
   //Profesionales
   { path: 'profesionales', component: PaginaProfesionalComponent},
-
+  { path: 'agenda', component: PaginaAgendaComponent},
+  { path: 'agenda/:profesional_id', component: PaginaAgendaComponent},
 
    //Formularios
    { path: 'tipos-datos', component: PaginaTiposDatosComponent},

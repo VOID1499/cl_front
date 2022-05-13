@@ -23,6 +23,11 @@ export class ReservasComponent implements OnInit {
   public especialidad_id = 0;
   public profesional_id = 0;
 
+  public mensajeInputEspecialidades = "Especialidades";
+  public mensajeInputProfesionales = "Profesionales";
+  public mensajeInputServicios = "Servicios Disponibles";
+
+
 
   public especialidades = [ {
     'value' : "1",
@@ -138,10 +143,11 @@ export class ReservasComponent implements OnInit {
       }
 
       if(this.servicio_id == undefined){
-        console.log('Servicio no selccionado o ruta sin parametros')
+        console.log('Servicio no seleccionado o ruta sin parametros')
       }else{
         this.ReservasServices.obtener().subscribe((data:any)=>{
           if(data.code == 0){
+            console.log(data.body);
             this.reservas = data.body;
           }
         },(err:any)=>{
@@ -220,15 +226,13 @@ export class ReservasComponent implements OnInit {
 
 
   resetearFiltros(){
+    console.log('resetar filtros');
+    this.mensajeInputProfesionales = 'Profesionales';
+    this.mensajeInputServicios = 'Servicios Disponibles';
     this.especialidad_id = 0;
     this.ProfesionalesService.especialidad_id = this.especialidad_id;
     this.listarProfesionales();
 
-    this.profesionales = [ {
-      'value' : "1",
-      'name' : "",
-      'ver' !: false,
-    }];
 
     this.profesional_id = 0;
     this.ServiciosService.profesional_id = this.profesional_id;

@@ -15,7 +15,7 @@ export class BoxsHorariosComponent implements OnInit {
   @ViewChild("modalHorarioBox") modalHorarioBox!: NgbModal;
 
   public closeResult = "";
-  public horario:any[] = [];
+  public horario:any;
   public boxs:any[] = [];
   public box_id = 0;
 
