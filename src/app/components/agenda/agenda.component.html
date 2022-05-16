@@ -1,3 +1,38 @@
-<p>agenda works!</p>
-{{profesional_id}}
-{{horario.lunes | json}}
+<button (click)="mostrar()" >mostrar</button>
+<div style="width: 1000px;min-width:100px" class="container  p-0 mt-5 " >
+
+    <div style="min-width: 1000px;" class="d-flex justify-content-center m-0 p-3 bg-secondary bg-opacity-10">
+          <button  class="me-5 btn btn-sm btn-outline-dark">Anterior</button>
+          <h1 class="fs-5 text-uppercase" ></h1>
+          <button  class="ms-5 btn btn-sm btn-outline-dark">Siguiente</button>
+    </div>
+   
+  
+    <div *ngIf="horario.id != 0" style="min-width: 1000px;width: 1000px;" class="d-flex flex-wrap w-100 justify-content-center bg-secondary bg-opacity-10">
+  
+        <ng-container *ngFor="let dia of horario.DiasActivo">
+          <div  style="width: 142px; height: 142px;" class="fs-6 text-center border  bg-white  ">
+              {{dia | fecha}} <br>
+  
+              <ng-container  *ngFor="let item of horario.HoraServicio;index as i" >
+                  <ng-container *ngIf="dia == item.fecha">
+  
+                    <p class="fs-6 m-0" >Disponibles : {{item.disponible}}</p>
+  
+                    <app-reserva  [reserva]="item.item"  [fecha]="dia"   ></app-reserva>
+  
+                  </ng-container>
+              </ng-container>
+  
+  
+              </div>
+          </ng-container>
+  
+    </div>
+  
+  
+  
+  
+  
+  </div>
+  
