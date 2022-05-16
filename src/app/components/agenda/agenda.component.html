@@ -6,33 +6,30 @@
           <h1 class="fs-5 text-uppercase" ></h1>
           <button  class="ms-5 btn btn-sm btn-outline-dark">Siguiente</button>
     </div>
-   
-  
+
+
+    <ng-container *ngFor="let horario of horariosServicios">
     <div *ngIf="horario.id != 0" style="min-width: 1000px;width: 1000px;" class="d-flex flex-wrap w-100 justify-content-center bg-secondary bg-opacity-10">
-  
+
         <ng-container *ngFor="let dia of horario.DiasActivo">
-          <div  style="width: 142px; height: 142px;" class="fs-6 text-center border  bg-white  ">
+          <div  style="width: 142px; height: 150px;" class="fs-6 text-center border  bg-white  ">
               {{dia | fecha}} <br>
-  
+
               <ng-container  *ngFor="let item of horario.HoraServicio;index as i" >
                   <ng-container *ngIf="dia == item.fecha">
-  
+                    <p class="fs-6 m-0" >Reservados : {{item.reservados}}</p>
+
                     <p class="fs-6 m-0" >Disponibles : {{item.disponible}}</p>
-  
-                    <app-reserva  [reserva]="item.item"  [fecha]="dia"   ></app-reserva>
-  
+
+                    <app-reserva  (reservaEmit)="exeRespuesta($event)"  [reserva]="item.item"  [fecha]="dia"  [pacientes]="pacientes"  [servicio_id]="horario.id" ></app-reserva>
+
                   </ng-container>
               </ng-container>
-  
-  
+
+
               </div>
           </ng-container>
-  
+
     </div>
-  
-  
-  
-  
-  
-  </div>
-  
+
+</ng-container>
