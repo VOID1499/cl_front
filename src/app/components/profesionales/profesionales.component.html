@@ -52,6 +52,9 @@
 
                 <td>
                     <app-profesional [profesional]="item"></app-profesional>
+                    <a class="btn btn-primary" [routerLink]="['/agenda/',item.id]" queryParamsHandling="merge">
+                      Agenda
+                    </a>
                 </td>
 
             </tr>

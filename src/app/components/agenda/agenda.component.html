@@ -2,9 +2,9 @@
 <div style="width: 1000px;min-width:100px" class="container  p-0 mt-5 " >
 
     <div style="min-width: 1000px;" class="d-flex justify-content-center m-0 p-3 bg-secondary bg-opacity-10">
-          <button  class="me-5 btn btn-sm btn-outline-dark">Anterior</button>
-          <h1 class="fs-5 text-uppercase" ></h1>
-          <button  class="ms-5 btn btn-sm btn-outline-dark">Siguiente</button>
+          <button  class="me-5 btn btn-sm btn-outline-dark" (click)="sumarRestarFecha(0)" >Anterior</button>
+          <h1 class="fs-5 text-uppercase" >{{fecha | fecha}}</h1>
+          <button  class="ms-5 btn btn-sm btn-outline-dark" (click)="sumarRestarFecha(1)">Siguiente</button>
     </div>
 
 

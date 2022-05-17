@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class AgendaComponent implements OnInit {
 
   @Input() profesional_id = 1;
+  public fecha:any;
   public serviciosProfesional:any;
   public horariosServicios:any[]= [];
   public pacientes = [ {
@@ -28,7 +29,10 @@ export class AgendaComponent implements OnInit {
     private AgendaService:AgendaService,
     private ServiciosServices:ServiciosService,
     public PacientesService:PacientesService,
-  ) { }
+  ) {
+
+    this.fecha = moment(this.fecha).format('YYYY-MM-DD');
+   }
 
   ngOnInit(): void {
       this.listarPacientes();
@@ -63,16 +67,33 @@ public listarServiciosProfesional(){
 }
 
 
+  sumarRestarFecha(z:number){
+    if(z == 1){
+      this.fecha = moment(this.fecha).add(7,'d');
+      this.agendaProfesional();
+    }
+    if(z == 0){
+      this.fecha = moment(this.fecha).subtract(7,'d');
+      this.agendaProfesional();
+
+    }
+
+  }
+
+
   agendaProfesional(){
+
+    this.horariosServicios = [];
           this.serviciosProfesional.forEach((servicio:any) => {
             this.ReservasService.request = {
                 "servicio_id":servicio.id,
-                "fecha_inicio":"2022-05-11",
+                "fecha":this.fecha,
                 "cantidad_dias":7
             }
             this.ReservasService.obtener().subscribe(
                 (data: any) => {
                   if (data.code == 0) {
+
                   this.horariosServicios.push(data.body);
                   console.log(this.horariosServicios);
                   } else {
