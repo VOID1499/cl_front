@@ -37,7 +37,7 @@ export class Horario implements Horario{
   }
 }
 
-export interface Body {
+export interface HorarioBody {
   id: number
   created_at: string
   updated_at: string
@@ -53,7 +53,7 @@ export interface Body {
   CantidadHorasDiaria: number
 }
 
-export class Body implements Body{
+export class HorarioBody implements HorarioBody{
   constructor(){
     this.id = 0;
     this.DiasActivo = new Array();
@@ -79,7 +79,7 @@ export interface Item {
   reserva: boolean
   hora: string
   horaFin: string
-  usuario: string
+  usuario: usuario
   dia: number
 }
 
@@ -88,4 +88,18 @@ export class Item implements Item{
   }
 }
 
+export interface usuario {
+  id: number;
+  kid: string;
+  correo: string;
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  created_at: string;
+  updated_at: string;
+}
+export class usuario implements usuario {
+  constructor(){
+  }
+}
 

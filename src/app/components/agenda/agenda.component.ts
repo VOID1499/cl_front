@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AgendaService } from 'src/app/servicios/clinica/profesionales/agenda.service';
-import { Horario, ReservasService } from 'src/app/servicios/clinica/reservas/reservas.service';
+import { Horario, HorarioBody, ReservasService } from 'src/app/servicios/clinica/reservas/reservas.service';
 import { ServiciosService } from 'src/app/servicios/clinica/serviciosClinica/servicios.service';
 import { PacientesService } from 'src/app/servicios/clinica/pacientes/pacientes.service';
 import * as moment from 'moment';
@@ -18,8 +18,8 @@ export class AgendaComponent implements OnInit {
   @Input() profesional_id = 1;
   public fecha:any;
   public serviciosProfesional:any;
-  public horario:any;
-  public horariosServicios:any;
+  public horariosServicios = new Array<HorarioBody>();
+  public horario = new HorarioBody();
   public pacientes = [ {
     'value' : "1",
     'name' : "",
@@ -40,31 +40,7 @@ export class AgendaComponent implements OnInit {
   ngOnInit(): void {
       this.listarPacientes();
       this.listarServiciosProfesional();
-   }
-
-   public mostrar(){
-
-    this.horario = this.horariosServicios[0];
-    this.horario.HoraServicio.forEach((dia:any)=>{
-      dia.item = [];
-    })
-
-   this.horariosServicios.forEach((servicio:any) => {
-
-      servicio.HoraServicio.forEach((dia:any) => {
-        var dia_encontrado = this.horario.HoraServicio.find((element:any) =>  element.fecha == dia.fecha)
-        console.log(dia_encontrado)
-        dia.item.forEach((turno:any) => {
-          dia_encontrado.item.push(turno);
-        });
-
-        });
-
-    });
-
-console.log( this.horario)
-
-   }
+  }
 
 
 
@@ -77,6 +53,8 @@ public listarServiciosProfesional(){
       if (data.code == 0) {
       this.serviciosProfesional = data.servicios;
       this.agendaProfesional();
+
+      
       } else {
         console.log( data.message);
       }
@@ -114,8 +92,10 @@ public listarServiciosProfesional(){
             this.ReservasService.obtener().subscribe(
                 (data: any) => {
                   if (data.code == 0) {
-
+                  console.log(this.horariosServicios);
+                  
                   this.horariosServicios.push(data.body);
+                  this.ordenarHorarios()
 
                   console.log(this.horariosServicios);
                   } else {
@@ -130,6 +110,38 @@ public listarServiciosProfesional(){
 
   }
 
+
+  ordenarHorarios() {
+ 
+    let i = 0;
+
+
+   this.horariosServicios.forEach(element => {
+
+      if ( i == 0 ) { 
+        this.horario = element; 
+        i++;
+      } else {
+          
+        this.horario.HoraServicio.forEach( dia => {
+            element.HoraServicio[i].item.forEach(hora => {
+                      dia.item.push(hora);
+            });
+       
+        }
+  
+        )
+    i++;
+  
+
+      }
+
+   
+    
+});
+
+
+  }
 
 
 
