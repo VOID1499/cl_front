@@ -47,7 +47,7 @@ export class AgendaComponent implements OnInit {
    public ordenarTurnos(){
 
     this.DiasActivo = this.horariosServicios[0].DiasActivo;
-    console.log(this.DiasActivo)
+    this.turnos = [];
 
     this.horariosServicios.forEach((servicio:any) => {
         servicio.HoraServicio.forEach((dia:any) => {

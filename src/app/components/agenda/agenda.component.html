@@ -21,6 +21,10 @@
                       {{turno.hora}}
                       {{turno.horaFin}}
                       {{turno.servicio_id}}
+                      <ng-container *ngIf="turno.usuario != null;else libre">
+                        {{turno.usuario.nombre}}
+                      </ng-container>
+
 
 
                   </ng-container>
