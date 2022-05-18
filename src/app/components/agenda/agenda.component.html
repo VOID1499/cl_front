@@ -1,4 +1,4 @@
-<button (click)="mostrar()" >mostrar</button>
+
 <div style="width: 1000px;min-width:100px" class="container  p-0 mt-5 " >
 
     <div style="min-width: 1000px;" class="d-flex justify-content-center m-0 p-3 bg-secondary bg-opacity-10">
@@ -12,7 +12,7 @@
     <div style="min-width: 1000px;width: 1000px;" class="d-flex flex-wrap w-100 justify-content-center bg-secondary bg-opacity-10">
 
         <ng-container *ngFor="let fecha of DiasActivo">
-          <div  style="width: 142px; height: 150px;" class="fs-6 text-center border  bg-white  ">
+          <div  style="width: 142px; " class="fs-6 text-center border  bg-white  ">
               {{fecha | fecha}} <br>
 
               <ng-container  *ngFor="let turno of turnos;index as i" >

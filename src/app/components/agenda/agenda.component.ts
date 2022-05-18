@@ -44,11 +44,10 @@ export class AgendaComponent implements OnInit {
       this.listarServiciosProfesional();
    }
 
-   public mostrar(){
+   public ordenarTurnos(){
 
     this.DiasActivo = this.horariosServicios[0].DiasActivo;
     console.log(this.DiasActivo)
-
 
     this.horariosServicios.forEach((servicio:any) => {
         servicio.HoraServicio.forEach((dia:any) => {
@@ -78,8 +77,6 @@ export class AgendaComponent implements OnInit {
 
 
 
-
-
 public listarServiciosProfesional(){
   this.ServiciosServices.profesional_id = this.profesional_id;
   this.ServiciosServices.listarTodo().subscribe(
@@ -102,6 +99,7 @@ public listarServiciosProfesional(){
     if(z == 1){
       this.fecha = moment(this.fecha).add(7,'d');
       this.agendaProfesional();
+
     }
     if(z == 0){
       this.fecha = moment(this.fecha).subtract(7,'d');
@@ -115,7 +113,7 @@ public listarServiciosProfesional(){
   agendaProfesional(){
 
     this.horariosServicios = [];
-          this.serviciosProfesional.forEach((servicio:any) => {
+          this.serviciosProfesional.forEach((servicio:any,index:any) => {
             this.ReservasService.request = {
                 "servicio_id":servicio.id,
                 "fecha":this.fecha,
@@ -127,7 +125,11 @@ public listarServiciosProfesional(){
 
                   this.horariosServicios.push(data.body);
 
-                  console.log(this.horariosServicios);
+
+                  if(this.serviciosProfesional.length-1 == index){
+                    this.ordenarTurnos();
+                  }
+
                   } else {
                     console.log( data.message);
                   }
