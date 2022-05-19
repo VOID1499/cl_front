@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit, ViewChild } from '@angular/core';
 import { AgendaService } from 'src/app/servicios/clinica/profesionales/agenda.service';
 import { Horario, ReservasService } from 'src/app/servicios/clinica/reservas/reservas.service';
 import { ServiciosService } from 'src/app/servicios/clinica/serviciosClinica/servicios.service';
 import { PacientesService } from 'src/app/servicios/clinica/pacientes/pacientes.service';
+import { ReservaService } from 'src/app/servicios/clinica/reservas/reserva.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { BoxsHorariosComponent } from '../boxs-horarios/boxs-horarios.component';
+import { NgbModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -15,13 +17,17 @@ import { BoxsHorariosComponent } from '../boxs-horarios/boxs-horarios.component'
 })
 export class AgendaComponent implements OnInit {
 
+  @ViewChild('modalReserva') modalReserva!:NgbModal;
   @Input() profesional_id = 1;
+  public closeResult= "";
   public turnos:any[] = [];
   public DiasActivo:any[] = [];
   public fecha:any;
   public serviciosProfesional:any;
   public horario:any;
   public horariosServicios:any;
+  public paciente_id = 0;
+  public turno:any;
   public pacientes = [ {
     'value' : "1",
     'name' : "",
@@ -34,6 +40,8 @@ export class AgendaComponent implements OnInit {
     private AgendaService:AgendaService,
     private ServiciosServices:ServiciosService,
     public PacientesService:PacientesService,
+    private modalService:NgbModal,
+    public ReservaService:ReservaService,
 
   ) {
     this.fecha = moment(this.fecha).format('YYYY-MM-DD');
@@ -142,6 +150,104 @@ public listarServiciosProfesional(){
 
   }
 
+  abrirModalReserva(turno:any){
+        this.turno = turno;
+        this.open(this.modalReserva,'md')
+  }
+
+
+  pacienteSeleccionado(paciente:any){
+    this.paciente_id = paciente.value;
+  }
+
+  crearReserva(){
+    if(this.paciente_id == 0){
+      console.log("seleccione un paciente");
+    }else{
+        let request = {
+          "paciente_id": this.paciente_id,
+          "servicio_id": this.turno.servicio_id,
+          "fecha": `${this.turno.fecha} ${this.turno.hora}`
+      }
+    
+      this.ReservaService.request = request;
+      this.ReservaService.crearReserva().subscribe((data:any)=>{
+        if(data.code == 0){
+          console.log(data.message);
+          this.modalService.dismissAll();
+          //this.reservaEmit.emit(0);
+        }if(data.code == 101){
+          console.log(data.message);
+          this.modalService.dismissAll();
+         // this.reservaEmit.emit(101);
+        }
+      },
+      (err:any)=>{
+        console.log('Error al registrar reserva ' + JSON.stringify(err.statusText));
+      });
+    
+      }
+    }
+    
+    eliminarReserva(){
+    
+      Swal.fire({
+        title: '¿Quieres cancelar esta reserva?',
+        text: "La reserva quedara disponible para otro paciente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: "No",
+    
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let request = {
+            "paciente_id": this.turno.usuario.id,
+            "servicio_id":this.turno.servicio_id,
+            "fecha": `${this.turno.fecha} ${this.turno.hora}`
+        }
+        this.ReservaService.request = request;
+        this.ReservaService.eliminarReserva().subscribe((data:any) =>{
+          if(data.code == 0){
+            console.log(data.message);
+            this.modalService.dismissAll();
+            //this.reservaEmit.emit(30);
+          }
+          if(data.code == 101){
+            console.log(data.message);
+            this.modalService.dismissAll();
+            //this.reservaEmit.emit(3101);
+    
+          }
+          (err:any)=>{
+            console.log('Error al eliminar reserva ' + JSON.stringify(err.statusText));
+          }
+        });
+        }
+      })
+    
+    }
+
+
+  open(content:any,size:string) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:size }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
 
 

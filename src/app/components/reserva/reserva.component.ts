@@ -133,8 +133,6 @@ eliminarReserva(item:any){
     }
   })
 
-
-
 }
 
 

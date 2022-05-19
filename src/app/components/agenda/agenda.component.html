@@ -13,18 +13,29 @@
 
         <ng-container *ngFor="let fecha of DiasActivo">
           <div  style="width: 142px; " class="fs-6 text-center border  bg-white  ">
-              {{fecha | fecha}} <br>
+            
+            <div class="w-100 bg-primary bg-opacity-10 mb-2 " >
+                {{fecha | fecha}} 
+              </div>
 
               <ng-container  *ngFor="let turno of turnos;index as i" >
                   <ng-container *ngIf="fecha == turno.fecha">
+                    
 
-                      {{turno.hora}}
-                      {{turno.horaFin}}
-                      {{turno.servicio_id}}
-                      <ng-container *ngIf="turno.usuario != null;else libre">
-                        {{turno.usuario.nombre}}
-                      </ng-container>
-
+                    <div (click)="abrirModalReserva(turno)" class="w-100 btn btn-sm border">
+                       
+                        {{turno.hora}}
+                        {{turno.horaFin}}
+               
+                 
+                        <ng-container *ngIf="turno.usuario != null;else libre">
+                            {{turno.usuario.nombre}}
+                          </ng-container>
+    
+                    </div>
+                   
+                     
+                    
 
 
                   </ng-container>
@@ -38,5 +49,45 @@
 
 
 <ng-template #libre >
-  libre
+   Disponible
 </ng-template>
+
+
+<ng-template #cancelarReservaBoton >
+    <button  (click)="eliminarReserva()" class="btn btn-outline-danger">
+        Cancerlar Reserva
+    </button>
+ </ng-template>
+
+<ng-template #modalReserva let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Reserva</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+  
+  
+    <div class="card" style="max-width: 540px;">
+  
+  
+      <div class="d-flex justify-content-center bg-info mt-2">
+        <app-k-select *ngIf="turno.reserva == false" class=""
+          (seleccionado)="pacienteSeleccionado($event)"  
+          [lista]="pacientes"
+          [mensajeInput]=" 'Buscar paciente' ">
+          </app-k-select>
+      </div>
+  
+  
+  
+          <div  class="card-body d-flex flex-column">
+            {{turno.servicio_nombre}}
+            <button *ngIf="turno.reserva == false;else cancelarReservaBoton " (click)="crearReserva()" class="btn btn-outline-success">
+                Reservar
+            </button>
+  
+          </div>
+        </div>
+  
+  </ng-template>
+  
+  
