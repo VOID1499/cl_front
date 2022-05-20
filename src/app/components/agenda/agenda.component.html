@@ -13,29 +13,39 @@
 
         <ng-container *ngFor="let fecha of DiasActivo">
           <div  style="width: 142px; " class="fs-6 text-center border  bg-white  ">
-            
-            <div class="w-100 bg-primary bg-opacity-10 mb-2 " >
-                {{fecha | fecha}} 
+
+            <div class="w-100 bg-primary bg-opacity-10 mb-0 " >
+                {{fecha | fecha}}
               </div>
 
               <ng-container  *ngFor="let turno of turnos;index as i" >
                   <ng-container *ngIf="fecha == turno.fecha">
-                    
 
-                    <div (click)="abrirModalReserva(turno)" class="w-100 btn btn-sm border">
-                       
-                        {{turno.hora}}
-                        {{turno.horaFin}}
-               
-                 
-                        <ng-container *ngIf="turno.usuario != null;else libre">
-                            {{turno.usuario.nombre}}
+
+                    <div [ngClass]="turno.reserva == true? 'bg-danger bg-opacity-10':'bg-success bg-opacity-10'" (click)="abrirModalReserva(turno)"  class="bg-opacity-10 w-100 btn btn-sm border">
+
+
+                        <h1 class="text-center fs-6">
+                          {{turno.hora}} -
+                          {{turno.horaFin}}
+                        </h1>
+                        <h1 class="text-center fs-6">
+                          {{turno.servicio_nombre}}
+                        </h1>
+                        <h1 class="text-center fs-6" >
+                          {{this.turno.box.nombre}}
+                        </h1>
+
+                        <ng-container  *ngIf="turno.usuario != null;else libre">
+                            <h1 class="text-center fs-6">
+                              {{turno.usuario.nombre}}
+                            </h1>
                           </ng-container>
-    
+
                     </div>
-                   
-                     
-                    
+
+
+
 
 
                   </ng-container>
@@ -49,11 +59,24 @@
 
 
 <ng-template #libre >
-   Disponible
 </ng-template>
 
 
 <ng-template #cancelarReservaBoton >
+
+  <h1 class="text-center fs-6" >
+    {{this.turno.hora}} -
+    {{this.turno.horaFin}}
+  </h1>
+    <h1 (click)="cargarFicha(turno.usuario.kid)" class="text-center fs-6 btn " >
+      {{this.turno.usuario.nombre}}
+      {{this.turno.usuario.apellido_paterno}}
+      {{this.turno.usuario.apellido_materno}}
+    </h1>
+    <h1 class="text-center fs-6" >
+      {{this.turno.usuario.correo}}
+    </h1>
+
     <button  (click)="eliminarReserva()" class="btn btn-outline-danger">
         Cancerlar Reserva
     </button>
@@ -64,30 +87,48 @@
       <h4 class="modal-title" id="modal-basic-title">Reserva</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-  
-  
+
+
     <div class="card" style="max-width: 540px;">
-  
-  
+
+
       <div class="d-flex justify-content-center bg-info mt-2">
         <app-k-select *ngIf="turno.reserva == false" class=""
-          (seleccionado)="pacienteSeleccionado($event)"  
+          (seleccionado)="pacienteSeleccionado($event)"
           [lista]="pacientes"
           [mensajeInput]=" 'Buscar paciente' ">
           </app-k-select>
       </div>
-  
-  
-  
+
+
+
           <div  class="card-body d-flex flex-column">
-            {{turno.servicio_nombre}}
+            <h1 class="text-center fs-5">{{turno.servicio_nombre}}</h1>
             <button *ngIf="turno.reserva == false;else cancelarReservaBoton " (click)="crearReserva()" class="btn btn-outline-success">
                 Reservar
             </button>
-  
+
           </div>
         </div>
-  
+
   </ng-template>
-  
-  
+
+
+  <ng-template #modalFicha let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{'ficha' | kIdioma }}</h4>
+        <button type="button" class="btn close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+    </div>
+    <div class="modal-body">
+
+        <app-form
+        [plantilla_formulario_id]="plantilla_formulario_id"
+        [almacen_dato_id]="almacen_dato_id">
+        </app-form>
+
+
+
+    </div>
+</ng-template>

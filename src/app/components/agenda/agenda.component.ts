@@ -4,6 +4,7 @@ import { Horario, ReservasService } from 'src/app/servicios/clinica/reservas/res
 import { ServiciosService } from 'src/app/servicios/clinica/serviciosClinica/servicios.service';
 import { PacientesService } from 'src/app/servicios/clinica/pacientes/pacientes.service';
 import { ReservaService } from 'src/app/servicios/clinica/reservas/reserva.service';
+import { FichasService } from 'src/app/servicios/ficha/fichas/fichas.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { BoxsHorariosComponent } from '../boxs-horarios/boxs-horarios.component';
@@ -18,7 +19,10 @@ import { NgbModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class AgendaComponent implements OnInit {
 
   @ViewChild('modalReserva') modalReserva!:NgbModal;
+  @ViewChild("modalFicha") modalFicha!: NgbModal;
   @Input() profesional_id = 1;
+  public plantilla_formulario_id = 0;
+  public almacen_dato_id = 0;
   public closeResult= "";
   public turnos:any[] = [];
   public DiasActivo:any[] = [];
@@ -42,6 +46,7 @@ export class AgendaComponent implements OnInit {
     public PacientesService:PacientesService,
     private modalService:NgbModal,
     public ReservaService:ReservaService,
+    public FichasService:FichasService,
 
   ) {
     this.fecha = moment(this.fecha).format('YYYY-MM-DD');
@@ -57,10 +62,11 @@ export class AgendaComponent implements OnInit {
     this.DiasActivo = this.horariosServicios[0].DiasActivo;
     this.turnos = [];
 
-    this.horariosServicios.forEach((servicio:any) => {
+    this.horariosServicios.forEach((servicio:any,servicio_i:any) => {
         servicio.HoraServicio.forEach((dia:any) => {
           dia.item.forEach((turno:any) => {
             turno['servicio_id'] = servicio.id;
+            turno['servicio_index'] =servicio_i;
             turno['servicio_nombre'] = servicio.nombre;
             turno['fecha'] = dia.fecha;
             this.turnos.push(turno)
@@ -169,28 +175,30 @@ public listarServiciosProfesional(){
           "servicio_id": this.turno.servicio_id,
           "fecha": `${this.turno.fecha} ${this.turno.hora}`
       }
-    
+
       this.ReservaService.request = request;
       this.ReservaService.crearReserva().subscribe((data:any)=>{
         if(data.code == 0){
           console.log(data.message);
           this.modalService.dismissAll();
-          //this.reservaEmit.emit(0);
+          this.exeRespuesta(0);
+          this.paciente_id = 0;
+          this.agendaProfesional();
         }if(data.code == 101){
           console.log(data.message);
           this.modalService.dismissAll();
-         // this.reservaEmit.emit(101);
+         this.exeRespuesta(101)
         }
       },
       (err:any)=>{
         console.log('Error al registrar reserva ' + JSON.stringify(err.statusText));
       });
-    
+
       }
     }
-    
+
     eliminarReserva(){
-    
+
       Swal.fire({
         title: '¿Quieres cancelar esta reserva?',
         text: "La reserva quedara disponible para otro paciente",
@@ -200,7 +208,7 @@ public listarServiciosProfesional(){
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si',
         cancelButtonText: "No",
-    
+
       }).then((result) => {
         if (result.isConfirmed) {
           let request = {
@@ -213,13 +221,14 @@ public listarServiciosProfesional(){
           if(data.code == 0){
             console.log(data.message);
             this.modalService.dismissAll();
-            //this.reservaEmit.emit(30);
+            this.exeRespuesta(30);
+            this.agendaProfesional();
           }
           if(data.code == 101){
             console.log(data.message);
             this.modalService.dismissAll();
-            //this.reservaEmit.emit(3101);
-    
+            this.exeRespuesta(3101);
+
           }
           (err:any)=>{
             console.log('Error al eliminar reserva ' + JSON.stringify(err.statusText));
@@ -227,7 +236,7 @@ public listarServiciosProfesional(){
         });
         }
       })
-    
+
     }
 
 
@@ -266,6 +275,38 @@ public listarServiciosProfesional(){
       (err: any) => {
         console.log('Error al listar pacientes' + JSON.stringify(err.statusText));
       });
+  }
+
+
+  cargarFicha(kid:string){
+    this.FichasService.kid = kid;
+
+    this.FichasService.obtener().subscribe(
+      (data: any) => {
+        if (data.code == 0) {
+          //response exitoso
+          if(data.body.total_registros == 0){
+            //abre el modal para seleccionar un formulario y cargarlo sin datos
+            //this.open(this.modalSeleccionFormulario);
+          }else{
+            //1-pasar el request para cargar el formulario
+            //2-abirir el modal con el formulario
+
+            this.almacen_dato_id  = data.body.fichas[0].almacen_dato_id;
+            this.plantilla_formulario_id = data.body.fichas[0].plantilla_formulario_id;
+
+            this.open(this.modalFicha,'xl');
+
+          }
+
+        } else {
+          console.log('Error al cargar ficha del paciente' + data.message);
+        }
+      },
+      (err: any) => {
+        console.log('Error al listar fichas' + JSON.stringify(err.statusText));
+      }
+    );
   }
 
 
