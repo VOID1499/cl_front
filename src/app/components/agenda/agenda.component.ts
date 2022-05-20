@@ -280,7 +280,6 @@ public listarServiciosProfesional(){
 
   cargarFicha(kid:string){
     this.FichasService.kid = kid;
-
     this.FichasService.obtener().subscribe(
       (data: any) => {
         if (data.code == 0) {

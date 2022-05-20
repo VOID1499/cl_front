@@ -13,11 +13,15 @@ export class KIdiomaPipe implements PipeTransform {
 
   transform(value: unknown ) {
 
-    let result = this.diccionarioService.diccionario.find((obj:any) => {
-        return obj.clave == value
-      })
 
-     return result.texto;
+
+
+      let result = this.diccionarioService.diccionario.find((obj:any) => {
+          return obj.clave == value
+        })
+
+       return result != null ? result.texto : value+'$';
+
   }
 
 }

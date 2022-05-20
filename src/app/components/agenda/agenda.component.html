@@ -22,7 +22,7 @@
                   <ng-container *ngIf="fecha == turno.fecha">
 
 
-                    <div [ngClass]="turno.reserva == true? 'bg-danger bg-opacity-10':'bg-success bg-opacity-10'" (click)="abrirModalReserva(turno)"  class="bg-opacity-10 w-100 btn btn-sm border">
+                    <div [ngClass]="turno.reserva == true? 'bg-danger bg-opacity-10':'bg-success bg-opacity-10'" (click)="abrirModalReserva(turno)"  class="w-100 btn btn-sm border">
 
 
                         <h1 class="text-center fs-6">
@@ -68,6 +68,7 @@
     {{this.turno.hora}} -
     {{this.turno.horaFin}}
   </h1>
+
     <h1 (click)="cargarFicha(turno.usuario.kid)" class="text-center fs-6 btn " >
       {{this.turno.usuario.nombre}}
       {{this.turno.usuario.apellido_paterno}}
