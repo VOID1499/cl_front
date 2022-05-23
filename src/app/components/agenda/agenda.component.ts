@@ -18,6 +18,7 @@ import { NgbModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AgendaComponent implements OnInit {
 
+
   @ViewChild('modalReserva') modalReserva!:NgbModal;
   @ViewChild("modalFicha") modalFicha!: NgbModal;
   @Input() profesional_id = 1;
@@ -37,6 +38,14 @@ export class AgendaComponent implements OnInit {
     'name' : "",
     'ver' !: false,
   }];
+
+  public atencionVacia =  {
+    "id": 0,
+    "ficha_id": 0,
+    "almacen_dato_id": 0,
+    "fecha": "",
+    "plantilla_formulario_id": 0
+  }
 
 
   constructor(
@@ -307,6 +316,41 @@ public listarServiciosProfesional(){
       }
     );
   }
+
+
+  comenzarAtencion(kid:string,atencion:any){
+
+    console.log('Comenzar atencion')
+    this.FichasService.kid = kid;
+    this.FichasService.obtener().subscribe(
+      (data: any) => {
+        if (data.code == 0) {
+          //response exitoso
+          if(data.body.total_registros == 0){
+            //abre el modal para seleccionar un formulario y cargarlo sin datos
+            //this.open(this.modalSeleccionFormulario);
+            this.almacen_dato_id  = 0;
+            this.plantilla_formulario_id = 0;
+            console.log('Paciente sin ficha');
+
+          }else{
+
+            this.atencionVacia.ficha_id  = data.body.fichas[0].id;
+            atencion.abrirModalSeleccionFormulario();
+
+        }
+
+        } else {
+          console.log('Error al cargar ficha del paciente' + data.message);
+        }
+      },
+      (err: any) => {
+        console.log('Error al listar fichas' + JSON.stringify(err.statusText));
+      }
+    );
+
+  }
+
 
 
   exeRespuesta(event:any){

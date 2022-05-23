@@ -23,10 +23,10 @@ export class AtencionComponent implements OnInit {
   public plantillas:any[] = [];
   public plantilla_formulario_id:any;
   @ViewChild('modalReceta') modalReceta!:NgbModal;
+  @ViewChild('modalSeleccionFormulario') modalSeleccionFormulario!:NgbModal;
+
   @Output() respuesta = new EventEmitter<string>();
   @Input() atencion:any;
-
-
 
   public time = {hour: 13, minute: 30};
   public receta = {
@@ -73,6 +73,10 @@ export class AtencionComponent implements OnInit {
     this.cargarPlantillas();
     this.cargarTiposDeFormulario();
     this.receta.body.medicamentos.splice(0,1);
+  }
+
+  ngOnChanges(){
+
   }
 
   cargarReceta(){
@@ -195,6 +199,9 @@ export class AtencionComponent implements OnInit {
 
     }
 
+    abrirModalSeleccionFormulario(){
+      this.open(this.modalSeleccionFormulario,'md')
+    }
     open(content:any,size:string) {
       this.cargarReceta();
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:size }).result.then((result) => {

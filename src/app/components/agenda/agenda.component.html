@@ -78,7 +78,14 @@
       {{this.turno.usuario.correo}}
     </h1>
 
-    <button  (click)="eliminarReserva()" class="btn btn-outline-danger">
+
+    <button  (click)="comenzarAtencion(turno.usuario.kid,atencion)" class="btn btn-outline-success">
+      Comenzar Atención
+  </button>
+
+
+
+    <button   (click)="eliminarReserva()" class="btn btn-outline-danger">
         Cancerlar Reserva
     </button>
  </ng-template>
@@ -133,3 +140,5 @@
 
     </div>
 </ng-template>
+
+<app-atencion #atencion [hidden]="true"  [atencion]="atencionVacia" ></app-atencion>
