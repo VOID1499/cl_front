@@ -6,7 +6,6 @@ import { RecetaService } from 'src/app/servicios/ficha/recetas/receta.service';
 import { VademecumService } from 'src/app/servicios/ficha/vademecums/vademecum.service';
 import { NgbModal ,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -202,6 +201,8 @@ export class AtencionComponent implements OnInit {
     abrirModalSeleccionFormulario(){
       this.open(this.modalSeleccionFormulario,'md')
     }
+
+
     open(content:any,size:string) {
       this.cargarReceta();
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:size }).result.then((result) => {

@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { BoxsHorariosComponent } from '../boxs-horarios/boxs-horarios.component';
 import { NgbModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { AtencionComponent } from '../atencion/atencion.component';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class AgendaComponent implements OnInit {
 
   @ViewChild('modalReserva') modalReserva!:NgbModal;
   @ViewChild("modalFicha") modalFicha!: NgbModal;
+  @ViewChild('atencion') atencion!:AtencionComponent;
+
   @Input() profesional_id = 1;
   public plantilla_formulario_id = 0;
   public almacen_dato_id = 0;
@@ -336,8 +339,8 @@ public listarServiciosProfesional(){
           }else{
 
             this.atencionVacia.ficha_id  = data.body.fichas[0].id;
-            atencion.abrirModalSeleccionFormulario();
-
+             // this.atencion.abrirModalSeleccionFormulario();
+            this.atencion.open(this.atencion.modalSeleccionFormulario,'md')
         }
 
         } else {
