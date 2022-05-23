@@ -322,7 +322,6 @@ public listarServiciosProfesional(){
 
 
   comenzarAtencion(kid:string,atencion:any){
-
     console.log('Comenzar atencion')
     this.FichasService.kid = kid;
     this.FichasService.obtener().subscribe(
@@ -339,7 +338,6 @@ public listarServiciosProfesional(){
           }else{
 
             this.atencionVacia.ficha_id  = data.body.fichas[0].id;
-             // this.atencion.abrirModalSeleccionFormulario();
             this.atencion.open(this.atencion.modalSeleccionFormulario,'md')
         }
 

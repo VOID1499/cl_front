@@ -198,9 +198,6 @@ export class AtencionComponent implements OnInit {
 
     }
 
-    abrirModalSeleccionFormulario(){
-      this.open(this.modalSeleccionFormulario,'md')
-    }
 
 
     open(content:any,size:string) {
