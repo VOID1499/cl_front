@@ -409,7 +409,6 @@ buscarAtencion(){
     (data: any) => {
       if (data.code == 0) {
         this.turno['atencion'] = data.atencion;
-        console.log(this.turno)
         this.open(this.modalReserva,'md')
       } else {
         console.log( data.message);
