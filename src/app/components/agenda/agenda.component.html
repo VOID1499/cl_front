@@ -79,16 +79,24 @@
     </h1>
 
 
-    <button  (click)="comenzarAtencion(turno.usuario.kid,atencion)" class="btn btn-outline-success">
-      Comenzar Atención
-  </button>
+
+    <ng-container *ngIf="turno.reserva_ != null && turno.reserva_.atencion_id == 0 ;else atencionDeLaReserva"  >
+
+      <button  (click)="comenzarAtencion()" class="btn btn-outline-success">
+        Comenzar Atención
+      </button>
+
+      <button   (click)="eliminarReserva()" class="btn btn-outline-danger">
+          Cancerlar Reserva
+      </button>
+    </ng-container>
 
 
 
-    <button   (click)="eliminarReserva()" class="btn btn-outline-danger">
-        Cancerlar Reserva
-    </button>
+
  </ng-template>
+
+
 
 <ng-template #modalReserva let-modal>
     <div class="modal-header">
@@ -142,3 +150,7 @@
 </ng-template>
 
 <app-atencion #atencion [hidden]="true"  [atencion]="atencionVacia" ></app-atencion>
+
+<ng-template #atencionDeLaReserva>
+  <app-atencion #atencion [hidden]="false"  [atencion]="turno.atencion"></app-atencion>
+ </ng-template>

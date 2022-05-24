@@ -30,6 +30,7 @@ export const environment = {
 
   "urlAtenciones":url+"atenciones",
   "urlAtencion":url+"atencion",
+  "urlbuscarAtencion":url+"buscarAtencion",
   "urlFichas":url+"fichas",
   "urlFicha":url+"ficha",
 

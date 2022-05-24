@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { BoxsHorariosComponent } from '../boxs-horarios/boxs-horarios.component';
 import { NgbModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { AtencionComponent } from '../atencion/atencion.component';
+import { AtencionService } from 'src/app/servicios/ficha/atenciones/atencion.service';
 
 
 @Component({
@@ -47,7 +48,8 @@ export class AgendaComponent implements OnInit {
     "ficha_id": 0,
     "almacen_dato_id": 0,
     "fecha": "",
-    "plantilla_formulario_id": 0
+    "plantilla_formulario_id": 0,
+    "reserva_id": 0,
   }
 
 
@@ -59,6 +61,7 @@ export class AgendaComponent implements OnInit {
     private modalService:NgbModal,
     public ReservaService:ReservaService,
     public FichasService:FichasService,
+    public AtencionService:AtencionService,
 
   ) {
     this.fecha = moment(this.fecha).format('YYYY-MM-DD');
@@ -170,7 +173,14 @@ public listarServiciosProfesional(){
 
   abrirModalReserva(turno:any){
         this.turno = turno;
-        this.open(this.modalReserva,'md')
+
+        //trae la atencion de la reserva
+        if(this.turno.reserva_ != null){
+          this.buscarAtencion();
+        }else{
+          this.open(this.modalReserva,'md')
+        }
+
   }
 
 
@@ -321,9 +331,10 @@ public listarServiciosProfesional(){
   }
 
 
-  comenzarAtencion(kid:string,atencion:any){
+  comenzarAtencion(){
+
     console.log('Comenzar atencion')
-    this.FichasService.kid = kid;
+    this.FichasService.kid = this.turno.usuario.kid;
     this.FichasService.obtener().subscribe(
       (data: any) => {
         if (data.code == 0) {
@@ -337,7 +348,9 @@ public listarServiciosProfesional(){
 
           }else{
 
+
             this.atencionVacia.ficha_id  = data.body.fichas[0].id;
+            this.atencionVacia.reserva_id = this.turno.reserva_.id;
             this.atencion.open(this.atencion.modalSeleccionFormulario,'md')
         }
 
@@ -390,7 +403,23 @@ public listarServiciosProfesional(){
   }
 
 
-
+buscarAtencion(){
+  this.AtencionService.id  = this.turno.reserva_.atencion_id;
+  this.AtencionService.buscarAtencion().subscribe(
+    (data: any) => {
+      if (data.code == 0) {
+        this.turno['atencion'] = data.atencion;
+        console.log(this.turno)
+        this.open(this.modalReserva,'md')
+      } else {
+        console.log( data.message);
+      }
+    },
+    (err: any) => {
+      console.log( JSON.stringify(err.statusText));
+    }
+  );
+}
 
 
 }

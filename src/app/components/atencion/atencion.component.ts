@@ -34,7 +34,7 @@ export class AtencionComponent implements OnInit {
           {
             "id": 0,
             "ficha_atencion_id":0,
-            "descripcion":""
+            "descripcion":"",
           }
       ,
       "medicamentos": [

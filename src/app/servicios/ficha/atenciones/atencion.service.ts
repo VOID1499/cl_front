@@ -41,4 +41,20 @@ export class AtencionService {
     const data = this.http.put(environment.urlAtencion ,request,{headers: new HttpHeaders(seguro)});
     return data;
   }
+
+  buscarAtencion(){
+
+    let Auth =  localStorage.getItem('TK');
+    let KAuth =  localStorage.getItem('KT');
+    let seguro =  {'Content-Type': 'application/json', 'Authorization': Auth!, 'K_Authorization': KAuth! };
+
+    let request =  {
+
+      "atencion_id": this.id,
+
+    }
+
+    const data = this.http.post(environment.urlbuscarAtencion ,request,{headers: new HttpHeaders(seguro)});
+    return data;
+  }
 }

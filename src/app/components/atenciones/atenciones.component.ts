@@ -36,7 +36,8 @@ export class AtencionesComponent implements OnInit {
     "ficha_id": 0,
     "almacen_dato_id": 0,
     "fecha": "",
-    "plantilla_formulario_id": 7
+    "plantilla_formulario_id": 0,
+    "reserva_id": 0,
   }
 
 
