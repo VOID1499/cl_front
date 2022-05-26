@@ -46,9 +46,7 @@ export class FormulariosComponent implements OnInit {
   }
 
   cargarTabla(){
-    console.log("carga tabla");
-
-
+    this.FormularioService.request.organizacion_id = JSON.parse(localStorage.getItem('organizacion_id')!);
     this.FormularioService.listarPlantillas().subscribe(
       (data: any) => {
         if (data.code == 0) {

@@ -94,7 +94,7 @@ export class PacientesComponent implements OnInit {
       if (data.code == 0) {
         this.pacientes = data.body;
         this.recarga = false;
-
+        console.log(data)
         // this.router.navigate(['cambioClave']);
       } else {
         console.log('Error al intetar recuperar clave ' + data.message);

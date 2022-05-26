@@ -146,8 +146,8 @@ export class ReservasComponent implements OnInit {
         console.log('Servicio no seleccionado o ruta sin parametros')
       }else{
         this.ReservasServices.obtener().subscribe((data:any)=>{
+          console.log(data);
           if(data.code == 0){
-            console.log(data.body);
             this.reservas = data.body;
           }
         },(err:any)=>{
