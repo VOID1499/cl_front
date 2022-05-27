@@ -66,7 +66,8 @@ export class LogeoComponent implements OnInit {
           if (data.body != null) {
             console.log(data);
 
-            localStorage.setItem('organizacion_id',data.organizacion_id);
+            localStorage.setItem('name', JSON.stringify(data.name));
+            localStorage.setItem('KI', JSON.stringify(data.KI));
             localStorage.setItem(
               'TK',
               data.token_type + ' ' + data.access_token
