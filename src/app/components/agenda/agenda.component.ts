@@ -188,6 +188,34 @@ public listarServiciosProfesional(){
     this.paciente_id = paciente.value;
   }
 
+
+  inhabilitarReserva(){
+    let request = {
+      "paciente_id": 5,
+      "servicio_id": this.turno.servicio_id,
+      "fecha": `${this.turno.fecha} ${this.turno.hora}`
+  }
+
+  this.ReservaService.request = request;
+  this.ReservaService.crearReserva().subscribe((data:any)=>{
+    if(data.code == 0){
+      console.log(data.message);
+      this.modalService.dismissAll();
+      this.exeRespuesta(0);
+      this.paciente_id = 0;
+      this.agendaProfesional();
+    }if(data.code == 101){
+      console.log(data.message);
+      this.modalService.dismissAll();
+     this.exeRespuesta(101)
+    }
+  },
+  (err:any)=>{
+    console.log('Error al registrar reserva ' + JSON.stringify(err.statusText));
+  });
+
+  }
+
   crearReserva(){
     if(this.paciente_id == 0){
       console.log("seleccione un paciente");

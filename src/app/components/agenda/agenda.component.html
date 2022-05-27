@@ -21,37 +21,27 @@
               <ng-container  *ngFor="let turno of turnos;index as i" >
                   <ng-container *ngIf="fecha == turno.fecha">
 
+                        <div  (click)="abrirModalReserva(turno)"  [ngClass]="{'bg-danger': turno.reserva == true && turno.reserva_.atencion_id == 0 ,'bg-success' :turno.reserva == false,'bg-secondary' :turno.reserva_  != null && turno.reserva_.atencion_id != 0 }"  class="w-100 bg-opacity-50 btn">
 
-                    <div  [ngClass]="{
-                    'bg-danger bg-opacity-50 ': turno.reserva == true && turno.reserva_.atencion_id == 0 ,
-                    'bg-success bg-opacity-50' :turno.reserva == false,
-                    'bg-secondary bg-opacity-50' :turno.reserva_  != null && turno.reserva_.atencion_id != 0 }"
+                          <h1 class="text-center fs-6">
+                            {{turno.hora}} -
+                            {{turno.horaFin}}
+                          </h1>
+                          <h1 class="text-center fs-6">
+                            {{turno.servicio_nombre}}
+                          </h1>
+                          <h1 class="text-center fs-6" >
+                            {{this.turno.box.nombre}}
+                          </h1>
 
-                    (click)="abrirModalReserva(turno)"  class="w-100 btn btn-sm border">
-
-
-                        <h1 class="text-center fs-6">
-                          {{turno.hora}} -
-                          {{turno.horaFin}}
-                        </h1>
-                        <h1 class="text-center fs-6">
-                          {{turno.servicio_nombre}}
-                        </h1>
-                        <h1 class="text-center fs-6" >
-                          {{this.turno.box.nombre}}
-                        </h1>
-
-                        <ng-container  *ngIf="turno.usuario != null;else libre">
-                            <h1 class="text-center fs-6">
+                          <ng-container  *ngIf="turno.usuario != null;else libre">
+                            <h1 [ngClass]="{'bg-warning':turno.usuario.nombre == 'Inhabilitado'}" class="text-center fs-6">
                               {{turno.usuario.nombre}}
                             </h1>
                           </ng-container>
 
-                    </div>
 
-
-
-
+                        </div>
 
                   </ng-container>
               </ng-container>
@@ -84,10 +74,9 @@
     </h1>
 
 
-
     <ng-container *ngIf="turno.reserva_ != null && turno.reserva_.atencion_id == 0 ;else atencionDeLaReserva"  >
 
-      <button  (click)="comenzarAtencion()" class="btn btn-outline-success">
+      <button  (click)="comenzarAtencion()" class="btn btn-outline-success mb-2">
         Comenzar Atención
       </button>
 
@@ -125,6 +114,11 @@
 
           <div  class="card-body d-flex flex-column">
             <h1 class="text-center fs-5">{{turno.servicio_nombre}}</h1>
+
+            <button *ngIf="turno.reserva == false" (click)="inhabilitarReserva()" class="btn btn-outline-warning mb-2">
+              Inhabilitar
+            </button>
+
             <button *ngIf="turno.reserva == false;else cancelarReservaBoton " (click)="crearReserva()" class="btn btn-outline-success">
                 Reservar
             </button>
@@ -154,8 +148,10 @@
     </div>
 </ng-template>
 
+<!-- Abre una atencion vacia para la reserva seleccionada -->
 <app-atencion #atencion [hidden]="true"  [atencion]="atencionVacia" ></app-atencion>
 
+<!-- Carga la atencion correspondiente de la reserva -->
 <ng-template #atencionDeLaReserva>
-  <app-atencion #atencion [hidden]="false"  [atencion]="turno.atencion"></app-atencion>
+  <app-atencion class="mx-auto" #atencion [hidden]="false"  [atencion]="turno.atencion"></app-atencion>
  </ng-template>
