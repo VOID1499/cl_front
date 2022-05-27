@@ -63,7 +63,7 @@ export class LogeoComponent implements OnInit {
     this.sls.logear().subscribe(
       (data: any) => {
         if (data.code == 0) {
-          if (data.body != null) {
+
             console.log(data);
 
             localStorage.setItem('name', JSON.stringify(data.name));
@@ -75,7 +75,7 @@ export class LogeoComponent implements OnInit {
             localStorage.setItem('KT', data.K_Authorization);
 
             this.router.navigate(['home']);
-          }
+
         } else {
           console.log('Error en el login ' + data.message);
         }
