@@ -191,7 +191,7 @@ public listarServiciosProfesional(){
 
   inhabilitarReserva(){
     let request = {
-      "paciente_id": 5,
+      "paciente_id":1,
       "servicio_id": this.turno.servicio_id,
       "fecha": `${this.turno.fecha} ${this.turno.hora}`
   }
@@ -262,12 +262,14 @@ public listarServiciosProfesional(){
       }).then((result) => {
         if (result.isConfirmed) {
           let request = {
+            "nombre_paciente":this.turno.usuario.nombre,
             "paciente_id": this.turno.usuario.id,
             "servicio_id":this.turno.servicio_id,
             "fecha": `${this.turno.fecha} ${this.turno.hora}`
         }
         this.ReservaService.request = request;
         this.ReservaService.eliminarReserva().subscribe((data:any) =>{
+
           if(data.code == 0){
             console.log(data.message);
             this.modalService.dismissAll();

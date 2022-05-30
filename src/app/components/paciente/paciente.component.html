@@ -7,7 +7,7 @@
             <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">{{'correo' | kIdioma}}</label>
                 <div class="col-sm-10">
-                    <input required type="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
+                    <input required type="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,30}$" class="form-control"
                     [ngClass]="{'border border-danger': formEditarPaciente.submitted && !correo_.valid || correo_.touched && !correo_.valid}"
                   [(ngModel)]="correo"  [name]="'correo_'" [id]="'correo_'" #correo_="ngModel" >
                 </div>

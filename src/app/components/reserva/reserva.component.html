@@ -35,7 +35,7 @@
             </ng-template>
 
             <ng-template [ngIf]="item.reserva == true">
-                <button type="button" class="btn btn-sm my-2  btn-outline-danger" (click)="eliminarReserva(item)">Cancelar</button>
+                <button type="button" class="btn btn-sm my-2" [ngClass]="{'btn-outline-warning':item.usuario.id == 1,'btn-outline-danger':item.usuario.id != 1}" (click)="eliminarReserva(item)"> {{item.usuario.id == 1 ? 'Habiliar' : 'Cancelar'}}</button>
             </ng-template>
           </div>
 

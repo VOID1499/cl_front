@@ -12,7 +12,7 @@
     <div style="min-width: 1000px;width: 1000px;" class="d-flex flex-wrap w-100 justify-content-center bg-secondary bg-opacity-10">
 
         <ng-container *ngFor="let fecha of DiasActivo">
-          <div  style="width: 142px; " class="fs-6 text-center border  bg-white  ">
+          <div  style="width: 142px; " class="fs-6 text-center border border-white  bg-white  ">
 
             <div class="w-100 bg-primary bg-opacity-50 mb-0 " >
                 {{fecha | fecha}}
@@ -21,7 +21,7 @@
               <ng-container  *ngFor="let turno of turnos;index as i" >
                   <ng-container *ngIf="fecha == turno.fecha">
 
-                        <div  (click)="abrirModalReserva(turno)"  [ngClass]="{'bg-danger': turno.reserva == true && turno.reserva_.atencion_id == 0 ,'bg-success' :turno.reserva == false,'bg-secondary' :turno.reserva_  != null && turno.reserva_.atencion_id != 0 }"  class="w-100 bg-opacity-50 btn">
+                        <div  (click)="abrirModalReserva(turno)"  [ngClass]="{'bg-danger': turno.reserva == true && turno.reserva_.atencion_id == 0 ,'bg-success' :turno.reserva == false,'bg-secondary' :turno.reserva_  != null && turno.reserva_.atencion_id != 0 }"  class="w-100 bg-opacity-50 btn mt-1">
 
                           <h1 class="text-center fs-6">
                             {{turno.hora}} -
@@ -74,15 +74,15 @@
     </h1>
 
 
-    <ng-container *ngIf="turno.reserva_ != null && turno.reserva_.atencion_id == 0 ;else atencionDeLaReserva"  >
+    <ng-container *ngIf="turno.reserva_ != null && turno.reserva_.atencion_id == 0;else atencionDeLaReserva"  >
 
-      <button  (click)="comenzarAtencion()" class="btn btn-outline-success mb-2">
+      <button *ngIf="turno.usuario.nombre != 'Inhabilitado'"  (click)="comenzarAtencion()" class="btn btn-outline-success mb-2">
         Comenzar Atención
       </button>
-
-      <button   (click)="eliminarReserva()" class="btn btn-outline-danger">
-          Cancerlar Reserva
+      <button  (click)="eliminarReserva()" [ngClass]="{'btn btn-outline-danger':turno.usuario.nombre != 'Inhabilitado','btn btn-outline-warning': turno.usuario.nombre == 'Inhabilitado'}" >
+        {{turno.usuario.nombre != 'Inhabilitado' ? 'Cancelar reserva' : 'Habilitar disponibilidad'}}
       </button>
+
     </ng-container>
 
 
