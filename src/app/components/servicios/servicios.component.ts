@@ -480,6 +480,12 @@ calcularHorasTermino(){
 
 editarServicio(item:any){
   this.servicio = item
+
+  this.feriados.forEach((element:any) => {
+    element.estado = false;
+  });
+  this.removeDuplicates();
+  this.minutosHora();
   this.open(this.modalAgregarServicio,'xl')
 }
 
@@ -489,6 +495,30 @@ this.open(this.modalAgregarServicio,'xl')
 
 }
 
+minutosHora(){
+  let dato = this.servicio.tiempo;
+  let hora = Math.trunc(dato/60);
+  let minutos = dato % 60;
+  this.duracionServicio.hour = hora;
+  this.duracionServicio.minute = minutos;
+}
+
+removeDuplicates(){
+
+  var arr = this.feriados.concat(this.servicio.feriadosNoTrabajados); // fusion de feriados con feriados no trabajados
+
+  for(var i=0; i<arr.length; ++i) {
+
+      for(var j=i+1; j<arr.length; ++j) {
+          //comparacion
+          if(arr[i].id === arr[j].id) {
+              arr[i].estado = true;
+              arr.splice(j, 1); //quita el elemento con id deuplicado
+          }
+      }
+  }
+ // return console.log(arr);
+}
 
 
 
