@@ -176,7 +176,7 @@
             <div class="col-2  pt-1 text-center" >
               Hora Inicio
             </div>
-            <div class="col-2 text-center py-1">
+            <div class="col-1 text-center py-1">
               Atenciones
             </div>
             <div class="col-2  pt-1 text-center" >
@@ -208,7 +208,7 @@
 
                 <ngb-timepicker class="col-2"  [(ngModel)]="item.hora_inicio" [name]="'hora_inicio'+indice" (change)="calcularHoraTermino(indice)" ></ngb-timepicker>
 
-                <input  class="col-2 text-center border-0 border-white " (change)="calcularHoraTermino(indice)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+indice" >
+                <input  class="col-1 text-center border-0 border-white " (change)="calcularHoraTermino(indice)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+indice" >
 
 
                 <app-horario class="col-2" [disabled]="true"  [time]="item.hora_fin" ></app-horario>
