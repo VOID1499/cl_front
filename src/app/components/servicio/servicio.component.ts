@@ -324,4 +324,30 @@ asignarFeriadosNoTrabajados(){
       }
 
 
+
+calcularHoraTermino(i:number){
+
+  let atenciones = this.servicio.horarios[i].atenciones;
+  let minutosEstimadosAtencion = (this.duracionServicio.hour * 60) + this.duracionServicio.minute;
+  let x = minutosEstimadosAtencion * atenciones;
+
+  let minutosInicio = (this.servicio.horarios[i].hora_inicio.hour * 60) + this.servicio.horarios[i].hora_inicio.minute ;
+  let minutosFin = minutosInicio + x;
+
+  let hora = Math.trunc(minutosFin/60);
+  let  minutos = minutosFin % 60;
+  this.servicio.horarios[i].hora_fin.hour = hora;
+  this.servicio.horarios[i].hora_fin.minute = minutos;
+  this.consultarBoxsDisponibles(i);
+
+}
+
+calcularHorasTermino(){
+  this.servicio.horarios.forEach((horario:any,index:any) => {
+
+    this.calcularHoraTermino(index);
+
+  });
+}
+
 }

@@ -1,5 +1,5 @@
 
 
-  <input class="col-6 text-center  border-0" type="number"  (change)="verificar_hora()"   [(ngModel)]="time.hour" name="hora" >
-  <input class="col-6 text-center  border-0" type="number" (change)="verificar_minuto()" [(ngModel)]="time.minute" name="minuto">
+  <input [disabled]="disabled" class="col-6 text-center border-0" type="number"    [(ngModel)]="time.hour" name="hora" >
+  <input [disabled]="disabled" class="col-6 text-center  border-0" type="number"  [(ngModel)]="time.minute" name="minuto">
 

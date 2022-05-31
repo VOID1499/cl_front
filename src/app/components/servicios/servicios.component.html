@@ -62,7 +62,7 @@
       {{item.profesional.apellido_materno}}
       </td>
       <td>
-        <app-servicio (emitter)="exeRespuesta($event)" [servicio]="item" [feriados]="feriados"  ></app-servicio>
+        <button class="btn btn-outline-primary" (click)="editarServicio(item)" >Editar</button>
       </td>
 
 
@@ -117,10 +117,7 @@
           </textarea>
         </div>
 
-        <label for="" class="form-label">Tiempo estimando</label>
-        <div class="input-group mb-3">
-          <ngb-timepicker name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
-        </div>
+
 
 
         <label for="" class="form-label">Valor</label>
@@ -165,6 +162,11 @@
 
           </div>
 
+          <div class="col-3 mx-auto d-flex flex-column my-4">
+            <h1 class="fs-6 mx-auto" >Tiempo Estimado</h1>
+            <ngb-timepicker class="mx-auto" (change)="calcularHorasTermino()"  name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
+          </div>
+
 
           <div   class="row my-2 mt-1 ">
 
@@ -174,12 +176,13 @@
             <div class="col-2  pt-1 text-center" >
               Hora Inicio
             </div>
-            <div class="col-1 text-center py-1">
+            <div class="col-2 text-center py-1">
+              Atenciones
             </div>
             <div class="col-2  pt-1 text-center" >
               Hora Termino
             </div>
-            <div class=" col-3 text-center ">
+            <div class=" col-2 text-center ">
               Box
             </div>
             <div class="col-2">
@@ -187,43 +190,39 @@
 
           </div>
 
-          <div  *ngFor="let item of servicio.horarios;index as i" class="row my-1  "
-          [ngClass]="item.dia_id == 0 ? 'border-start border-danger' : 'border-start border-success'"
+          <div  *ngFor="let item of servicio.horarios;index as indice" class="row my-1  "
+          [ngClass]="item.dia_id == 0 ? 'border-start border-danger' : 'border-start border-success'">
 
-          >
-            <div class="col-2  ">
-              <select required  class="form-select"
-              [name]="'dia'+i" [id]="'dia'+i" #dia="ngModel" (change)="consultarBoxsDisponibles(i)" [(ngModel)]="item.dia_id">
-                <option [value]="1">Lunes</option>
-                <option [value]="2">Martes</option>
-                <option [value]="3">Miercoles</option>
-                <option [value]="4">Jueves</option>
-                <option [value]="5">Viernes</option>
-                <option [value]="6">Sabado</option>
-                <option [value]="7">Domingo</option>
-              </select>
-            </div>
+                <div class="col-2  ">
+                  <select required  class="form-select"
+                  [name]="'dia'+indice" [id]="'dia'+indice" #dia="ngModel" (change)="consultarBoxsDisponibles(indice)" [(ngModel)]="item.dia_id">
+                    <option [value]="1">Lunes</option>
+                    <option [value]="2">Martes</option>
+                    <option [value]="3">Miercoles</option>
+                    <option [value]="4">Jueves</option>
+                    <option [value]="5">Viernes</option>
+                    <option [value]="6">Sabado</option>
+                    <option [value]="7">Domingo</option>
+                  </select>
+                </div>
+
+                <ngb-timepicker class="col-2"  [(ngModel)]="item.hora_inicio" [name]="'hora_inicio'+indice" (change)="calcularHoraTermino(indice)" ></ngb-timepicker>
+
+                <input  class="col-2 text-center border-0 border-white " (change)="calcularHoraTermino(indice)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+indice" >
 
 
-              <div class="col-2  pt-1 border  " >
-                <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin"  (change)="consultarBoxsDisponibles(i)"   ></app-horario>
-              </div>
-              <div class="col-1 text-center py-1">
-                -
-              </div>
-              <div class="col-2  pt-1 border">
-                <app-horario  [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
-              </div>
+                <app-horario class="col-2" [disabled]="true"  [time]="item.hora_fin" ></app-horario>
 
-              <div class=" col-3  ">
-                <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
-                  <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
-                </select>
-              </div>
+
+                <div class=" col-2  ">
+                  <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
+                    <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
+                  </select>
+                </div>
 
 
               <div class="col-2 ">
-                <button type="button" (click)="agregarEliminarHorario(i)" class="btn btn-sm">
+                <button type="button" (click)="agregarEliminarHorario(indice)" class="btn btn-sm">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
                     <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>

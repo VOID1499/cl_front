@@ -13,7 +13,7 @@ export class HorarioComponent implements OnInit {
   @Input() time = {hour: 0, minute: 0,second:0};
   @Input() time_min = {hour: 0, minute: 0,second:0};
   @Input() time_max = {hour: 0, minute: 0,second:0};
-
+  @Input() disabled = false;
   constructor() { }
 
   ngOnInit(): void {

@@ -27,11 +27,6 @@
           </textarea>
         </div>
 
-        <label for="basic-url" class="form-label">Tiempo estimando</label>
-        <div class="input-group mb-3">
-          <ngb-timepicker name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
-        </div>
-
         <label for="basic-url" class="form-label">Valor</label>
         <div class="input-group mb-3">
           <input type="text" name="tiempo" [(ngModel)]="servicio.precio" class="form-control">
@@ -72,6 +67,11 @@
         <button type="button" class="btn btn-success btn-sm ms-auto w-25" (click)="agregarEliminarHorario()"> Agregar</button>
       </div>
 
+    </div>
+
+    <label for="" class="form-label">Tiempo estimando</label>
+    <div class="input-group mb-3">
+      <ngb-timepicker name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
     </div>
 
 
@@ -118,18 +118,16 @@
       </div>
 
 
+      <ngb-timepicker class="col-2"  [(ngModel)]="item.hora_inicio" [name]="'hora_inicio'+item" (change)="calcularHoraTermino(i)" ></ngb-timepicker>
 
-      <div class="col-2  pt-1 border" >
-          <app-horario  [time]="item.hora_inicio"   [time_max]="item.hora_fin" (change)="consultarBoxsDisponibles(i)"   ></app-horario>
-        </div>
+      <input  class="col-2 text-center border-0 border-white " (change)="calcularHoraTermino(i)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+i" >
 
-        <div class="col-1 text-center py-1">
-          -
-        </div>
 
-        <div class="col-2  pt-1 border" >
-          <app-horario [time]="item.hora_fin"   [time_min]="item.hora_inicio" (change)="consultarBoxsDisponibles(i)" ></app-horario>
-        </div>
+      <app-horario class="col-2" [disabled]="true"  [time]="item.hora_fin" ></app-horario>
+
+
+
+
 
         <div class=" col-3  ">
           <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">

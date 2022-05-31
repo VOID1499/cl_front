@@ -12,6 +12,7 @@ import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 import Swal from 'sweetalert2';
 
 
+
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
@@ -55,6 +56,7 @@ export class ServiciosComponent implements OnInit {
       "estado":1,
       "hora_i":"",
       "hora_f":"",
+      "atenciones":0,
       "hora_inicio":{"hour":0,"minute": 0,"second": 0},
       "hora_fin":{"hour":0,"minute": 0,"second": 0},
       "box_id":0,
@@ -282,6 +284,7 @@ agregarEliminarHorario(i?:number){
       "hora_i":"",
       "hora_f":"",
       "box_id":0,
+      "atenciones":0,
       "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}],
       "hora_inicio":{
         "hour": 0,
@@ -406,6 +409,7 @@ deshabilitarDias(){
       verificarHorario(){
       let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
       let results = [];
+      //asigno todos ls horarios a u array de dia correspodiente
       results.push(this.servicio.horarios.filter(item => item.dia_id == 1));
       results.push(this.servicio.horarios.filter(item => item.dia_id == 2));
       results.push(this.servicio.horarios.filter(item => item.dia_id == 3));
@@ -414,11 +418,12 @@ deshabilitarDias(){
       results.push(this.servicio.horarios.filter(item => item.dia_id == 6));
       results.push(this.servicio.horarios.filter(item => item.dia_id == 7));
 
+      //por cada array dia verifico
           results.forEach(result => {
             for (let i = 0; i < result.length; i++) {
               const element = result[i];
               if(i == 0){
-                if(result[0].box_id == 0){
+                if(result[0].box_id == 0 ){
                   this.horarioValido = false;
                 }else{
                   this.horarioValido = true;
@@ -448,8 +453,35 @@ exeRespuesta(message:String){
 }
 
 
+calcularHoraTermino(i:number){
 
+  let atenciones = this.servicio.horarios[i].atenciones;
+  let minutosEstimadosAtencion = (this.duracionServicio.hour * 60) + this.duracionServicio.minute;
+  let x = minutosEstimadosAtencion * atenciones;
 
+  let minutosInicio = (this.servicio.horarios[i].hora_inicio.hour * 60) + this.servicio.horarios[i].hora_inicio.minute ;
+  let minutosFin = minutosInicio + x;
+
+  let hora = Math.trunc(minutosFin/60);
+  let  minutos = minutosFin % 60;
+  this.servicio.horarios[i].hora_fin.hour = hora;
+  this.servicio.horarios[i].hora_fin.minute = minutos;
+  this.consultarBoxsDisponibles(i);
+
+}
+
+calcularHorasTermino(){
+  this.servicio.horarios.forEach((horario,index) => {
+
+    this.calcularHoraTermino(index);
+
+  });
+}
+
+editarServicio(item:any){
+  this.servicio = item
+  this.open(this.modalAgregarServicio,'xl')
+}
 
 
 
