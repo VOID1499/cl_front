@@ -71,7 +71,7 @@ export class ServiciosComponent implements OnInit {
 
       "feriadosNoTrabajados":[]
   }
-
+  public servicioVacio = this.servicio;
 
   public model: NgbDateStruct | undefined;
   datePickerJson = {};
@@ -483,7 +483,11 @@ editarServicio(item:any){
   this.open(this.modalAgregarServicio,'xl')
 }
 
+nuevoServicio(){
+this.servicio = this.servicioVacio;
+this.open(this.modalAgregarServicio,'xl')
 
+}
 
 
 
