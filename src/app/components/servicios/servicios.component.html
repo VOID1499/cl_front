@@ -106,14 +106,20 @@
 
       <div  [hidden]="(paso == 1) == false" class="form-group">
 
+        <form (ngSubmit)="validarFormulario(FormServicioPaso1)" #FormServicioPaso1="ngForm">
+       
         <label for="" class="form-label">Nombre del Servicio</label>
         <div class="input-group mb-3">
-          <input minlength="2" required type="text" [name]="'nombre'" [id]="'nombre'" #nombre="ngModel" [(ngModel)]="servicio.nombre" class="form-control">
+          <input minlength="2" required type="text"
+          [ngClass]="{'border-danger': FormServicioPaso1.submitted && !nombre.valid }"
+          [name]="'nombre'" [id]="'nombre'" #nombre="ngModel" [(ngModel)]="servicio.nombre" class="form-control">
         </div>
 
         <label for="" class="form-label">Descripción</label>
         <div class="input-group mb-3">
-          <textarea  class="form-control" placeholder="" [name]="'descripcion'" [(ngModel)]="servicio.descripcion" style="height: 100px">
+          <textarea  required class="form-control" placeholder="" 
+          [ngClass]="{'border-danger': FormServicioPaso1.submitted && !descripcion.valid }"
+          [name]="'descripcion'" [id]="'descripcion'"  #descripcion="ngModel" [(ngModel)]="servicio.descripcion" style="height: 100px">
           </textarea>
         </div>
 
@@ -122,13 +128,17 @@
 
         <label for="" class="form-label">Valor</label>
         <div class="input-group mb-3">
-          <input required type="number" min="0" [name]="'precio'" [(ngModel)]="servicio.precio" class="form-control">
+          <input required type="number" min="0" 
+          [ngClass]="{'border-danger': FormServicioPaso1.submitted && !precio.valid }"
+          [name]="'precio'" [id]="'precio'"  #precio="ngModel"  [(ngModel)]="servicio.precio" class="form-control">
         </div>
 
 
         <label for="" class="form-label">Comision</label>
         <div class="input-group mb-3">
-          <input required type="number" min="0" [name]="'comision'" [id]="'comision'" [(ngModel)]="servicio.comision" class="form-control">
+          <input required type="number" min="0" 
+          [ngClass]="{'border-danger': FormServicioPaso1.submitted && !comision.valid }"
+          [name]="'comision'" [id]="'comision'" #comision="ngModel" [(ngModel)]="servicio.comision" class="form-control">
         </div>
 
 
@@ -138,7 +148,9 @@
           </span>
         </label>
 
-        <app-k-select [lista]="profesionales" (seleccionado)="seleccionProfesional($event)" ></app-k-select>
+        <div  [ngClass]="{'border border-danger border-rounded': FormServicioPaso1.submitted && servicio.profesional_id == 0 }">
+            <app-k-select  [lista]="profesionales" (seleccionado)="seleccionProfesional($event)" ></app-k-select>
+        </div>
 
         <label for="" class="form-label mt-3">Estado del Servicio</label>
 
@@ -148,11 +160,31 @@
           <span  [ngClass]="{'text-success': servicio.estado}" >{{ servicio.estado ? 'Activo' : 'Inactivo' }}</span>
         </div>
 
+
+        <div class="d-flex justify-content-between mt-5">
+            <button type="submit" [hidden]="(paso == 3) == true "  class="btn btn-primary ms-auto"  >Siguiente
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </button>
+        </div>
+        
+
+     
+
+    </form>
+
       </div>
 
 
+ 
+
       <!-- Paso 2 -->
    <div  [hidden]="(paso == 2) == false" class="form-group">
+
+
+    <form (ngSubmit)="validarFormulario(FormServicioPaso2)" #FormServicioPaso2="ngForm">
+
 
           <div class="row w-100 mb-3">
             <div class="d-flex justify-content-between">
@@ -162,9 +194,10 @@
 
           </div>
 
-          <div class="col-3 mx-auto d-flex flex-column my-4">
+          <div class="col-3 mx-auto d-flex flex-column my-4"  >
             <h1 class="fs-6 mx-auto" >Tiempo Estimado</h1>
-            <ngb-timepicker class="mx-auto" (change)="calcularHorasTermino()"  name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
+            <ngb-timepicker class="mx-auto " [ngClass]="{'border border-danger ': FormServicioPaso2.submitted && duracionServicio.hour == 0 && duracionServicio.minute == 0 }"
+            (change)="calcularHorasTermino()"  name="tiempo" [(ngModel)]="duracionServicio" ></ngb-timepicker>
           </div>
 
 
@@ -191,7 +224,7 @@
           </div>
 
           <div  *ngFor="let item of servicio.horarios;index as indice" class="row my-1  "
-          [ngClass]="item.dia_id == 0 ? 'border-start border-danger' : 'border-start border-success'">
+          [ngClass]="{'border-3 border-start border-danger': FormServicioPaso2.submitted &&  item.hora_inicio.hour == 0 && item.hora_inicio.minute == 0 || item.atenciones  <= 0  || item.box_id == 0  }">
 
                 <div class="col-2  ">
                   <select required  class="form-select"
@@ -208,7 +241,7 @@
 
                 <ngb-timepicker class="col-2"  [(ngModel)]="item.hora_inicio" [name]="'hora_inicio'+indice" (change)="calcularHoraTermino(indice)" ></ngb-timepicker>
 
-                <input  class="col-1 text-center border-0 border-white " (change)="calcularHoraTermino(indice)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+indice" >
+                <input  class="col-1 text-center border-0 border-white " (change)="calcularHoraTermino(indice)"  [(ngModel)]="item.atenciones" type="number" [name]="'atenciones'+indice"  >
 
 
                 <app-horario class="col-2" [disabled]="true"  [time]="item.hora_fin" ></app-horario>
@@ -233,6 +266,29 @@
 
 
           </div>
+
+
+
+          <div class="d-flex justify-content-between mt-5">
+
+            <button type="button" *ngIf="paso != 1" (click)="anteriorPaso()" class="btn btn-primary ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Anterior
+              </button>
+    
+              <button type="submit" [hidden]="(paso == 3) == true "  class="btn btn-primary ms-auto"  >Siguiente
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </button>
+
+          </div>
+
+     
+
+        </form>
 
 
         </div>
@@ -261,18 +317,8 @@
 
       <div class="d-flex justify-content-between mt-5">
 
-      <button type="button" *ngIf="paso != 1" (click)="anteriorPaso()" class="btn btn-primary ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-        </svg>
-        Anterior
-      </button>
 
-      <button type="button" [hidden]="(paso == 3) == true "  class="btn btn-primary ms-auto" (click)="siguientePaso()" >Siguiente
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-        </svg>
-      </button>
+     
 
      </div>
 

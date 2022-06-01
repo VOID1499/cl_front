@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 import Swal from 'sweetalert2';
-
+ 
 
 
 @Component({
@@ -520,7 +520,22 @@ removeDuplicates(){
  // return console.log(arr);
 }
 
+    validarFormulario(formulario:any){
+        if(formulario.valid &&  this.paso == 1 && this.servicio.profesional_id != 0){
+            console.log('Paso 1 valido')
+                this.paso += 1;
+        }
 
+        if(this.paso == 2 && (this.duracionServicio.hour != 0 || this.duracionServicio.minute != 0)  ){
+            this.verificarHorario();
+            if(this.horarioValido == true){
+                this.paso += 1;
+            }else{
+                console.log('Horario mal asignado');
+            }
+           
+        }
+    }
 
 
 
