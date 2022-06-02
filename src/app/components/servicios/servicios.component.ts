@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { BoxService } from 'src/app/servicios/clinica/boxs/box.service';
 import Swal from 'sweetalert2';
- 
+
 
 
 @Component({
@@ -22,6 +22,7 @@ export class ServiciosComponent implements OnInit {
 
   @ViewChild('modalAgregarServicio') modalAgregarServicio!:NgbModal;
 
+  public diaMalAsignado = "";
   public duracionServicio = {hour: 0, minute: 0};
   public profesionalSeleccionadoNombre ="";
   public paso:number = 1;
@@ -57,6 +58,7 @@ export class ServiciosComponent implements OnInit {
       "hora_i":"",
       "hora_f":"",
       "atenciones":0,
+      "minutosTotales":0,
       "hora_inicio":{"hour":0,"minute": 0,"second": 0},
       "hora_fin":{"hour":0,"minute": 0,"second": 0},
       "box_id":0,
@@ -285,6 +287,7 @@ agregarEliminarHorario(i?:number){
       "hora_f":"",
       "box_id":0,
       "atenciones":0,
+      "minutosTotales":0,
       "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}],
       "hora_inicio":{
         "hour": 0,
@@ -383,61 +386,51 @@ deshabilitarDias(){
     }
 
 
-      validarCampos(){
-        this.verificarHorario();
-
-        if( this.servicio.nombre == '' || this.servicio.descripcion == '' || (this.duracionServicio.hour == 0 && this.duracionServicio.minute == 0) || this.servicio.precio == 0  || this.servicio.precio == null || this.servicio.profesional_id == 0 ){
-          this.alert.estado = true;
-          this.alert.mensaje = "Paso 1 incompleto";
-        }else{
-          this.alert.estado = false;
-          this.alert.mensaje = "";
-        }
-
-        if(this.horarioValido){
-        }else{
-          this.alert.estado = true;
-          this.alert.mensaje += " Paso 2 incompleto , horario mal asignado";
-        }
-
-        if(this.alert.estado == false){
-          this.crearServicio();
-        }
-      }
 
 
       verificarHorario(){
-      let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
-      let results = [];
-      //asigno todos ls horarios a u array de dia correspodiente
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 1));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 2));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 3));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 4));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 5));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 6));
-      results.push(this.servicio.horarios.filter(item => item.dia_id == 7));
+            let diasSemana = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+            let gruposDias = [];
+            //asigno todos los horarios a un array de dia correspodiente
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 1));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 2));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 3));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 4));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 5));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 6));
+            gruposDias.push(this.servicio.horarios.filter(item => item.dia_id == 7));
 
-      //por cada array dia verifico
-          results.forEach(result => {
-            for (let i = 0; i < result.length; i++) {
-              const element = result[i];
-              if(i == 0){
-                if(result[0].box_id == 0 ){
-                  this.horarioValido = false;
-                }else{
-                  this.horarioValido = true;
-                }
+
+            for (let i = 0; i < this.servicio.horarios.length; i++) {
+              const element = this.servicio.horarios[i];
+              if(element.dia_id == 0 || (element.hora_inicio.hour == 0 && element.hora_inicio.minute == 0) || element.atenciones == 0 || element.box_id == 0 ){
+                this.horarioValido = false;
+                break;
               }else{
-                  if(element.hora_inicio.hour < result[i-1].hora_fin.hour || element.hora_inicio.minute <  result[i-1].hora_fin.minute || element.box_id == 0){
-                    this.horarioValido = false;
-                    break;
-                  }else{
-                    this.horarioValido = true;
-                    }
+                this.horarioValido = true;
               }
             }
-          });
+
+          for (let indiceGrupo = 0; indiceGrupo < gruposDias.length; indiceGrupo++) {
+            const grupo = gruposDias[indiceGrupo];
+
+              for (let indiceDia = 0; indiceDia < grupo.length; indiceDia++) {
+                const dia = grupo[indiceDia];
+                if(indiceDia == 0){
+                  console.log('No pasa nada');
+                }else{
+                  if(dia.hora_inicio.hour < grupo[indiceDia-1].hora_fin.hour ||
+                     dia.hora_inicio.hour <= grupo[indiceDia-1].hora_fin.hour && dia.hora_inicio.minute < grupo[indiceDia-1].hora_fin.minute ){
+                    this.horarioValido = false;
+                    this.diaMalAsignado = diasSemana[indiceGrupo];
+                    break;
+                  }
+                }
+              }
+
+          }
+
+
       }
 
 
@@ -478,7 +471,7 @@ calcularHorasTermino(){
   });
 }
 
-editarServicio(item:any){
+editar(item:any){
   this.servicio = item
 
   this.feriados.forEach((element:any) => {
@@ -486,6 +479,17 @@ editarServicio(item:any){
   });
   this.removeDuplicates();
   this.minutosHora();
+  this.servicio.horarios.forEach(x => {
+    let minutosInicio = (x.hora_inicio.hour*60) + x.hora_inicio.minute;
+    let minutosFin =  (x.hora_fin.hour*60) + x.hora_fin.minute;
+    let diferencia =  minutosFin - minutosInicio;
+    x.atenciones = Math.trunc(diferencia/this.servicio.tiempo);
+
+  });
+
+  console.log(this.servicio.tiempo)
+
+
   this.open(this.modalAgregarServicio,'xl')
 }
 
@@ -526,17 +530,58 @@ removeDuplicates(){
                 this.paso += 1;
         }
 
-        if(this.paso == 2 && (this.duracionServicio.hour != 0 || this.duracionServicio.minute != 0)  ){
-            this.verificarHorario();
+        if(this.paso == 2 && (this.duracionServicio.hour != 0 || this.duracionServicio.minute != 0) ){
+          this.verificarHorario();
             if(this.horarioValido == true){
                 this.paso += 1;
             }else{
+              Swal.fire(
+                `${this.diaMalAsignado}`,
+                'Horario mal asignado!',
+                'error'
+              )
                 console.log('Horario mal asignado');
             }
-           
+
         }
     }
 
+    guardar(){
+      if(this.servicio.id != 0){
+        console.log('editando')
+        this.editarServicio();
+      }else{
+        console.log('creando')
+        this.crearServicio();
+      }
+    }
+
+    editarServicio(){
+      this.formatearHoras();
+      this.horaMinutos();
+      this.asignarFeriadosNoTrabajados();
+      this.ServicioService.request = this.servicio;
+
+      this.ServicioService.editar().subscribe((data:any)=>{
+        if (data.code == 0) {
+          console.log(data.message);
+
+        } else {
+           Swal.fire(
+            'Good job!',
+            `Ha ocurrido un error`,
+            'error'
+          )
+        }
+      },
+      (err: any) => {
+        Swal.fire(
+          'Good job!',
+          `${JSON.stringify(err.statusText)}`,
+          'error'
+        )
+      });
+    }
 
 
 
