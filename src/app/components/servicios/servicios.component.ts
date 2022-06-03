@@ -62,6 +62,7 @@ export class ServiciosComponent implements OnInit {
       "hora_inicio":{"hour":0,"minute": 0,"second": 0},
       "hora_fin":{"hour":0,"minute": 0,"second": 0},
       "box_id":0,
+      "nombre":"",
       "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}]
       }
     ],
@@ -124,6 +125,7 @@ export class ServiciosComponent implements OnInit {
 
 
           this.servicios = data.body.servicios;
+          console.log(data.body)
 
           //formatear los horarios
           this.servicios.forEach((element:any) => {
@@ -286,6 +288,7 @@ agregarEliminarHorario(i?:number){
       "hora_i":"",
       "hora_f":"",
       "box_id":0,
+      "nombre":"",
       "atenciones":0,
       "minutosTotales":0,
       "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}],

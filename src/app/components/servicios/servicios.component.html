@@ -248,9 +248,12 @@
 
 
                 <div class=" col-2  ">
-                  <select   class="form-select" name="box_id"   [(ngModel)]="item.box_id">
-                    <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>
-                  </select>
+                  <select class="form-select" name="box_id"   [(ngModel)]="item.box_id">
+
+                    <option  [value]="item.box_id">{{item.nombre}}</option>
+                    <option *ngFor="let box of item.boxs_disponibles" [value]="box.id">{{box.nombre}}</option>           
+                  
+                </select>
                 </div>
 
 
