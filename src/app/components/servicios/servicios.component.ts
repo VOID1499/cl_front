@@ -53,7 +53,9 @@ export class ServiciosComponent implements OnInit {
     "comision":0.00,
 
     "horarios":[
-      {"dia_id":1,
+      {
+      "id":0,    
+      "dia_id":1,
       "estado":1,
       "hora_i":"",
       "hora_f":"",
@@ -284,7 +286,9 @@ agregarEliminarHorario(i?:number){
 
 
     this.servicio.horarios.push(
-      {"dia_id":1,
+      {
+      "id":0,    
+      "dia_id":1,
       "hora_i":"",
       "hora_f":"",
       "box_id":0,
@@ -358,7 +362,8 @@ deshabilitarDias(){
     consultarBoxsDisponibles(i:any){
 
      let horario =  this.servicio.horarios[i];
-
+     //borra el box_id para forzar la consulta y que no quede el box_id anterior
+     horario.box_id = 0;
      if(horario.hora_inicio.hour != 0 && horario.hora_fin.hour != 0 && horario.dia_id != 0){
       var cdt = moment(`${horario.hora_inicio.hour}:${horario.hora_inicio.minute}:00`, 'HH:mm:ss');
       var cdt2 = moment(`${horario.hora_fin.hour}:${horario.hora_fin.minute}:00`, 'HH:mm:ss');
@@ -366,12 +371,15 @@ deshabilitarDias(){
       this.BoxService.request = {
        "hora_inicio":moment(cdt).add(1, 'm').format('HH:mm:ss'),
        "hora_fin":moment(cdt2).subtract(1, 'm').format('HH:mm:ss'),
-       "dia_id":horario.dia_id
+       "dia_id":horario.dia_id,
+       "horario_id":horario.id
       };
 
       this.BoxService.boxsDisponibles().subscribe((data:any)=>{
            if (data.code == 0) {
              horario.boxs_disponibles = data.body.boxs;
+             console.log(data.body.boxs)
+             console.log(horario.id)
            } else {
              console.log('Error al consultar disponibles' + data.message);
            }
