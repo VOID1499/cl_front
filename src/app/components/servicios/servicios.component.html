@@ -250,12 +250,10 @@
                 <div class=" col-2  ">
                   <select class="form-select" name="box_id"   [(ngModel)]="item.box_id">
 
-                    
-
                     <ng-container  *ngFor="let box of item.boxs_disponibles">
-                        <option  [value]="box.id">{{box.nombre}}</option>           
+                        <option  [value]="box.id">{{box.nombre}}</option>
                     </ng-container>
-                  
+
                 </select>
                 </div>
 

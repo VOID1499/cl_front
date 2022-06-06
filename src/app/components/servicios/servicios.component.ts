@@ -54,7 +54,7 @@ export class ServiciosComponent implements OnInit {
 
     "horarios":[
       {
-      "id":0,    
+      "id":0,
       "dia_id":1,
       "estado":1,
       "hora_i":"",
@@ -287,7 +287,7 @@ agregarEliminarHorario(i?:number){
 
     this.servicio.horarios.push(
       {
-      "id":0,    
+      "id":0,
       "dia_id":1,
       "hora_i":"",
       "hora_f":"",
@@ -483,7 +483,13 @@ calcularHorasTermino(){
 }
 
 editar(item:any){
-  this.servicio = item
+  this.servicio = item;
+  this.horarioValido = true;
+
+
+  this.servicio.horarios.forEach(element => {
+    element['boxs_disponibles'] = [{"id":element.box_id,"nombre":element.nombre}];
+  });
 
   this.feriados.forEach((element:any) => {
     element.estado = false;
