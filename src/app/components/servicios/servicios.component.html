@@ -106,7 +106,7 @@
 
       <div  [hidden]="(paso == 1) == false" class="form-group">
 
-        <form (ngSubmit)="validarFormulario(FormServicioPaso1)" #FormServicioPaso1="ngForm">
+        <form (ngSubmit)="validarPaso1(FormServicioPaso1)" #FormServicioPaso1="ngForm">
 
         <label for="" class="form-label">Nombre del Servicio</label>
         <div class="input-group mb-3">
@@ -183,7 +183,7 @@
    <div  [hidden]="(paso == 2) == false" class="form-group">
 
 
-    <form (ngSubmit)="validarFormulario(FormServicioPaso2)" #FormServicioPaso2="ngForm">
+    <form (ngSubmit)="validarPaso2(FormServicioPaso2)" #FormServicioPaso2="ngForm">
 
 
           <div class="row w-100 mb-3">

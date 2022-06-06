@@ -511,6 +511,7 @@ editar(item:any){
 }
 
 nuevoServicio(){
+this.paso = 1;
 this.servicio = this.servicioVacio;
 this.open(this.modalAgregarServicio,'xl')
 
@@ -541,37 +542,42 @@ removeDuplicates(){
  // return console.log(arr);
 }
 
-    validarFormulario(formulario:any){
+
+
+    validarPaso1(formulario:any){
         if(formulario.valid &&  this.paso == 1 && this.servicio.profesional_id != 0){
-            console.log('Paso 1 valido')
                 this.paso += 1;
         }
 
-        if(this.paso == 2 && (this.duracionServicio.hour != 0 || this.duracionServicio.minute != 0) ){
-          this.verificarHorario();
-            if(this.horarioValido == true){
-                this.paso += 1;
-            }else{
-              Swal.fire(
-                `${this.diaMalAsignado}`,
-                'Horario mal asignado!',
-                'error'
-              )
-                console.log('Horario mal asignado');
-            }
-
-        }
     }
+
+    validarPaso2(formulario:any){
+      if(this.duracionServicio.hour != 0 || this.duracionServicio.minute != 0){
+        this.verificarHorario();
+          if(this.horarioValido == true){
+              this.paso += 1;
+          }else{
+            Swal.fire(
+              `${this.diaMalAsignado}`,
+              'Horario mal asignado!',
+              'error'
+            )
+              console.log('Horario mal asignado');
+          }
+      }
+    }
+
 
     guardar(){
       if(this.servicio.id != 0){
-        console.log('editando')
+        console.log('editando');
         this.editarServicio();
       }else{
-        console.log('creando')
+        console.log('creando');
         this.crearServicio();
       }
     }
+
 
     editarServicio(){
       this.formatearHoras();
