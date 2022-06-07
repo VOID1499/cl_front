@@ -148,7 +148,7 @@
           </span>
         </label>
 
-        <div  [ngClass]="{'border border-danger border-rounded': FormServicioPaso1.submitted && servicio.profesional_id == 0 }">
+        <div  [ngClass]="{'border border-danger border-rounded': FormServicioPaso1.submitted && servicio.profesional.id == 0 }">
             <app-k-select  [lista]="profesionales" (seleccionado)="seleccionProfesional($event)" ></app-k-select>
         </div>
 

@@ -23,9 +23,11 @@ export class AgendaComponent implements OnInit {
 
   @ViewChild('modalReserva') modalReserva!:NgbModal;
   @ViewChild("modalFicha") modalFicha!: NgbModal;
+  @ViewChild('modalCarga') modalCarga!:NgbModal;
   @ViewChild('atencion') atencion!:AtencionComponent;
 
   @Input() profesional_id = 1;
+  public cargando = false;
   public plantilla_formulario_id = 0;
   public almacen_dato_id = 0;
   public closeResult= "";
@@ -107,6 +109,7 @@ export class AgendaComponent implements OnInit {
 
 
 public listarServiciosProfesional(){
+
   this.ServiciosServices.profesional_id = this.profesional_id;
   this.ServiciosServices.listarTodo().subscribe(
     (data: any) => {
@@ -151,9 +154,7 @@ public listarServiciosProfesional(){
             this.ReservasService.obtener().subscribe(
                 (data: any) => {
                   if (data.code == 0) {
-
                   this.horariosServicios.push(data.body);
-
 
                   if(this.serviciosProfesional.length-1 == index){
                     this.ordenarTurnos();

@@ -42,40 +42,58 @@ export class ServiciosComponent implements OnInit {
     "mensaje":""
   }
   public closeResult = "";
-  public servicio =  {
+  public servicio = {
     "id": 0,
-    "profesional_id": 0,
-    "nombre":"",
-    "descripcion":"",
+    "nombre": "",
+    "descripcion": "",
     "estado": 1,
     "tiempo": 0,
-    "precio":0.00,
-    "comision":0.00,
-
-    "horarios":[
+    "precio": 0.00,
+    "comision": 0.00,
+    "profesional_id": 0,
+    "profesional": {
+        "id": 0,
+        "kid": "=",
+        "rut": "",
+        "nombre": "",
+        "apellido_paterno": "",
+        "apellido_materno": "",
+        "descripcion": "",
+        "correo": "",
+    },
+    "horarios": [
       {
-      "id":0,
-      "dia_id":1,
-      "estado":1,
-      "hora_i":"",
-      "hora_f":"",
-      "atenciones":0,
-      "minutosTotales":0,
-      "hora_inicio":{"hour":0,"minute": 0,"second": 0},
-      "hora_fin":{"hour":0,"minute": 0,"second": 0},
-      "box_id":0,
-      "nombre":"",
-      "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}]
-      }
-    ],
-
-      "profesionalesExtra":[{
+        "id":0,
+        "dia_id":1,
+        "hora_i":"",
+        "hora_f":"",
+        "box_id":0,
         "nombre":"",
-        "profesional_id":0
-      }],
+        "atenciones":0,
+        "minutosTotales":0,
+        "boxs_disponibles":[{"id":0,"nombre":"Seleccione dia y horarios"}],
+        "hora_inicio":{
+          "hour": 0,
+          "minute": 0,
+          "second": 0,
+        },
+        "hora_fin":{
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "estado":1
+        }
+    ],
+    "feriadosNoTrabajados": [],
+    "profesionalesExtra":[{
+          "nombre":"",
+          "profesional_id":0
+        }],
 
-      "feriadosNoTrabajados":[]
   }
+
+
   public servicioVacio = this.servicio;
 
   public model: NgbDateStruct | undefined;
@@ -201,13 +219,11 @@ export class ServiciosComponent implements OnInit {
 
   seleccionProfesional(item:any){
     this.profesionalSeleccionadoNombre = item.name;
-    this.servicio.profesional_id = item.value;
+    this.servicio.profesional.id = item.value;
   }
 
 
-
   profesionalExtra(item?:any,i?:any){
-
     if(i == undefined){
       this.servicio.profesionalesExtra.push({"profesional_id":0,"nombre":""})
     }else{
@@ -218,16 +234,14 @@ export class ServiciosComponent implements OnInit {
   }
 
 
-
   siguientePaso(){
-
       this.paso += 1;
-
   }
 
   anteriorPaso(){
     this.paso -= 1;
   }
+
 
   open(content:any,size:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',size: size}).result.then((result) => {
@@ -238,6 +252,7 @@ export class ServiciosComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -254,8 +269,6 @@ export class ServiciosComponent implements OnInit {
   }
 
   crearServicio(){
-
-
     this.formatearHoras();
     this.horaMinutos();
     this.asignarFeriadosNoTrabajados();
@@ -264,10 +277,11 @@ export class ServiciosComponent implements OnInit {
       if(data.code == 0){
         console.log(data.message);
         Swal.fire(
-          'Good job!',
+          '',
           'Servicio creado!',
           'success'
         )
+        this.modalService.dismissAll();
         this.cargarTabla();
       }else{
         console.log('Error al crear servicio' + data.message);
@@ -283,8 +297,6 @@ agregarEliminarHorario(i?:number){
 
   if(i == undefined){
     //agregar
-
-
     this.servicio.horarios.push(
       {
       "id":0,
@@ -310,9 +322,7 @@ agregarEliminarHorario(i?:number){
       }
     );
 
-
   }else{
-
     //eiminar
     this.servicio.horarios.splice(i,1);
   }
@@ -360,7 +370,6 @@ deshabilitarDias(){
 
 
     consultarBoxsDisponibles(i:any){
-
      let horario =  this.servicio.horarios[i];
      //borra el box_id para forzar la consulta y que no quede el box_id anterior
      horario.box_id = 0;
@@ -389,7 +398,6 @@ deshabilitarDias(){
          });
 
      }else{
-
       console.log('Seleccione el rango horario');
      }
 
@@ -483,10 +491,15 @@ calcularHorasTermino(){
 }
 
 editar(item:any){
+  //asignar el servicio seleccionado a estructura principal
   this.servicio = item;
+  //setear al primer paso
+  this.paso = 1;
   this.horarioValido = true;
 
+  this.profesionalSeleccionadoNombre = `${this.servicio.profesional.nombre +' '+ this.servicio.profesional.apellido_paterno +' '+ this.servicio.profesional.apellido_materno}`;
 
+  //asigna al array de box disponible el box que trae por defecto
   this.servicio.horarios.forEach(element => {
     element['boxs_disponibles'] = [{"id":element.box_id,"nombre":element.nombre}];
   });
@@ -503,9 +516,6 @@ editar(item:any){
     x.atenciones = Math.trunc(diferencia/this.servicio.tiempo);
 
   });
-
-  console.log(this.servicio.tiempo)
-
 
   this.open(this.modalAgregarServicio,'xl')
 }
@@ -545,7 +555,8 @@ removeDuplicates(){
 
 
     validarPaso1(formulario:any){
-        if(formulario.valid &&  this.paso == 1 && this.servicio.profesional_id != 0){
+
+        if(formulario.valid &&  this.paso == 1 && this.servicio.profesional.id != 0){
                 this.paso += 1;
         }
 
@@ -588,10 +599,16 @@ removeDuplicates(){
       this.ServicioService.editar().subscribe((data:any)=>{
         if (data.code == 0) {
           console.log(data.message);
-
+          Swal.fire(
+            '',
+            `Servicio editado`,
+            'success'
+          )
+          this.cargarTabla();
+          this.modalService.dismissAll();
         } else {
            Swal.fire(
-            'Good job!',
+            'Error',
             `Ha ocurrido un error`,
             'error'
           )
